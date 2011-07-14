@@ -10,6 +10,17 @@ package br.com.dreamsoft;
 public final class R {
     public static final class attr {
     }
+    public static final class id {
+        public static final int addDesp=0x7f040008;
+        public static final int edtDesp=0x7f040007;
+        public static final int ultDesp=0x7f040005;
+        public static final int widget37=0x7f040006;
+        public static final int widget48=0x7f040000;
+        public static final int widget49=0x7f040001;
+        public static final int widget52=0x7f040002;
+        public static final int widget53=0x7f040003;
+        public static final int widget55=0x7f040004;
+    }
     public static final class layout {
         public static final int main=0x7f020000;
     }
