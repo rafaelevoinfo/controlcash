@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+android:id="@+id/widget69"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:orientation="vertical"
+xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <Button
+android:id="@+id/btnRec"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:padding="1px"
+android:text="Receitas"
+android:gravity="center"
+android:layout_gravity="center_horizontal"
+>
+    </Button>
+    <Button
+android:id="@+id/btnDesp"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:padding="1px"
+android:text="Despesas"
+>
+    </Button>
+    <Button
+android:id="@+id/btnCat"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:padding="1px"
+android:text="Categoria"
+android:layout_gravity="center_horizontal"
+>
+    </Button>
+</LinearLayout>
