@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <string name="app_name">ControlCash</string>
+    <string name="add_receita">Cadastrar receita</string>
+    <string name="del_receita">Remover receita</string>
+    <string name="txtCategoria">Nome da categoria</string>
+    <string name="add_categoria">Cadastrar categoria</string>
+    <string name="del_categoria">Remover categoria</string>
+</resources>

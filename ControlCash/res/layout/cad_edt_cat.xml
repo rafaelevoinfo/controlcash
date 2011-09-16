@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:baselineAligned="false"
+	android:layout_height="wrap_content" android:orientation="vertical">
+	<TextView android:text="@string/txtCategoria"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:layout_width="fill_parent" android:layout_gravity="center_horizontal"></TextView>
+	<EditText android:id="@+id/nomeCat" android:layout_weight="1"
+		android:layout_height="wrap_content" android:layout_width="fill_parent">
+		<requestFocus></requestFocus>
+	</EditText>
+	<Button android:layout_height="wrap_content" android:id="@+id/btnCadCat"
+		android:text="@string/add_categoria" android:layout_width="fill_parent"></Button>
+
+
+</LinearLayout>
