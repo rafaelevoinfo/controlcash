@@ -4,20 +4,32 @@
  */
 package br.com.dreamsoft.ui.receita;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
@@ -29,9 +41,11 @@ import br.com.dreamsoft.utils.Mensagens;
  * 
  * @author rafael
  */
-public class ListaReceitas extends ListActivity {
+public class ListaReceitas extends Activity{// extends ListActivity {
 
 	private ReceitaDao dao;
+	private ListView lv;
+	private TextView tv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,24 +53,70 @@ public class ListaReceitas extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		this.dao = Factory.createReceitaDao(this);
-		setTitle("Receitas cadastradas");
+		setTitle("Receitas cadastradas");		
+		
+		setContentView(R.layout.lista);
+			
+		lv = (ListView) findViewById(R.id.list);
+		lv.setOnItemClickListener(new OnItemClickListener()
+				 {					 
+					 @Override
+						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+								long arg3) {
+							Intent it = new Intent(ListaReceitas.this, CadEdtReceita.class);
+							try {
+								Receita rc = (Receita) lv.getAdapter().getItem(arg2);
+								it.putExtra(CadEdtReceita.EDIT, true);
+								it.putExtra(CadEdtReceita.OBJ_REC, rc);
+								startActivity(it);
+							} catch (ClassCastException e) {
+								e.printStackTrace();
+								Mensagens.msgErro(3, ListaReceitas.this);
+							}													
+						}
+											
+		});
+		
 		// getListView().setBackgroundResource(R.drawable.background);
-		getListView().setCacheColorHint(0x00000000);
-		registerForContextMenu(getListView());
+		lv.setCacheColorHint(0x00000000);
+		registerForContextMenu(lv);
+
+		/*getListView().setCacheColorHint(0x00000000);
+		registerForContextMenu(getListView());*/
 	}
+	
+
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		refreshLista();
+		tv = (TextView) findViewById(R.id.saldo);
+		
+		double total = 0;		
+		for(int i=0; i < lv.getCount(); i++){
+			total += ((Receita) lv.getAdapter().getItem(i)).getValor();
+		}
+		//formata o valor
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "br"));
+        nf.setMaximumFractionDigits(2);
+        try {
+        	tv.setText(nf.format(total));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Mensagens.msgErro(2,this);
+        }
+		
+		
 	}
 
 	private void refreshLista() {
 
 		try {
 			List<Receita> lista = this.dao.buscarTodos();
-
-			setListAdapter(new ReceitaAdapter(this, lista));
+			//setListAdapter(new ReceitaAdapter(this, lista));
+			lv.setAdapter(new ReceitaAdapter(this, lista));					
+			
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, this);
@@ -67,7 +127,7 @@ public class ListaReceitas extends ListActivity {
 
 	}
 
-	@Override
+	/*@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
@@ -83,7 +143,7 @@ public class ListaReceitas extends ListActivity {
 		}
 
 		
-	}
+	}*/
 
 	// protected void onActivityResult(int cod){
 	//
