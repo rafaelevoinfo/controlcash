@@ -71,6 +71,7 @@ public class ReceitaAdapter extends BaseAdapter {
             e.printStackTrace();
             Mensagens.msgErro(1, view.getContext());
         }
+        
 
         rec = null;
         return view;
