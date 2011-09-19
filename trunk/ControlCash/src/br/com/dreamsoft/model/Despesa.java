@@ -5,14 +5,19 @@
 
 package br.com.dreamsoft.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author rafael
  */
-public class Despesa {
-    private int id;
+public class Despesa implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int id;
     private String nome;
     private double valor;
     private Categoria categoria;

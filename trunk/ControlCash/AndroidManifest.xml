@@ -12,8 +12,11 @@
         <activity android:name=".ui.receita.ListaReceitas" android:configChanges="keyboardHidden|orientation">
         </activity>
         <activity android:name=".ui.receita.CadEdtReceita" android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:configChanges="keyboardHidden|orientation" android:name=".ui.despesa.CadEdtDespesa"></activity>
         <activity android:name=".ui.categoria.CadEdtCategoria" android:configChanges="keyboardHidden|orientation"></activity>
         <activity android:name=".ui.categoria.ListaCategorias"></activity>
+        <activity android:configChanges="keyboardHidden|orientation" android:name=".ui.despesa.ListaDespesas">
+        </activity>
 
     </application>
 </manifest>
