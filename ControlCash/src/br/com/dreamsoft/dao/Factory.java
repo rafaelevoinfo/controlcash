@@ -17,6 +17,10 @@ public class Factory {
         return new ReceitaDao(ctx);
     }
     
+    public static DespesaDao createDespesaDao(Context ctx){
+        return new DespesaDao(ctx);
+    }
+    
     public static CategoriaDao createCategoriaDao(Context ctx){
     	return new CategoriaDao(ctx);
     }

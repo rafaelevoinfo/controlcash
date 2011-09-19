@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import br.com.dreamsoft.ui.categoria.CadEdtCategoria;
 import br.com.dreamsoft.ui.categoria.ListaCategorias;
+import br.com.dreamsoft.ui.despesa.ListaDespesas;
 import br.com.dreamsoft.ui.receita.ListaReceitas;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -44,7 +45,7 @@ public class Main extends Activity {
         despesas.setOnClickListener(new OnClickListener() {
 
             public void onClick(View arg0) {
-                //startActivity(new Intent(Main.this,ListaReceitasActivity.class));
+                startActivity(new Intent(Main.this,ListaDespesas.class));
             }
         });
         
