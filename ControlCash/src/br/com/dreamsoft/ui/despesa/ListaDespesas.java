@@ -83,24 +83,7 @@ public class ListaDespesas extends Activity {
 	protected void onResume() {
 		super.onResume();
 		refreshLista();
-
-		tv = (TextView) findViewById(R.id.saldo);
-
-		double total = 0;
-		for (int i = 0; i < lv.getCount(); i++) {
-			total += ((Despesa) lv.getAdapter().getItem(i)).getValor();
-		}
-		// formata o valor
-		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
-				"br"));
-		nf.setMaximumFractionDigits(2);
-		try {
-			tv.setText(nf.format(total));
-		} catch (Exception e) {
-			e.printStackTrace();
-			Mensagens.msgErro(2, this);
-		}
-
+		
 	}
 
 	private void refreshLista() {
@@ -108,6 +91,24 @@ public class ListaDespesas extends Activity {
 		try {
 			List<Despesa> lista = this.dao.buscarTodos();
 			lv.setAdapter(new DespesaAdapter(this, lista));
+			
+			tv = (TextView) findViewById(R.id.saldo);
+
+			double total = 0;
+			for (int i = 0; i < lv.getCount(); i++) {
+				total += ((Despesa) lv.getAdapter().getItem(i)).getValor();
+			}
+			// formata o valor
+			NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
+					"br"));
+			nf.setMaximumFractionDigits(2);
+			try {
+				tv.setText(nf.format(total));
+			} catch (Exception e) {
+				e.printStackTrace();
+				Mensagens.msgErro(2, this);
+			}
+			
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, this);

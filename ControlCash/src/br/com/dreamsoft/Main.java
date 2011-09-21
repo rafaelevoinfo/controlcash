@@ -4,12 +4,15 @@
  */
 package br.com.dreamsoft;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -59,15 +62,20 @@ public class Main extends Activity {
 			}
 
 			double resultado = receitas - despesas;
-			if(resultado < 0){
-				saldo.setTextColor();
+			if(resultado < 0){				
+				saldo.setTextColor(Color.RED);
+			}else{
+				saldo.setTextColor(getResources().getColor(R.color.azul_claro));
 			}
 			// formata o valor
-			NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
-					"br"));
+			NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt","br"));
+			//DecimalFormat nf = new DecimalFormat("0.##");
 			nf.setMaximumFractionDigits(2);
+			nf.setMinimumFractionDigits(2);
+			
 			try {
-				saldo.setText(nf.format(resultado));
+				//saldo.setText(nf.format(resultado));
+				saldo.setText("R$ "+nf.format(resultado));
 			} catch (Exception e) {
 				e.printStackTrace();
 				Mensagens.msgErro(2, this);
