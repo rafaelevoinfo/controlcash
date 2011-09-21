@@ -33,4 +33,14 @@ android:text="Categoria"
 android:layout_gravity="center_horizontal"
 >
     </Button>
+    <TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1" android:layout_height="wrap_content">
+        <TableRow android:id="@+id/tableRow5" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TextView android:text="@string/saldo" android:id="@+id/textView1"
+	android:layout_width="wrap_content" android:textSize="18dp" android:layout_height="wrap_content"></TextView>
+            <TextView android:textSize="18dp"
+	android:textColor="#00BFFF" android:text="TextView" android:id="@+id/saldo"
+	android:layout_height="wrap_content" android:layout_width="wrap_content"
+	></TextView>
+        </TableRow>        
+    </TableLayout>
 </LinearLayout>
