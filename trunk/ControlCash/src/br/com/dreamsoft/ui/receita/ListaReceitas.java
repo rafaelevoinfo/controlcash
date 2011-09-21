@@ -41,7 +41,7 @@ import br.com.dreamsoft.utils.Mensagens;
  * 
  * @author rafael
  */
-public class ListaReceitas extends Activity{// extends ListActivity {
+public class ListaReceitas extends Activity {// extends ListActivity {
 
 	private ReceitaDao dao;
 	private ListView lv;
@@ -53,70 +53,70 @@ public class ListaReceitas extends Activity{// extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		this.dao = Factory.createReceitaDao(this);
-		setTitle("Receitas cadastradas");		
-		
+		setTitle("Receitas cadastradas");
+
 		setContentView(R.layout.lista);
-			
+
 		lv = (ListView) findViewById(R.id.list);
-		lv.setOnItemClickListener(new OnItemClickListener()
-				 {					 
-					 @Override
-						public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-								long arg3) {
-							Intent it = new Intent(ListaReceitas.this, CadEdtReceita.class);
-							try {
-								Receita rc = (Receita) lv.getAdapter().getItem(arg2);
-								it.putExtra(CadEdtReceita.EDIT, true);
-								it.putExtra(CadEdtReceita.OBJ_REC, rc);
-								startActivity(it);
-							} catch (ClassCastException e) {
-								e.printStackTrace();
-								Mensagens.msgErro(3, ListaReceitas.this);
-							}													
-						}
-											
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent it = new Intent(ListaReceitas.this, CadEdtReceita.class);
+				try {
+					Receita rc = (Receita) lv.getAdapter().getItem(arg2);
+					it.putExtra(CadEdtReceita.EDIT, true);
+					it.putExtra(CadEdtReceita.OBJ_REC, rc);
+					startActivity(it);
+				} catch (ClassCastException e) {
+					e.printStackTrace();
+					Mensagens.msgErro(3, ListaReceitas.this);
+				}
+			}
+
 		});
-		
+
 		// getListView().setBackgroundResource(R.drawable.background);
 		lv.setCacheColorHint(0x00000000);
 		registerForContextMenu(lv);
 
-		/*getListView().setCacheColorHint(0x00000000);
-		registerForContextMenu(getListView());*/
+		/*
+		 * getListView().setCacheColorHint(0x00000000);
+		 * registerForContextMenu(getListView());
+		 */
 	}
-	
-
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		refreshLista();
-		tv = (TextView) findViewById(R.id.saldo);
-		
-		double total = 0;		
-		for(int i=0; i < lv.getCount(); i++){
-			total += ((Receita) lv.getAdapter().getItem(i)).getValor();
-		}
-		//formata o valor
-		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "br"));
-        nf.setMaximumFractionDigits(2);
-        try {
-        	tv.setText(nf.format(total));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Mensagens.msgErro(2,this);
-        }
-		
-		
+
 	}
 
 	private void refreshLista() {
 
 		try {
 			List<Receita> lista = this.dao.buscarTodos();
-			//setListAdapter(new ReceitaAdapter(this, lista));
-			lv.setAdapter(new ReceitaAdapter(this, lista));					
-			
+			// setListAdapter(new ReceitaAdapter(this, lista));
+			lv.setAdapter(new ReceitaAdapter(this, lista));
+
+			tv = (TextView) findViewById(R.id.saldo);
+
+			double total = 0;
+			for (int i = 0; i < lv.getCount(); i++) {
+				total += ((Receita) lv.getAdapter().getItem(i)).getValor();
+			}
+			// formata o valor
+			NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
+					"br"));
+			nf.setMaximumFractionDigits(2);
+			try {
+				tv.setText(nf.format(total));
+			} catch (Exception e) {
+				e.printStackTrace();
+				Mensagens.msgErro(2, this);
+			}
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, this);
@@ -127,23 +127,19 @@ public class ListaReceitas extends Activity{// extends ListActivity {
 
 	}
 
-	/*@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-
-		Intent it = new Intent(this, CadEdtReceita.class);
-		try {
-			Receita rc = (Receita) l.getAdapter().getItem(position);
-			it.putExtra(CadEdtReceita.EDIT, true);
-			it.putExtra(CadEdtReceita.OBJ_REC, rc);
-			startActivity(it);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			Mensagens.msgErro(3, this);
-		}
-
-		
-	}*/
+	/*
+	 * @Override protected void onListItemClick(ListView l, View v, int
+	 * position, long id) { super.onListItemClick(l, v, position, id);
+	 * 
+	 * Intent it = new Intent(this, CadEdtReceita.class); try { Receita rc =
+	 * (Receita) l.getAdapter().getItem(position);
+	 * it.putExtra(CadEdtReceita.EDIT, true); it.putExtra(CadEdtReceita.OBJ_REC,
+	 * rc); startActivity(it); } catch (ClassCastException e) {
+	 * e.printStackTrace(); Mensagens.msgErro(3, this); }
+	 * 
+	 * 
+	 * }
+	 */
 
 	// protected void onActivityResult(int cod){
 	//
@@ -159,10 +155,10 @@ public class ListaReceitas extends Activity{// extends ListActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 
-		case R.id.addReceita:
-			Intent it = new Intent(this, CadEdtReceita.class);
-			startActivity(it);
-			return true;
+			case R.id.addReceita:
+				Intent it = new Intent(this, CadEdtReceita.class);
+				startActivity(it);
+				return true;
 		}
 		return false;
 	}
@@ -178,27 +174,28 @@ public class ListaReceitas extends Activity{// extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
-		//pega as informações sobre qual item foi clicado
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		
+		// pega as informações sobre qual item foi clicado
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+
 		boolean result = false;
-		
+
 		switch (item.getItemId()) {
-			case R.id.btnDelRec:		
-				//pego o id do item selecionado atraves do info.id
-				if(dao.deletar(Integer.parseInt(Long.toString(info.id)))){
-					result= true;
+			case R.id.btnDelRec:
+				// pego o id do item selecionado atraves do info.id
+				if (dao.deletar(Integer.parseInt(Long.toString(info.id)))) {
+					result = true;
 					Mensagens.msgOkSemFechar(this);
 					refreshLista();
-				}else{
+				} else {
 					Mensagens.msgErroBD(1, this);
 				}
 				break;
-			default: Mensagens.msgErro(4, this);
+			default:
+				Mensagens.msgErro(4, this);
 				break;
-			}
+		}
 		return result;
 	}
-	
-	
+
 }
