@@ -26,7 +26,9 @@ import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.ui.categoria.CadEdtCategoria;
 import br.com.dreamsoft.ui.categoria.ListaCategorias;
+import br.com.dreamsoft.ui.despesa.CadEdtDespesa;
 import br.com.dreamsoft.ui.despesa.ListaDespesas;
+import br.com.dreamsoft.ui.receita.CadEdtReceita;
 import br.com.dreamsoft.ui.receita.ListaReceitas;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -40,6 +42,8 @@ public class Main extends Activity {
 	private Button despesas;
 	private Button categoria;
 	private TextView saldo;
+	private Button addDesp;
+	private Button addRec;
 
 	public void onResume() {
 		super.onResume();
@@ -62,26 +66,25 @@ public class Main extends Activity {
 			}
 
 			double resultado = receitas - despesas;
-			if(resultado < 0){				
+			if (resultado < 0) {
 				saldo.setTextColor(Color.RED);
-			}else{
+			} else {
 				saldo.setTextColor(getResources().getColor(R.color.azul_claro));
 			}
 			// formata o valor
-			NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt","br"));
-			//DecimalFormat nf = new DecimalFormat("0.##");
+			NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt",
+					"br"));
+			// DecimalFormat nf = new DecimalFormat("0.##");
 			nf.setMaximumFractionDigits(2);
 			nf.setMinimumFractionDigits(2);
-			
+
 			try {
-				//saldo.setText(nf.format(resultado));
-				saldo.setText("R$ "+nf.format(resultado));
+				// saldo.setText(nf.format(resultado));
+				saldo.setText("R$ " + nf.format(resultado));
 			} catch (Exception e) {
 				e.printStackTrace();
 				Mensagens.msgErro(2, this);
 			}
-			
-			
 
 		} catch (ParseException e) {
 			Log.w("Erro", "Erro ao buscar os dados");
@@ -99,6 +102,9 @@ public class Main extends Activity {
 		despesas = (Button) findViewById(R.id.btnDesp);
 		categoria = (Button) findViewById(R.id.btnCat);
 		saldo = (TextView) findViewById(R.id.saldo);
+
+		addDesp = (Button) findViewById(R.main.add_despesa);
+		addRec = (Button) findViewById(R.main.add_receita);
 
 		receitas.setOnClickListener(new OnClickListener() {
 
@@ -119,7 +125,25 @@ public class Main extends Activity {
 				startActivity(new Intent(Main.this, ListaCategorias.class));
 			}
 		});
-		
+
+		addRec.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(Main.this, CadEdtReceita.class));
+
+			}
+		});
+
+		addDesp.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(Main.this, CadEdtDespesa.class));
+
+			}
+		});
+
 		atualizaSaldo();
 
 	}
