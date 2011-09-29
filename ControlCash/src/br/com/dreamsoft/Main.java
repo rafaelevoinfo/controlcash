@@ -7,6 +7,7 @@ package br.com.dreamsoft;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Calendar;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -14,7 +15,11 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -44,10 +49,55 @@ public class Main extends Activity {
 	private TextView saldo;
 	private Button addDesp;
 	private Button addRec;
+	private TextView mesAtual;
+	private Calendar data;
+	private int mesDefinido;
 
 	public void onResume() {
 		super.onResume();
 		atualizaSaldo();
+		if(mesDefinido==0){
+			this.mesAtual.setText(pegaMes(data.getTime().getMonth()));
+		}else{
+			this.mesAtual.setText(mesDefinido);
+		}
+	}
+	
+	public String pegaMes(int mes){		
+		switch(mes){
+			case 1: return "Janeiro";
+			case 2: return "Fevereiro";
+			case 3: return "Março";
+			case 4: return "Abril";
+			case 5: return "Maio";
+			case 6: return "Junho";
+			case 7: return "Julho";
+			case 8: return "Agosto";
+			case 9: return "Setembro";
+			case 10: return "Outubro";
+			case 11: return "Novembro";
+			case 12: return "Dezembro";
+			default: return "Indefinido";
+		}
+	}
+	
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.opcoes_main, menu);
+		return true;
+	}
+
+	// chamado quando se clica em alguma opÃ§Ã£o do menu
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+			case R.id.trocaMes:
+				//deve-se trocar o mes de atuação
+				
+				return true;
+		}
+		return false;
 	}
 
 	public void atualizaSaldo() {
@@ -105,7 +155,10 @@ public class Main extends Activity {
 
 		addDesp = (Button) findViewById(R.main.add_despesa);
 		addRec = (Button) findViewById(R.main.add_receita);
+		mesAtual =(TextView) findViewById(R.main.mes);
 
+		data = Calendar.getInstance(new Locale("pt", "br"));
+		
 		receitas.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {

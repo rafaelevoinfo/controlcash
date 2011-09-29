@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TemaVerde">
+        <item name="android:background">#20B2AA</item>
+    </style>
+    
+</resources>
