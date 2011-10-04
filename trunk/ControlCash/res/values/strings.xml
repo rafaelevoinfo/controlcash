@@ -8,7 +8,7 @@
     <string name="txtCategoria">Nome da categoria</string>
     <string name="add_categoria">Cadastrar categoria</string>
     <string name="del_categoria">Remover categoria</string>
-    <string name="saldo">Saldo</string>
+    <string name="saldo">SALDO</string>
     <string name="total">Total</string>
     <string name="troca_mes">Alterar mês</string>
     

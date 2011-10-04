@@ -1,88 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout android:id="@+id/widget69"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">	
+	android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<TextView android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:text="Menu de Acesso rápido" android:id="@+id/textView1"
+		android:text="Cadastrar" android:id="@+id/textView1"
 		android:layout_marginTop="10dip"></TextView>
 	<View android:layout_width="fill_parent" android:layout_height="2dip"
 		android:background="#FF909090" />
-			
-        
+
+
 
 	<LinearLayout android:id="@+id/widget69"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"
 		android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_marginTop="10dip">
-		<Button android:layout_width="fill_parent"
+	<!--<Button android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:id="@+main/add_despesa"
 			android:text="@string/add_despesa" android:layout_marginTop="10dip"
 			android:layout_gravity="center_horizontal|left"
 			android:layout_weight="1"></Button>
+ -->
+        <ImageButton android:layout_width="fill_parent"
+            android:id="@+main/add_despesa"        
+            android:layout_height="wrap_content" android:layout_gravity="left" 
+            android:layout_weight="1" android:src="@drawable/add_desp"
+            android:layout_marginTop="10dip" 
+            />
+		<ImageButton android:layout_width="fill_parent"
+		    android:id="@+main/add_receita"		   
+			android:layout_height="wrap_content" android:layout_gravity="right" 
+			android:layout_weight="1" android:src="@drawable/add_rec"
+			android:layout_marginTop="10dip" 
+			/>
+<!-- 
 		<Button android:layout_width="fill_parent"
 			android:layout_height="wrap_content" android:id="@+main/add_receita"
 			android:layout_gravity="left" android:text="@string/add_receita"
+ 
 			android:layout_marginTop="10dip" android:layout_weight="1"></Button>
+-->
 	</LinearLayout>
+
 	
-	<View android:layout_width="fill_parent" android:layout_height="2dip"
-        android:background="#FF909090" />
-    
-    <TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1"
-        android:stretchColumns="1" android:layout_height="wrap_content">
-        <TableRow android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Mês Atual: " android:id="@+id/textView1"
-                android:layout_gravity="left"></TextView>
-            <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="TextView" android:layout_gravity="right" android:id="@+main/mes"></TextView>
-        </TableRow>
-    </TableLayout>
-	 <View android:layout_width="fill_parent" android:layout_height="2dip"
-        android:background="#FF909090" />
-        
+
 	<TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1"
-        android:stretchColumns="1" android:layout_height="wrap_content">
-        <TableRow android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView android:text="@string/saldo" android:layout_width="wrap_content"
-                android:textSize="18dp" android:layout_height="wrap_content" android:layout_gravity="bottom"></TextView>
-            <TextView android:textColor="#00BFFF"
-                android:text="TextView" android:id="@+id/saldo"
-                android:layout_height="wrap_content" android:layout_width="wrap_content"
-                android:layout_gravity="center_vertical" android:gravity="right" android:textSize="25dp"></TextView>
-        </TableRow>
-    </TableLayout>
-    
-    <View android:layout_width="fill_parent" android:layout_height="2dip"
-        android:background="#FF909090" />
+		android:stretchColumns="1" android:layout_height="wrap_content">
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="Mês Atual: " android:id="@+id/textView1"
+				android:layout_gravity="left"></TextView>
+			<TextView android:textAppearance="?android:attr/textAppearanceMedium"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:text="TextView" android:layout_gravity="right" android:id="@+main/mes"></TextView>
+		</TableRow>
+	</TableLayout>
+	<View android:layout_width="fill_parent" android:layout_height="2dip"
+		android:background="#FF909090" />
 
-    <TextView android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Lista completa: "
-                android:layout_gravity="left"></TextView>
+	<TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1"
+		android:stretchColumns="1" android:layout_height="wrap_content">
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+			<TextView android:text="@string/saldo" android:layout_width="wrap_content"
+				android:textSize="18dp" android:layout_height="wrap_content"
+				android:layout_gravity="bottom"></TextView>
+			<TextView android:textColor="#00BFFF" android:text="TextView"
+				android:id="@+id/saldo" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" android:layout_gravity="center_vertical"
+				android:gravity="right" android:textSize="25dp"></TextView>
+		</TableRow>
+	</TableLayout>
 
-     <View android:layout_width="fill_parent" android:layout_height="2dip"
-        android:background="#FF909090" android:layout_marginBottom="2px"/>
+	<View android:layout_width="fill_parent" android:layout_height="2dip"
+		android:background="#FF909090" />
+
+	<TextView android:textAppearance="?android:attr/textAppearanceMedium"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"
+		android:text="Demais opções: " android:layout_gravity="left"></TextView>
 
 
 	<Button android:id="@+id/btnRec" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:padding="2px"
-        android:text="Receitas" android:gravity="center"
-        android:layout_gravity="center_horizontal">
-    </Button>
-    <Button android:id="@+id/btnDesp" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:padding="2px"
-        android:text="Despesas">
-    </Button>
-    <Button android:id="@+id/btnCat" android:layout_width="fill_parent"
-        android:layout_height="wrap_content" android:padding="2px"
-        android:text="Categorias" android:layout_gravity="center_horizontal">
-    </Button>
-	
+		android:layout_height="wrap_content" android:padding="2px"
+		android:text="Receitas" android:gravity="center"
+		android:layout_gravity="center_horizontal">
+	</Button>
+	<Button android:id="@+id/btnDesp" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:padding="2px"
+		android:text="Despesas">
+	</Button>
+	<Button android:id="@+id/btnCat" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:padding="2px"
+		android:text="Categorias" android:layout_gravity="center_horizontal">
+	</Button>
+
 </LinearLayout>

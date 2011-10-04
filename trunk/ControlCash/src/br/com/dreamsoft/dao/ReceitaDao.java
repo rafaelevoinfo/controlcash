@@ -143,6 +143,41 @@ public class ReceitaDao implements Contas<Receita> {
         cursor.close();
         return receitas;
     }
+    
+    public Receita buscarMes(int mes){
+    	String[] data = new String[]{};
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_DATA+"=?", new String[], null, null, null, null);
+        List<Receita> receitas = new ArrayList<Receita>();
+        //pega os index pelos nomes
+        int indexId = cursor.getColumnIndex(KEY_ID);
+        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+        int indexNom = cursor.getColumnIndex(KEY_NOME);
+        int indexVal = cursor.getColumnIndex(KEY_VALOR);
+        int indexDat = cursor.getColumnIndex(KEY_DATA);
+        //pega os dados
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Receita receita = new Receita();
+
+            receita.setId(cursor.getInt(indexId));
+            Categoria cat = new Categoria();
+            cat.setId(cursor.getInt(indexCat));
+            receita.setCategoria(cat);
+            receita.setNome(cursor.getString(indexNom));
+            receita.setValor(cursor.getDouble(indexVal));
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            Date date = sdf.parse(cursor.getString(indexDat));
+            
+            receita.setDate(date);
+
+            receitas.add(receita);
+            cursor.moveToNext();
+
+        }
+        cursor.close();
+        return receitas;    	
+    }
 
     public Receita buscar(Integer id) {
         Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[]{id.toString()}, null, null, null, null);

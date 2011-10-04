@@ -4,7 +4,6 @@
  */
 package br.com.dreamsoft;
 
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -12,10 +11,8 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,13 +20,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import br.com.dreamsoft.dao.DespesaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
-import br.com.dreamsoft.ui.categoria.CadEdtCategoria;
 import br.com.dreamsoft.ui.categoria.ListaCategorias;
 import br.com.dreamsoft.ui.despesa.CadEdtDespesa;
 import br.com.dreamsoft.ui.despesa.ListaDespesas;
@@ -47,8 +44,8 @@ public class Main extends Activity {
 	private Button despesas;
 	private Button categoria;
 	private TextView saldo;
-	private Button addDesp;
-	private Button addRec;
+	private ImageButton addDesp;
+	private ImageButton addRec;
 	private TextView mesAtual;
 	private Calendar data;
 	private int mesDefinido;
@@ -62,6 +59,34 @@ public class Main extends Activity {
 			this.mesAtual.setText(mesDefinido);
 		}
 	}
+	/*
+	public enum Meses{
+		JANEIRO(1),FEVEREIRO(2),MARCO(3),ABRIL(4),MAIO(5),JUNHO(6),
+		JULHO(7),AGOSTO(8),SETEMBRO(9),OUTUBRO(10),NOVEMBRO(11),DEZEMBRO(12);
+		
+			
+		private Meses(int m){
+			switch(m){
+				case 1: mes = "Janeiro";
+				case 2: mes = "Fevereiro";
+				case 3: mes = "Março";
+				case 4: mes = "Abril";
+				case 5: mes = "Maio";
+				case 6: mes = "Junho";
+				case 7: mes = "Julho";
+				case 8: mes = "Agosto";
+				case 9: mes = "Setembro";
+				case 10: mes = "Outubro";
+				case 11: mes = "Novembro";
+				case 12: mes = "Dezembro";
+				default: mes = "Indefinido";
+			}
+		}
+		private String mes(){
+			return mes;
+		}
+		private String mes = "";
+	}*/
 	
 	public String pegaMes(int mes){		
 		switch(mes){
@@ -153,8 +178,8 @@ public class Main extends Activity {
 		categoria = (Button) findViewById(R.id.btnCat);
 		saldo = (TextView) findViewById(R.id.saldo);
 
-		addDesp = (Button) findViewById(R.main.add_despesa);
-		addRec = (Button) findViewById(R.main.add_receita);
+		addDesp = (ImageButton) findViewById(R.main.add_despesa);
+		addRec = (ImageButton) findViewById(R.main.add_receita);
 		mesAtual =(TextView) findViewById(R.main.mes);
 
 		data = Calendar.getInstance(new Locale("pt", "br"));
