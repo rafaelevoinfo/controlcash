@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="azul_claro">#00BFFF</color>
-    
+    <color name="vermelho_escarlata">#8C1717</color>
+    <color name="royal_blue">#4169E1</color>    
 </resources>

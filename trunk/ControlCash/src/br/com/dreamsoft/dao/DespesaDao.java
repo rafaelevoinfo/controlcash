@@ -144,7 +144,7 @@ public class DespesaDao implements Contas<Despesa> {
         return despesas;
     }
 
-    public Despesa buscar(Integer id) {
+    public Despesa buscar(Integer id) throws ParseException{
         Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[]{id.toString()}, null, null, null, null);
         Despesa despesa = new Despesa();
         //pega os index pelos nomes
@@ -167,7 +167,7 @@ public class DespesaDao implements Contas<Despesa> {
 
     }
 
-    public Despesa buscar(String nome) {
+    public Despesa buscar(String nome) throws ParseException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

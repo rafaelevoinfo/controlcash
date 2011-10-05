@@ -4,16 +4,20 @@
  */
 package br.com.dreamsoft.dao;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import br.com.dreamsoft.dao.interfaces.Contas;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.model.Receita;
@@ -46,9 +50,10 @@ public class ReceitaDao implements Contas<Receita> {
             initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
             initialValues.put(KEY_NOME, rc.getNome());
             initialValues.put(KEY_VALOR, rc.getValor());
-            SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+            	//initialValues.put(KEY_DATA, rc.getDate().toString());
             } catch (Exception e) {
                 return -1L;
             }
@@ -73,9 +78,10 @@ public class ReceitaDao implements Contas<Receita> {
             initialValues.put(KEY_NOME, rc.getNome());
             initialValues.put(KEY_VALOR, rc.getValor());
            
-            SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
+            //SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));            	
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -130,9 +136,13 @@ public class ReceitaDao implements Contas<Receita> {
             receita.setCategoria(cat);
             receita.setNome(cursor.getString(indexNom));
             receita.setValor(cursor.getDouble(indexVal));
-            
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = sdf.parse(cursor.getString(indexDat));
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
             
             receita.setDate(date);
 
@@ -143,10 +153,15 @@ public class ReceitaDao implements Contas<Receita> {
         cursor.close();
         return receitas;
     }
-    
-    public Receita buscarMes(int mes){
-    	String[] data = new String[]{};
-    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_DATA+"=?", new String[], null, null, null, null);
+    /**
+     * Busca as receitas do mes da data passada
+     * @param data
+     * @return
+     */
+    public List<Receita> buscarMes(Date data) throws ParseException{
+    	//cria a clausa where que faz a comparação entre os datas
+    	String where = "strftime('%m',"+KEY_DATA+") = strftime('%m',"+data.toString()+")";
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
         List<Receita> receitas = new ArrayList<Receita>();
         //pega os index pelos nomes
         int indexId = cursor.getColumnIndex(KEY_ID);
@@ -166,8 +181,13 @@ public class ReceitaDao implements Contas<Receita> {
             receita.setNome(cursor.getString(indexNom));
             receita.setValor(cursor.getDouble(indexVal));
             
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = sdf.parse(cursor.getString(indexDat));
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
             
             receita.setDate(date);
 
@@ -176,10 +196,10 @@ public class ReceitaDao implements Contas<Receita> {
 
         }
         cursor.close();
-        return receitas;    	
+        return receitas;    
     }
 
-    public Receita buscar(Integer id) {
+    public Receita buscar(Integer id) throws ParseException {
         Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[]{id.toString()}, null, null, null, null);
         Receita receita = new Receita();
         //pega os index pelos nomes
@@ -195,14 +215,22 @@ public class ReceitaDao implements Contas<Receita> {
         receita.setCategoria(cat);
         receita.setNome(cursor.getString(indexNom));
         receita.setValor(cursor.getDouble(indexVal));
-        receita.setDate(new Date(cursor.getString(indexDat)));
+        //cria os formatadores da datas                                 
+        SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+        //transforma a String em Date
+        Date date =  sdfUSA.parse(cursor.getString(indexDat));
+        //transforma o date em String e depois a String em Date
+        date = sdfBRA.parse(sdfBRA.format(date));
+        
+        receita.setDate(date);
 
         cursor.close();
         return receita;
 
     }
 
-    public Receita buscar(String nome) {
+    public Receita buscar(String nome) throws ParseException{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
