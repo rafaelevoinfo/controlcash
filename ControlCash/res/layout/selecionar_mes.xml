@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<Button android:id="@+main/jan" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/janeiro"></Button>
+		<Button android:id="@+main/fev" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/fevereiro"></Button>
+		<Button android:id="@+main/mar" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/marco"></Button>
+	</TableRow>
+	<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<Button android:id="@+main/abr" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/abril"></Button>
+		<Button android:id="@+main/mai" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/maio"></Button>
+		<Button android:id="@+main/jun" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/junho"></Button>
+	</TableRow>
+	<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<Button android:id="@+main/jul" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/julho"></Button>
+		<Button android:id="@+main/ago" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/agosto"></Button>
+		<Button android:id="@+main/set" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/setembro"></Button>
+	</TableRow>
+	<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content"
+		android:layout_height="wrap_content">
+		<Button android:id="@+main/out" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/outubro"></Button>
+		<Button android:id="@+main/nov" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/novembro"></Button>
+		<Button android:id="@+main/dez" android:layout_width="fill_parent"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:text="@string/dezembro"></Button>
+	</TableRow>
+	<Spinner android:id="@+id/spinner1" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+	
+
+
+</TableLayout>

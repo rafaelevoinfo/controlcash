@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.net.ParseException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,12 +55,22 @@ public class DespesaAdapter extends BaseAdapter {
         TextView valor = (TextView) view.findViewById(R.id.valor);
         NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "br"));
         nf.setMaximumFractionDigits(2);
+        
         try {
             valor.setText(nf.format(rec.getValor()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            Mensagens.msgErro(2,view.getContext());
+          //troca a cor
+            valor.setTextColor(view.getResources().getColor(R.color.vermelho_escarlata));
+        }catch(ParseException e){
+        	 e.printStackTrace();
+             Mensagens.msgErro(2,view.getContext());
+        }catch(NullPointerException e){
+        	e.printStackTrace();
+        	Mensagens.msgErro(5, view.getContext());
+        }catch(Exception e){
+        	e.printStackTrace();
+        	Mensagens.msgErro(-1, view.getContext());
         }
+        
 
         //atualiza a data  
         TextView data = (TextView) view.findViewById(R.id.date);

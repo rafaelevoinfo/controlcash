@@ -5,6 +5,7 @@
 
 package br.com.dreamsoft.dao.interfaces;
 
+import java.text.ParseException;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ public interface BancoDados<E> {
     public boolean deletar(Integer id);
 
     public List<E> buscarTodos() throws Exception;
-    public E buscar(Integer id);
-    public E buscar(String nome);
+    public E buscar(Integer id) throws ParseException;
+    public E buscar(String nome) throws ParseException;
 
 
 }
