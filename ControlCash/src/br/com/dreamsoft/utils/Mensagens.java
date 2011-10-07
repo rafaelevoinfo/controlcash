@@ -80,6 +80,10 @@ public abstract class Mensagens {
 				dialog.setMessage("Erro ao definir a cor dos textos!");
 				dialog.show();
 				break;
+			case 6:// Erro ao converter a String
+				dialog.setMessage("Digite um ano válido");
+				dialog.show();
+				break;
 			default:
 				dialog.setMessage("Erro desconhecido!");
 				dialog.show();

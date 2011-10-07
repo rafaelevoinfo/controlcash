@@ -155,13 +155,14 @@ public class ReceitaDao implements Contas<Receita> {
     }
     /**
      * Busca as receitas do mes da data passada
-     * @param data
+     * @param data - String no formato yyyy-MM-dd
      * @return
      */
-    public List<Receita> buscarMes(Date data) throws ParseException{
+    public List<Receita> buscarMes(String data) throws ParseException{
     	//cria a clausa where que faz a comparação entre os datas
-    	String where = "strftime('%m',"+KEY_DATA+") = strftime('%m',"+data.toString()+")";
+    	String where = "strftime('%m',"+KEY_DATA+") = strftime('%m','"+data+"')";
     	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
+    	
         List<Receita> receitas = new ArrayList<Receita>();
         //pega os index pelos nomes
         int indexId = cursor.getColumnIndex(KEY_ID);
@@ -196,7 +197,8 @@ public class ReceitaDao implements Contas<Receita> {
 
         }
         cursor.close();
-        return receitas;    
+        return receitas;
+        //return null;
     }
 
     public Receita buscar(Integer id) throws ParseException {

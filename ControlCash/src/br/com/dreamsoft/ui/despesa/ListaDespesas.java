@@ -6,6 +6,7 @@ package br.com.dreamsoft.ui.despesa;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,6 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import br.com.dreamsoft.Main;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.DespesaDao;
@@ -87,9 +89,10 @@ public class ListaDespesas extends Activity {
 	}
 
 	private void refreshLista() {
-
-		try {
-			List<Despesa> lista = this.dao.buscarTodos();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
+		try {			
+			String date = sdf.format(Main.data.getTime());
+			List<Despesa> lista = this.dao.buscarMes(date);
 			lv.setAdapter(new DespesaAdapter(this, lista));
 			
 			tv = (TextView) findViewById(R.id.saldo);

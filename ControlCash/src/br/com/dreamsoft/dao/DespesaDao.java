@@ -14,8 +14,10 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import br.com.dreamsoft.dao.interfaces.Contas;
 import br.com.dreamsoft.model.Categoria;
+import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Despesa;
 
 /**
@@ -41,22 +43,23 @@ public class DespesaDao implements Contas<Despesa> {
         this.db.beginTransaction();
         long id = -1;
         try {
-            ContentValues initialValues = new ContentValues();
-            
-            initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
-            initialValues.put(KEY_NOME, rc.getNome());
-            initialValues.put(KEY_VALOR, rc.getValor());
-            SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
-            try {
-                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
-            } catch (Exception e) {
-                return -1L;
-            }
-            //grava no banco
-            id = db.insert(DATABASE_TABLE, null, initialValues);           
-            if (id != -1) {
-                this.db.setTransactionSuccessful();
-            }
+        	 ContentValues initialValues = new ContentValues();
+             
+             initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
+             initialValues.put(KEY_NOME, rc.getNome());
+             initialValues.put(KEY_VALOR, rc.getValor());
+             SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
+             try {
+                 initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+             	//initialValues.put(KEY_DATA, rc.getDate().toString());
+             } catch (Exception e) {
+                 return -1L;
+             }
+             //grava no banco
+             id = db.insert(DATABASE_TABLE, null, initialValues);           
+             if (id != -1) {
+                 this.db.setTransactionSuccessful();
+             }
         } finally {
             this.db.endTransaction();            
         }
@@ -68,14 +71,15 @@ public class DespesaDao implements Contas<Despesa> {
         this.db.beginTransaction();
         long id = 0;
         try {
-            ContentValues initialValues = new ContentValues();
+        	ContentValues initialValues = new ContentValues();
             initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
             initialValues.put(KEY_NOME, rc.getNome());
             initialValues.put(KEY_VALOR, rc.getValor());
            
-            SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
+            //SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));            	
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
@@ -131,8 +135,13 @@ public class DespesaDao implements Contas<Despesa> {
             despesa.setNome(cursor.getString(indexNom));
             despesa.setValor(cursor.getDouble(indexVal));
             
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            Date date = sdf.parse(cursor.getString(indexDat));
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
             
             despesa.setDate(date);
 
@@ -160,11 +169,67 @@ public class DespesaDao implements Contas<Despesa> {
         despesa.setCategoria(cat);
         despesa.setNome(cursor.getString(indexNom));
         despesa.setValor(cursor.getDouble(indexVal));
-        despesa.setDate(new Date(cursor.getString(indexDat)));
+        
+        //cria os formatadores da datas                                 
+        SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+        //transforma a String em Date
+        Date date =  sdfUSA.parse(cursor.getString(indexDat));
+        //transforma o date em String e depois a String em Date
+        date = sdfBRA.parse(sdfBRA.format(date));
+        
+        despesa.setDate(date);
 
         cursor.close();
         return despesa;
 
+    }
+    
+    
+    /**
+     * Busca as despesas do mes da data passada
+     * @param data
+     * @return
+     */
+    public List<Despesa> buscarMes(String data) throws ParseException{
+    	//cria a clausa where que faz a comparação entre os datas
+    	String where = "strftime('%m',"+KEY_DATA+") = strftime('%m','"+data+"')";
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
+        List<Despesa> despesas = new ArrayList<Despesa>();
+        //pega os index pelos nomes
+        int indexId = cursor.getColumnIndex(KEY_ID);
+        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+        int indexNom = cursor.getColumnIndex(KEY_NOME);
+        int indexVal = cursor.getColumnIndex(KEY_VALOR);
+        int indexDat = cursor.getColumnIndex(KEY_DATA);
+        //pega os dados
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Despesa despesa = new Despesa();
+Log.w("ControCash",cursor.getString(indexDat));
+            despesa.setId(cursor.getInt(indexId));
+            Categoria cat = new Categoria();
+            cat.setId(cursor.getInt(indexCat));
+            despesa.setCategoria(cat);
+            despesa.setNome(cursor.getString(indexNom));
+            despesa.setValor(cursor.getDouble(indexVal));
+            
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
+            
+            despesa.setDate(date);
+
+            despesas.add(despesa);
+            cursor.moveToNext();
+
+        }
+        cursor.close();
+        return despesas;    
     }
 
     public Despesa buscar(String nome) throws ParseException {
