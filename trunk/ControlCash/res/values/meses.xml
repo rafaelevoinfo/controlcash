@@ -12,5 +12,6 @@
     <string name="outubro">Outubro</string>
     <string name="novembro">Novembro</string>
     <string name="dezembro">Dezembro</string>
+    <string name="altera_mes">Alterar intervalo de tempo</string>
     
 </resources>

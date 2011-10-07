@@ -6,8 +6,11 @@ package br.com.dreamsoft;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -47,132 +50,23 @@ public class Main extends Activity {
 	private ImageButton addDesp;
 	private ImageButton addRec;
 	private TextView mesAtual;
-	private Calendar data;
-	private int mesDefinido;
-
-	public void onResume() {
-		super.onResume();
-		atualizaSaldo();
-		if(mesDefinido==0){
-			this.mesAtual.setText(pegaMes(data.getTime().getMonth()));
-		}else{
-			this.mesAtual.setText(mesDefinido);
-		}
-	}
-	/*
-	public enum Meses{
-		JANEIRO(1),FEVEREIRO(2),MARCO(3),ABRIL(4),MAIO(5),JUNHO(6),
-		JULHO(7),AGOSTO(8),SETEMBRO(9),OUTUBRO(10),NOVEMBRO(11),DEZEMBRO(12);
+	public static Calendar data;
+	private int mesDefinido = -1;
+	private int anoDefinido = -1;
 		
-			
-		private Meses(int m){
-			switch(m){
-				case 1: mes = "Janeiro";
-				case 2: mes = "Fevereiro";
-				case 3: mes = "Março";
-				case 4: mes = "Abril";
-				case 5: mes = "Maio";
-				case 6: mes = "Junho";
-				case 7: mes = "Julho";
-				case 8: mes = "Agosto";
-				case 9: mes = "Setembro";
-				case 10: mes = "Outubro";
-				case 11: mes = "Novembro";
-				case 12: mes = "Dezembro";
-				default: mes = "Indefinido";
-			}
-		}
-		private String mes(){
-			return mes;
-		}
-		private String mes = "";
-	}*/
-	
-	public String pegaMes(int mes){		
-		switch(mes){
-			case 1: return "Janeiro";
-			case 2: return "Fevereiro";
-			case 3: return "Março";
-			case 4: return "Abril";
-			case 5: return "Maio";
-			case 6: return "Junho";
-			case 7: return "Julho";
-			case 8: return "Agosto";
-			case 9: return "Setembro";
-			case 10: return "Outubro";
-			case 11: return "Novembro";
-			case 12: return "Dezembro";
-			default: return "Indefinido";
-		}
-	}
-	
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.opcoes_main, menu);
-		return true;
-	}
+	ReceitaDao daoRec;
+	DespesaDao daoDesp;
 
-	// chamado quando se clica em alguma opÃ§Ã£o do menu
-
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-
-			case R.id.trocaMes:
-				//deve-se trocar o mes de atuação
-				
-				
-				return true;
-		}
-		return false;
-	}
-
-	public void atualizaSaldo() {
-		ReceitaDao daoRec = Factory.createReceitaDao(this);
-		DespesaDao daoDesp = Factory.createDespesaDao(this);
-
-		double receitas = 0;
-		double despesas = 0;
-
-		try {
-			for (Receita r : daoRec.buscarTodos()) {
-				receitas += r.getValor();
-			}
-			for (Despesa desp : daoDesp.buscarTodos()) {
-				despesas += desp.getValor();
-			}
-
-			double resultado = receitas - despesas;
-			if (resultado < 0) {
-				saldo.setTextColor(Color.RED);
-			} else {
-				saldo.setTextColor(getResources().getColor(R.color.azul_claro));
-			}
-			// formata o valor
-			NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt",
-					"br"));
-			// DecimalFormat nf = new DecimalFormat("0.##");
-			nf.setMaximumFractionDigits(2);
-			nf.setMinimumFractionDigits(2);
-
-			try {
-				// saldo.setText(nf.format(resultado));
-				saldo.setText("R$ " + nf.format(resultado));
-			} catch (Exception e) {
-				e.printStackTrace();
-				Mensagens.msgErro(2, this);
-			}
-
-		} catch (ParseException e) {
-			Log.w("Erro", "Erro ao buscar os dados");
-			Mensagens.msgErroBD(2, this);
-		}
-	}
+	private final int TROCAR_MES = 1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setTitle("Control Cash");
+		
+		daoRec = Factory.createReceitaDao(this);
+		daoDesp = Factory.createDespesaDao(this);
 
 		receitas = (Button) findViewById(R.id.btnRec);
 		despesas = (Button) findViewById(R.id.btnDesp);
@@ -181,10 +75,10 @@ public class Main extends Activity {
 
 		addDesp = (ImageButton) findViewById(R.main.add_despesa);
 		addRec = (ImageButton) findViewById(R.main.add_receita);
-		mesAtual =(TextView) findViewById(R.main.mes);
+		mesAtual = (TextView) findViewById(R.main.mes);
 
 		data = Calendar.getInstance(new Locale("pt", "br"));
-		
+
 		receitas.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
@@ -226,4 +120,158 @@ public class Main extends Activity {
 		atualizaSaldo();
 
 	}
+
+	public void onResume() {
+		super.onResume();
+		if (mesDefinido == -1 || anoDefinido == -1) {
+			this.mesAtual.setText(pegaMes(data.getTime().getMonth()));
+		} else {
+			this.mesAtual.setText(pegaMes(mesDefinido));
+		}
+		atualizaSaldo();
+	}
+
+	/*
+	 * public enum Meses{
+	 * JANEIRO(1),FEVEREIRO(2),MARCO(3),ABRIL(4),MAIO(5),JUNHO(6),
+	 * JULHO(7),AGOSTO(8),SETEMBRO(9),OUTUBRO(10),NOVEMBRO(11),DEZEMBRO(12);
+	 * 
+	 * 
+	 * private Meses(int m){ switch(m){ case 1: mes = "Janeiro"; case 2: mes =
+	 * "Fevereiro"; case 3: mes = "Março"; case 4: mes = "Abril"; case 5: mes =
+	 * "Maio"; case 6: mes = "Junho"; case 7: mes = "Julho"; case 8: mes =
+	 * "Agosto"; case 9: mes = "Setembro"; case 10: mes = "Outubro"; case 11:
+	 * mes = "Novembro"; case 12: mes = "Dezembro"; default: mes = "Indefinido";
+	 * } } private String mes(){ return mes; } private String mes = ""; }
+	 */
+
+	public String pegaMes(int mes) {
+		switch (mes) {
+			case 1:
+				return "Janeiro";
+			case 2:
+				return "Fevereiro";
+			case 3:
+				return "Março";
+			case 4:
+				return "Abril";
+			case 5:
+				return "Maio";
+			case 6:
+				return "Junho";
+			case 7:
+				return "Julho";
+			case 8:
+				return "Agosto";
+			case 9:
+				return "Setembro";
+			case 10:
+				return "Outubro";
+			case 11:
+				return "Novembro";
+			case 12:
+				return "Dezembro";
+			default:
+				return "Indefinido";
+		}
+	}
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.opcoes_main, menu);
+		return true;
+	}
+
+	// chamado quando se clica em alguma opÃ§Ã£o do menu
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.trocaMes:
+				//deve-se trocar o mes de atuação				
+				startActivityForResult(new Intent(Main.this, AlteraMes.class), TROCAR_MES);
+				
+				return true;
+		}
+		return false;
+	}
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent it) {
+		//verifica se esse é o resultado da chamada do trocar mes e se tudo ocorreu bem
+		if(requestCode == TROCAR_MES && resultCode == RESULT_OK){
+			Bundle params = it != null ? it.getExtras():null;
+			mesDefinido = params.getInt(AlteraMes.MES);
+			anoDefinido = params.getInt(AlteraMes.ANO);
+			
+			//atualizaSaldo();
+		}
+	}
+	
+	public void atualizaSaldo() {
+		
+
+		double receitas = 0;
+		double despesas = 0;
+		
+		List<Receita> listRec = null;
+		List<Despesa> listDesp = null;
+
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");				
+			
+			if (mesDefinido == -1 || anoDefinido == -1) {
+				String date = sdf.format(data.getTime());				
+				listRec = daoRec.buscarMes(date);
+				listDesp = daoDesp.buscarMes(date);
+				
+				
+			} else {
+				data.set(anoDefinido, mesDefinido, Calendar.DAY_OF_MONTH);
+				
+				String date = sdf.format(data.getTime());
+				listRec = daoRec.buscarMes(date);
+				listDesp = daoDesp.buscarMes(date);
+				
+			}
+			
+			if(listRec != null){
+				for(Receita r :listRec){
+					receitas += r.getValor();
+				}
+			}
+			
+			if(listDesp != null){
+				for(Despesa d :listDesp){
+					despesas += d.getValor();
+				}
+			}
+
+			double resultado = receitas - despesas;
+			if (resultado < 0) {
+				saldo.setTextColor(Color.RED);
+			} else {
+				saldo.setTextColor(getResources().getColor(R.color.azul_claro));
+			}
+			// formata o valor
+			NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt","br"));
+			// DecimalFormat nf = new DecimalFormat("0.##");
+			nf.setMaximumFractionDigits(2);
+			nf.setMinimumFractionDigits(2);
+
+			try {
+				// saldo.setText(nf.format(resultado));
+				saldo.setText("R$ " + nf.format(resultado));
+			} catch (Exception e) {
+				e.printStackTrace();
+				Mensagens.msgErro(2, this);
+			}
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+			Log.w("Erro", "Erro ao buscar os dados");
+			Mensagens.msgErroBD(2, this);
+		}
+	}
+
 }

@@ -6,30 +6,25 @@ package br.com.dreamsoft.ui.receita;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import br.com.dreamsoft.Main;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
@@ -94,9 +89,11 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 	}
 
 	private void refreshLista() {
-
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
 		try {
-			List<Receita> lista = this.dao.buscarTodos();
+			
+			String date = sdf.format(Main.data.getTime());
+			List<Receita> lista = this.dao.buscarMes(date);
 			// setListAdapter(new ReceitaAdapter(this, lista));
 			lv.setAdapter(new ReceitaAdapter(this, lista));
 
@@ -175,8 +172,7 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
 		// pega as informações sobre qual item foi clicado
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
 		boolean result = false;
 
