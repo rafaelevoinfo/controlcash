@@ -6,44 +6,35 @@
 	<TextView android:textAppearance="?android:attr/textAppearanceMedium"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:text="Cadastrar" android:id="@+id/textView1"
-		android:layout_marginTop="10dip"></TextView>
-	<View android:layout_width="fill_parent" android:layout_height="2dip"
-		android:background="#FF909090" />
+		></TextView>
+	<!-- <View android:layout_width="fill_parent" android:layout_height="2dip" 
+		android:background="#FF909090" /> -->
 
 
+	<TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1"
+		android:layout_height="wrap_content">
+		<TableRow android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:background="@color/royal_blue">
+			<ImageButton android:layout_marginTop="3dip"
+				android:layout_width="fill_parent" android:id="@+main/add_despesa"
+				android:layout_height="wrap_content" android:layout_weight="1"
+				android:src="@drawable/add_desp" android:layout_gravity="center_vertical" />
+			<ImageButton android:layout_marginTop="3dip"
+				android:layout_width="fill_parent" android:id="@+main/add_receita"
+				android:layout_height="wrap_content" android:layout_weight="1"
+				android:src="@drawable/add_rec" android:layout_gravity="center_vertical" />
+		</TableRow>
+	</TableLayout>
 
-	<LinearLayout android:id="@+id/widget69"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_marginTop="10dip">
-	<!--<Button android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+main/add_despesa"
-			android:text="@string/add_despesa" android:layout_marginTop="10dip"
-			android:layout_gravity="center_horizontal|left"
-			android:layout_weight="1"></Button>
- -->
-        <ImageButton android:layout_width="fill_parent"
-            android:id="@+main/add_despesa"        
-            android:layout_height="wrap_content" android:layout_gravity="left" 
-            android:layout_weight="1" android:src="@drawable/add_desp"
-            android:layout_marginTop="10dip" 
-            />
-		<ImageButton android:layout_width="fill_parent"
-		    android:id="@+main/add_receita"		   
-			android:layout_height="wrap_content" android:layout_gravity="right" 
-			android:layout_weight="1" android:src="@drawable/add_rec"
-			android:layout_marginTop="10dip" 
-			/>
-<!-- 
-		<Button android:layout_width="fill_parent"
-			android:layout_height="wrap_content" android:id="@+main/add_receita"
-			android:layout_gravity="left" android:text="@string/add_receita"
- 
-			android:layout_marginTop="10dip" android:layout_weight="1"></Button>
--->
-	</LinearLayout>
+	<!--<LinearLayout android:id="@+id/widget69" android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" android:orientation="horizontal" xmlns:android="http://schemas.android.com/apk/res/android" 
+		android:layout_marginTop="5dip" android:background="@color/royal_blue"> <ImageButton 
+		android:layout_width="fill_parent" android:id="@+main/add_despesa" android:layout_height="wrap_content" 
+		android:layout_weight="1" android:src="@drawable/add_desp" /> <ImageButton 
+		android:layout_width="fill_parent" android:id="@+main/add_receita" android:layout_height="wrap_content" 
+		android:layout_weight="1" android:src="@drawable/add_rec" /> </LinearLayout> -->
 
-	
+
 
 	<TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1"
 		android:stretchColumns="1" android:layout_height="wrap_content">
@@ -64,10 +55,10 @@
 	<TableLayout android:layout_width="fill_parent" android:id="@+id/tableLayout1"
 		android:stretchColumns="1" android:layout_height="wrap_content">
 		<TableRow android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+			android:layout_height="wrap_content" android:background="@android:color/background_light">
 			<TextView android:text="@string/saldo" android:layout_width="wrap_content"
 				android:textSize="18dp" android:layout_height="wrap_content"
-				android:layout_gravity="bottom"></TextView>
+				android:textColor="@android:color/black" android:layout_gravity="center_vertical"></TextView>
 			<TextView android:textColor="#00BFFF" android:text="TextView"
 				android:id="@+id/saldo" android:layout_height="wrap_content"
 				android:layout_width="wrap_content" android:layout_gravity="center_vertical"

@@ -1,5 +1,8 @@
 package br.com.dreamsoft;
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,12 +22,13 @@ public class AlteraMes extends Activity implements OnClickListener {
 	private Spinner spAno;
 	private EditText edtAno;
 	private Button btnAlterar;
-	
+
 	public static final String ANO = "ano";
 	public static final String MES = "mes";
-	
-	
-	private String[] meses = new String[]{"Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};; 
+
+	private String[] meses = new String[] { "Janeiro", "Fevereiro", "Março",
+			"Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro",
+			"Novembro", "Dezembro" };;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,16 @@ public class AlteraMes extends Activity implements OnClickListener {
 		spAno = (Spinner) findViewById(R.main.meses);
 		edtAno = (EditText) findViewById(R.main.edtAno);
 		btnAlterar = (Button) findViewById(R.main.btnAltAno);
- 
-		ArrayAdapter adpt = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,meses);
+
+		ArrayAdapter adpt = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, meses);
 		adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
+
 		spAno.setAdapter(adpt);
-		
+		//seta o mes atual como padrão
+		Calendar data = Calendar.getInstance(new Locale("pt","br"));
+		spAno.setSelection(data.get(Calendar.MONTH));
+
 		btnAlterar.setOnClickListener(this);
 
 	}
@@ -49,32 +57,30 @@ public class AlteraMes extends Activity implements OnClickListener {
 	public void onClick(View v) {
 		int mesDefinido = -1;
 		int anoDefinido = -1;
-		//pega o mes
-		mesDefinido = spAno.getSelectedItemPosition()+1;
-				
-		try {
-			String ano = edtAno.getText().toString();
-			if (ano.length() == 4) {
+		// pega o mes
+		mesDefinido = spAno.getSelectedItemPosition();
+
+		String ano = edtAno.getText().toString();
+		if (ano.length() == 4) {
+			try {
 				anoDefinido = Integer.parseInt(ano);
-				// cria intent que ira receber os valores de retorno
-				Intent it = new Intent();
-				it.putExtra(AlteraMes.MES, mesDefinido);
-				it.putExtra(AlteraMes.ANO, anoDefinido);
-				// seta o resultado
-				setResult(Activity.RESULT_OK, it);				
-			} else {
-				setResult(Activity.RESULT_CANCELED,null);
-				// throw new NumberFormatException();
-				Mensagens.msgErro(1, AlteraMes.this);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();				
+				Mensagens.msgErro(6, this);
 			}
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
+			// cria intent que ira receber os valores de retorno
+			Intent it = new Intent();
+			it.putExtra(AlteraMes.MES, mesDefinido);
+			it.putExtra(AlteraMes.ANO, anoDefinido);
+			// seta o resultado
+			setResult(Activity.RESULT_OK, it);
+			this.finish();
+		} else {
+			setResult(Activity.RESULT_CANCELED, null);
+			// throw new NumberFormatException();
 			Log.w("ControlCash", "Ano invalido");
-			Mensagens.msgErro(1, this);
+			Mensagens.msgErro(6, AlteraMes.this);
 		}
-		
-		this.finish();
 
-	}		
+	}
 }

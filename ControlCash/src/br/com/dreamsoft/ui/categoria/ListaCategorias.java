@@ -29,6 +29,7 @@ import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.CategoriaDao;
 import br.com.dreamsoft.model.Categoria;
+import br.com.dreamsoft.ui.adapters.CategoriaAdapter;
 import br.com.dreamsoft.ui.adapters.ReceitaAdapter;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -59,29 +60,26 @@ public class ListaCategorias extends ListActivity {
 	}
 
 	private void refreshLista() {
+		List<Categoria> lista = this.dao.buscarTodos();
+		setListAdapter(new CategoriaAdapter(this, lista));
 
-		try {
-			List<Categoria> lista = this.dao.buscarTodos();
-			List<HashMap<String, String>> listCat = new ArrayList<HashMap<String, String>>();
-
-			for (Categoria cat : lista) {
-				HashMap<String, String> m = new HashMap<String, String>();
-				m.put("ID", String.valueOf(cat.getId()));
-				m.put("NOME", cat.getNome());
-				listCat.add(m);
-			}
-			//array contendo o nome das chaves do meu hash
-			String[] from = { "NOME" };
-			//array contendo o nome dos campos no layout que irão receber a os valores do hash
-			int[] to = { android.R.id.text1 };
-			setListAdapter(new SimpleAdapter(this, listCat,
-					android.R.layout.simple_list_item_1, from, to));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			Mensagens.msgErroBD(2, this);
-		}
-
+		/*
+		 * try { List<Categoria> lista = this.dao.buscarTodos();
+		 * List<HashMap<String, String>> listCat = new ArrayList<HashMap<String,
+		 * String>>();
+		 * 
+		 * for (Categoria cat : lista) { HashMap<String, String> m = new
+		 * HashMap<String, String>(); m.put("ID", String.valueOf(cat.getId()));
+		 * m.put("NOME", cat.getNome()); listCat.add(m); } //array contendo o
+		 * nome das chaves do meu hash String[] from = { "NOME" }; //array
+		 * contendo o nome dos campos no layout que irão receber a os valores do
+		 * hash int[] to = { android.R.id.text1 }; setListAdapter(new
+		 * SimpleAdapter(this, listCat, android.R.layout.simple_list_item_1,
+		 * from, to));
+		 * 
+		 * } catch (Exception e) { e.printStackTrace(); Mensagens.msgErroBD(2,
+		 * this); }
+		 */
 	}
 
 	@Override
@@ -89,19 +87,25 @@ public class ListaCategorias extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 
 		Intent it = new Intent(this, CadEdtCategoria.class);
+		Categoria cat = null;
 		try {
-			//pego o hash que guarda o id e o nome da categoria
-			HashMap map =  (HashMap) l.getAdapter().getItem(position);
-			it.putExtra(CadEdtCategoria.EDIT, true);
-			//crio um novo obj Categoria e passo ele para a proxima tela
-			it.putExtra(CadEdtCategoria.OBJ_CAT, new Categoria(Integer.parseInt(map.get("ID").toString()),map.get("NOME").toString()));
-			startActivity(it);
+			cat = (Categoria) l.getAdapter().getItem(position);
 		} catch (ClassCastException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(3, this);
 		}
-
-		
+		it.putExtra(CadEdtCategoria.OBJ_CAT,cat);
+		startActivity(it);
+		/*
+		 * try { //pego o hash que guarda o id e o nome da categoria HashMap map
+		 * = (HashMap) l.getAdapter().getItem(position);
+		 * it.putExtra(CadEdtCategoria.EDIT, true); //crio um novo obj Categoria
+		 * e passo ele para a proxima tela it.putExtra(CadEdtCategoria.OBJ_CAT,
+		 * new
+		 * Categoria(Integer.parseInt(map.get("ID").toString()),map.get("NOME"
+		 * ).toString())); startActivity(it); } catch (ClassCastException e) {
+		 * e.printStackTrace(); Mensagens.msgErro(3, this); }
+		 */
 
 	}
 
@@ -144,14 +148,12 @@ public class ListaCategorias extends ListActivity {
 		super.onContextItemSelected(item);
 		// pega as informações sobre qual item foi clicado
 
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
-
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		boolean result = false;
 
 		switch (item.getItemId()) { // pego o id do item selecionado atraves do
 									// info.id
-			case R.id.btnDelCat:
+			case R.id.btnDelCat:							
 				if (dao.deletar(Integer.parseInt(Long.toString(info.id)))) {
 					result = true;
 					Mensagens.msgOkSemFechar(this);

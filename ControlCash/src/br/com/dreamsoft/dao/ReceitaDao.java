@@ -160,7 +160,7 @@ public class ReceitaDao implements Contas<Receita> {
      */
     public List<Receita> buscarMes(String data) throws ParseException{
     	//cria a clausa where que faz a comparação entre os datas
-    	String where = "strftime('%m',"+KEY_DATA+") = strftime('%m','"+data+"')";
+    	String where = "strftime('%Y-%m',"+KEY_DATA+") = strftime('%Y-%m','"+data+"')";
     	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
     	
         List<Receita> receitas = new ArrayList<Receita>();
