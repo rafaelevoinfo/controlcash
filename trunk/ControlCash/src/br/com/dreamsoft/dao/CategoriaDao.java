@@ -99,6 +99,7 @@ public class CategoriaDao implements BancoDados<Categoria> {
 
 			categorias.add(categoria);
 			cursor.moveToNext();
+			
 
 		}
 		cursor.close();

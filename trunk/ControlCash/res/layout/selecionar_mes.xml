@@ -66,20 +66,17 @@
 			</TableRow>
 		</TableLayout>
 	</RadioGroup>-->
+    <TextView android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mes"></TextView>
     <Spinner android:layout_height="wrap_content"
 	android:layout_width="fill_parent" android:id="@+main/meses"></Spinner>
+    <TextView  android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ano"></TextView>
 	<EditText android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:id="@+main/edtAno"
 		android:inputType="numberDecimal">
 		<requestFocus></requestFocus>
 	</EditText>
+	
 	<Button android:text="@string/altera_mes" android:id="@+main/btnAltAno"
 		android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
-
-	
-	
-
-
-
 
 </LinearLayout>

@@ -53,7 +53,7 @@ public class Main extends Activity {
 	public static Calendar data;
 	private int mesDefinido = -1;
 	private int anoDefinido = -1;
-		
+
 	ReceitaDao daoRec;
 	DespesaDao daoDesp;
 
@@ -64,7 +64,7 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setTitle("Control Cash");
-		
+
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
 
@@ -124,7 +124,7 @@ public class Main extends Activity {
 	public void onResume() {
 		super.onResume();
 		if (mesDefinido == -1 || anoDefinido == -1) {
-			this.mesAtual.setText(pegaMes(data.getTime().getMonth()));
+			this.mesAtual.setText(pegaMes(data.get(Calendar.MONTH)));
 		} else {
 			this.mesAtual.setText(pegaMes(mesDefinido));
 		}
@@ -147,29 +147,29 @@ public class Main extends Activity {
 
 	public String pegaMes(int mes) {
 		switch (mes) {
-			case 1:
+			case 0:
 				return "Janeiro";
-			case 2:
+			case 1:
 				return "Fevereiro";
-			case 3:
+			case 2:
 				return "Março";
-			case 4:
+			case 3:
 				return "Abril";
-			case 5:
+			case 4:
 				return "Maio";
-			case 6:
+			case 5:
 				return "Junho";
-			case 7:
+			case 6:
 				return "Julho";
-			case 8:
+			case 7:
 				return "Agosto";
-			case 9:
+			case 8:
 				return "Setembro";
-			case 10:
+			case 9:
 				return "Outubro";
-			case 11:
+			case 10:
 				return "Novembro";
-			case 12:
+			case 11:
 				return "Dezembro";
 			default:
 				return "Indefinido";
@@ -187,91 +187,87 @@ public class Main extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.trocaMes:
-				//deve-se trocar o mes de atuação				
-				startActivityForResult(new Intent(Main.this, AlteraMes.class), TROCAR_MES);
-				
+				// deve-se trocar o mes de atuação
+				startActivityForResult(new Intent(Main.this, AlteraMes.class),
+						TROCAR_MES);
+
 				return true;
 		}
 		return false;
 	}
-	
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent it) {
-		//verifica se esse é o resultado da chamada do trocar mes e se tudo ocorreu bem
-		if(requestCode == TROCAR_MES && resultCode == RESULT_OK){
-			Bundle params = it != null ? it.getExtras():null;
+		// verifica se esse é o resultado da chamada do trocar mes e se tudo
+		// ocorreu bem
+		if (requestCode == TROCAR_MES && resultCode == RESULT_OK) {
+			Bundle params = it != null ? it.getExtras() : null;
 			mesDefinido = params.getInt(AlteraMes.MES);
 			anoDefinido = params.getInt(AlteraMes.ANO);
-			
-			//atualizaSaldo();
+
+			// atualizaSaldo();
 		}
 	}
-	
+
 	public void atualizaSaldo() {
-		
 
 		double receitas = 0;
 		double despesas = 0;
-		
+
 		List<Receita> listRec = null;
 		List<Despesa> listDesp = null;
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String date = null;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");				
-			
+			// pega a data e converte para o padrão americano
 			if (mesDefinido == -1 || anoDefinido == -1) {
-				String date = sdf.format(data.getTime());				
-				listRec = daoRec.buscarMes(date);
-				listDesp = daoDesp.buscarMes(date);
-				
-				
+				date = sdf.format(data.getTime());
 			} else {
 				data.set(anoDefinido, mesDefinido, Calendar.DAY_OF_MONTH);
-				
-				String date = sdf.format(data.getTime());
-				listRec = daoRec.buscarMes(date);
-				listDesp = daoDesp.buscarMes(date);
-				
-			}
-			
-			if(listRec != null){
-				for(Receita r :listRec){
-					receitas += r.getValor();
-				}
-			}
-			
-			if(listDesp != null){
-				for(Despesa d :listDesp){
-					despesas += d.getValor();
-				}
+				date = sdf.format(data.getTime());
 			}
 
-			double resultado = receitas - despesas;
-			if (resultado < 0) {
-				saldo.setTextColor(Color.RED);
-			} else {
-				saldo.setTextColor(getResources().getColor(R.color.azul_claro));
-			}
-			// formata o valor
-			NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt","br"));
-			// DecimalFormat nf = new DecimalFormat("0.##");
-			nf.setMaximumFractionDigits(2);
-			nf.setMinimumFractionDigits(2);
-
-			try {
-				// saldo.setText(nf.format(resultado));
-				saldo.setText("R$ " + nf.format(resultado));
-			} catch (Exception e) {
-				e.printStackTrace();
-				Mensagens.msgErro(2, this);
-			}
-
+			listRec = daoRec.buscarMes(date);
+			listDesp = daoDesp.buscarMes(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Log.w("Erro", "Erro ao buscar os dados");
 			Mensagens.msgErroBD(2, this);
 		}
+		if (listRec != null) {
+			for (Receita r : listRec) {
+				receitas += r.getValor();
+			}
+		}
+
+		if (listDesp != null) {
+			for (Despesa d : listDesp) {
+				despesas += d.getValor();
+			}
+		}
+
+		double resultado = receitas - despesas;
+		if (resultado < 0) {
+			saldo.setTextColor(Color.RED);
+		} else {
+			saldo.setTextColor(getResources().getColor(R.color.azul_claro));
+		}
+		// formata o valor
+		NumberFormat nf = NumberFormat
+				.getNumberInstance(new Locale("pt", "br"));
+		// DecimalFormat nf = new DecimalFormat("0.##");
+		nf.setMaximumFractionDigits(2);
+		nf.setMinimumFractionDigits(2);
+
+		try {
+			// saldo.setText(nf.format(resultado));
+			saldo.setText("R$ " + nf.format(resultado));
+		} catch (Exception e) {
+			e.printStackTrace();
+			Mensagens.msgErro(2, this);
+		}
+
 	}
 
 }
