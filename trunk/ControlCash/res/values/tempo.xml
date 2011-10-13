@@ -15,5 +15,7 @@
     <string name="altera_mes">Alterar intervalo de tempo</string>
     <string name="ano">Ano</string>
     <string name="mes">Mês</string>
+    <string name="intervalo_tempo">Mês/Ano atuante</string>
+    <string name="altera_faixa_tempo">Alterar mês/ano</string>
     
 </resources>

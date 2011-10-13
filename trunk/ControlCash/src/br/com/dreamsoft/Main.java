@@ -33,6 +33,7 @@ import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.ui.categoria.ListaCategorias;
 import br.com.dreamsoft.ui.despesa.CadEdtDespesa;
 import br.com.dreamsoft.ui.despesa.ListaDespesas;
+import br.com.dreamsoft.ui.gastos.Gastos;
 import br.com.dreamsoft.ui.receita.CadEdtReceita;
 import br.com.dreamsoft.ui.receita.ListaReceitas;
 import br.com.dreamsoft.utils.Mensagens;
@@ -46,6 +47,7 @@ public class Main extends Activity {
 	private Button receitas;
 	private Button despesas;
 	private Button categoria;
+	private Button gastos;
 	private TextView saldo;
 	private ImageButton addDesp;
 	private ImageButton addRec;
@@ -64,12 +66,14 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		setTitle("Control Cash");
+		
 
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
 
 		receitas = (Button) findViewById(R.id.btnRec);
 		despesas = (Button) findViewById(R.id.btnDesp);
+		gastos = (Button) findViewById(R.id.btnGastos);
 		categoria = (Button) findViewById(R.id.btnCat);
 		saldo = (TextView) findViewById(R.id.saldo);
 
@@ -89,6 +93,13 @@ public class Main extends Activity {
 
 			public void onClick(View arg0) {
 				startActivity(new Intent(Main.this, ListaDespesas.class));
+			}
+		});
+		
+		gastos.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View arg0) {
+				startActivity(new Intent(Main.this, Gastos.class));
 			}
 		});
 
@@ -124,9 +135,9 @@ public class Main extends Activity {
 	public void onResume() {
 		super.onResume();
 		if (mesDefinido == -1 || anoDefinido == -1) {
-			this.mesAtual.setText(pegaMes(data.get(Calendar.MONTH)));
+			this.mesAtual.setText(pegaMes(data.get(Calendar.MONTH))+"/"+data.get(Calendar.YEAR));
 		} else {
-			this.mesAtual.setText(pegaMes(mesDefinido));
+			this.mesAtual.setText(pegaMes(mesDefinido)+"/"+anoDefinido);
 		}
 		atualizaSaldo();
 	}
