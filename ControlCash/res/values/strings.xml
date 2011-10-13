@@ -10,6 +10,6 @@
     <string name="del_categoria">Remover categoria</string>
     <string name="saldo">SALDO</string>
     <string name="total">Total</string>
-    <string name="troca_mes">Alterar mês</string>
+    <string name="relatorios">Gastos</string>
     
 </resources>

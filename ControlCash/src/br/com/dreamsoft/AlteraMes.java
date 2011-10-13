@@ -12,10 +12,8 @@ import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import br.com.dreamsoft.utils.Mensagens;
-import br.com.dreamsoft.R;
 
 public class AlteraMes extends Activity implements OnClickListener {
 
