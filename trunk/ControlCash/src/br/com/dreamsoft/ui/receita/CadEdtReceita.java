@@ -84,7 +84,8 @@ public class CadEdtReceita extends Activity {
                 this.valor.setText(String.valueOf(rc.getValor()));
                 //percorre todas as categorias para ver qual deve ser selecionada
                 for(int i=0; i <this.categoria.getCount();i++){
-                	if(this.categoria.getItemIdAtPosition(i) == rc.getCategoria().getId()){                		   
+                	Categoria cat = (Categoria) this.categoria.getItemAtPosition(i);
+                	if(cat.getId() == rc.getCategoria().getId()){                		   
                 		this.categoria.setSelection(i);
                 		break;
                 	}
@@ -115,8 +116,7 @@ public class CadEdtReceita extends Activity {
                     rc.setNome(nome.getText().toString());
                     rc.setValor(Double.parseDouble(valor.getText().toString()));
 
-                    Categoria cat = new Categoria();
-                    cat.setId(Integer.parseInt(String.valueOf(categoria.getSelectedItemId())));                                        
+                    Categoria cat = (Categoria)categoria.getSelectedItem();                                                        
                     rc.setCategoria(cat);
                     
                     Calendar cal = Calendar.getInstance(new Locale("pt","br"));                    

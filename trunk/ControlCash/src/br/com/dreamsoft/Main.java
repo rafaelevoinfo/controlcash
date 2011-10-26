@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Date;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,10 +32,11 @@ import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.ui.categoria.ListaCategorias;
 import br.com.dreamsoft.ui.despesa.CadEdtDespesa;
 import br.com.dreamsoft.ui.despesa.ListaDespesas;
-import br.com.dreamsoft.ui.gastos.Gastos;
 import br.com.dreamsoft.ui.receita.CadEdtReceita;
 import br.com.dreamsoft.ui.receita.ListaReceitas;
+import br.com.dreamsoft.ui.relatorios.ListaSaldos;
 import br.com.dreamsoft.utils.Mensagens;
+import br.com.dreamsoft.utils.Meses;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class Main extends Activity {
 	private Button receitas;
 	private Button despesas;
 	private Button categoria;
-	private Button gastos;
+	private Button rels;
 	private TextView saldo;
 	private ImageButton addDesp;
 	private ImageButton addRec;
@@ -73,7 +73,7 @@ public class Main extends Activity {
 
 		receitas = (Button) findViewById(R.id.btnRec);
 		despesas = (Button) findViewById(R.id.btnDesp);
-		gastos = (Button) findViewById(R.id.btnGastos);
+		rels = (Button) findViewById(R.id.btnRelatorios);
 		categoria = (Button) findViewById(R.id.btnCat);
 		saldo = (TextView) findViewById(R.id.saldo);
 
@@ -96,10 +96,10 @@ public class Main extends Activity {
 			}
 		});
 		
-		gastos.setOnClickListener(new OnClickListener() {
+		rels.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				startActivity(new Intent(Main.this, Gastos.class));
+				startActivity(new Intent(Main.this, ListaSaldos.class));
 			}
 		});
 
@@ -135,9 +135,9 @@ public class Main extends Activity {
 	public void onResume() {
 		super.onResume();
 		if (mesDefinido == -1 || anoDefinido == -1) {
-			this.mesAtual.setText(pegaMes(data.get(Calendar.MONTH))+"/"+data.get(Calendar.YEAR));
+			this.mesAtual.setText(Meses.getMes(data.get(Calendar.MONTH))+"/"+data.get(Calendar.YEAR));
 		} else {
-			this.mesAtual.setText(pegaMes(mesDefinido)+"/"+anoDefinido);
+			this.mesAtual.setText(Meses.getMes(mesDefinido)+"/"+anoDefinido);
 		}
 		atualizaSaldo();
 	}
@@ -156,37 +156,7 @@ public class Main extends Activity {
 	 * } } private String mes(){ return mes; } private String mes = ""; }
 	 */
 
-	public String pegaMes(int mes) {
-		switch (mes) {
-			case 0:
-				return "Janeiro";
-			case 1:
-				return "Fevereiro";
-			case 2:
-				return "Março";
-			case 3:
-				return "Abril";
-			case 4:
-				return "Maio";
-			case 5:
-				return "Junho";
-			case 6:
-				return "Julho";
-			case 7:
-				return "Agosto";
-			case 8:
-				return "Setembro";
-			case 9:
-				return "Outubro";
-			case 10:
-				return "Novembro";
-			case 11:
-				return "Dezembro";
-			default:
-				return "Indefinido";
-		}
-	}
-
+	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.opcoes_main, menu);
@@ -243,7 +213,7 @@ public class Main extends Activity {
 			listDesp = daoDesp.buscarMes(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			Log.w("Erro", "Erro ao buscar os dados");
+			Log.w("ControlCash", "Erro ao buscar os dados");
 			Mensagens.msgErroBD(2, this);
 		}
 		if (listRec != null) {

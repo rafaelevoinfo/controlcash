@@ -29,7 +29,8 @@
 			android:name=".ui.despesa.ListaDespesas">
 		</activity>
 		<activity android:name=".AlteraMes"></activity>
-		<activity android:name=".ui.gastos.Gastos"></activity>
+		<activity android:name=".ui.relatorios.ListaSaldos"></activity>
+		<activity android:name=".ui.relatorios.SaldoPorCategoria"></activity>
 
 	</application>
 </manifest>

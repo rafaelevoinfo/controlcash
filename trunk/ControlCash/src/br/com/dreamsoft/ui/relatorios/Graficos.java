@@ -1,4 +1,4 @@
-package br.com.dreamsoft.ui.gastos;
+package br.com.dreamsoft.ui.relatorios;
 
 import android.content.Context;
 import android.graphics.Canvas;
