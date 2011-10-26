@@ -96,7 +96,7 @@
 				android:layout_height="wrap_content" android:padding="2px"
 				android:text="Categorias" android:layout_gravity="center_horizontal">
 			</Button>
-			<Button android:layout_width="fill_parent" android:id="@+id/btnGastos"
+			<Button android:layout_width="fill_parent" android:id="@+id/btnRelatorios"
 				android:text="@string/relatorios" android:layout_height="wrap_content"></Button>
 		</LinearLayout>
 	</LinearLayout>

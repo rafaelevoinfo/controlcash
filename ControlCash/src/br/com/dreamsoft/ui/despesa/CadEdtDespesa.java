@@ -74,17 +74,18 @@ public class CadEdtDespesa extends Activity {
         //verifica se esta editando
         if (getIntent().getBooleanExtra(CadEdtDespesa.EDIT, false)) {
             flagEdt = true;
-            Despesa rc = null;
+            Despesa desp = null;
             try {
-                rc = (Despesa) getIntent().getExtras().get(OBJ_DESP);
+                desp = (Despesa) getIntent().getExtras().get(OBJ_DESP);
                 
-                this.idRec = rc.getId();                
+                this.idRec = desp.getId();                
                 
-                this.nome.setText(rc.getNome());
-                this.valor.setText(String.valueOf(rc.getValor()));
+                this.nome.setText(desp.getNome());
+                this.valor.setText(String.valueOf(desp.getValor()));
                 //percorre todas as categorias para ver qual deve ser selecionada
                 for(int i=0; i <this.categoria.getCount();i++){
-                	if(this.categoria.getItemIdAtPosition(i) == rc.getCategoria().getId()){                		   
+                	Categoria cat = (Categoria) this.categoria.getItemAtPosition(i);
+                	if(cat.getId() == desp.getCategoria().getId()){                		   
                 		this.categoria.setSelection(i);
                 		break;
                 	}
@@ -93,7 +94,7 @@ public class CadEdtDespesa extends Activity {
                 //this.idCat = rc.getCategoria().getId();
                                 
                 Calendar cal = Calendar.getInstance(new Locale("pt","br"));
-                cal.setTime(rc.getDate());
+                cal.setTime(desp.getDate());
                             
                 this.date.updateDate(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH));
 
@@ -115,8 +116,7 @@ public class CadEdtDespesa extends Activity {
                     desp.setNome(nome.getText().toString());
                     desp.setValor(Double.parseDouble(valor.getText().toString()));
 
-                    Categoria cat = new Categoria();
-                    cat.setId(Integer.parseInt(String.valueOf(categoria.getSelectedItemId())));                                        
+                    Categoria cat = (Categoria)categoria.getSelectedItem();                                         
                     desp.setCategoria(cat);
                     
                     Calendar cal = Calendar.getInstance(new Locale("pt","br"));                    

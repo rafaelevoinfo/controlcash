@@ -36,17 +36,18 @@ public class ReceitaDao implements Contas<Receita> {
     private final String[] COLUNS = {KEY_ID, KEY_CATEGORIA, KEY_NOME, KEY_VALOR, KEY_DATA};
     private final String DATABASE_TABLE = "receitas";
     private SQLiteDatabase db;
+    private Context ctx;
 
     public ReceitaDao(Context ctx) {
         this.db = ControlCashBD.getInstance(ctx);
+        this.ctx = ctx;
     }
 
     public long cadastrar(Receita rc) {
         this.db.beginTransaction();
         long id = -1;
         try {
-            ContentValues initialValues = new ContentValues();
-            
+            ContentValues initialValues = new ContentValues();            
             initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
             initialValues.put(KEY_NOME, rc.getNome());
             initialValues.put(KEY_VALOR, rc.getValor());
@@ -162,6 +163,51 @@ public class ReceitaDao implements Contas<Receita> {
     	//cria a clausa where que faz a comparação entre os datas
     	String where = "strftime('%Y-%m',"+KEY_DATA+") = strftime('%Y-%m','"+data+"')";
     	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
+    	//serve para buscar o nome das categorias
+    	CategoriaDao daoCat = Factory.createCategoriaDao(ctx);
+    	
+        List<Receita> receitas = new ArrayList<Receita>();
+        //pega os index pelos nomes
+        int indexId = cursor.getColumnIndex(KEY_ID);
+        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+        int indexNom = cursor.getColumnIndex(KEY_NOME);
+        int indexVal = cursor.getColumnIndex(KEY_VALOR);
+        int indexDat = cursor.getColumnIndex(KEY_DATA);
+        //pega os dados
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Receita receita = new Receita();
+
+            receita.setId(cursor.getInt(indexId));
+            Categoria cat = daoCat.buscar(cursor.getInt(indexCat));
+           
+            receita.setCategoria(cat);
+            receita.setNome(cursor.getString(indexNom));
+            receita.setValor(cursor.getDouble(indexVal));
+            
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
+            
+            receita.setDate(date);
+
+            receitas.add(receita);
+            cursor.moveToNext();
+
+        }
+        cursor.close();
+        return receitas;
+        //return null;
+    }
+    
+   /* public List<Receita> buscarIntervaloMes(String dataInicio, String dataFim) throws ParseException{
+    	//cria a clausa where que faz a comparação entre os datas
+    	String where = KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')";
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
     	
         List<Receita> receitas = new ArrayList<Receita>();
         //pega os index pelos nomes
@@ -199,6 +245,23 @@ public class ReceitaDao implements Contas<Receita> {
         cursor.close();
         return receitas;
         //return null;
+    }*/
+    
+    public Double buscarSaldoCategoria(int categoria){
+    	//cria uma query que ja pega o resultado da subtração das receitas e despesas em uma mesma categoria
+    	//OBS.: Na teoria nao deveria haver receitas e despesas cadastradas para a mesma categoria, mas o sistema permite isso, por isso trato isto aqui
+    	String sql = "SELECT (rec - desp) as "+KEY_VALOR+" FROM (SELECT rec,desp FROM (SELECT SUM("+KEY_VALOR+") as rec FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = ?),(SELECT SUM("+KEY_VALOR+") as desp FROM despesas WHERE "+KEY_CATEGORIA+" = ?));";
+    	Cursor cursor = this.db.rawQuery(sql,new String[]{String.valueOf(categoria),String.valueOf(categoria)});
+    	      
+        //pega os index pelos nomes
+        
+        int indexVal = cursor.getColumnIndex(KEY_VALOR);
+        double resultado = 0.0;
+        //pega os dados
+        cursor.moveToFirst();
+        resultado = cursor.getDouble(indexVal);  
+        cursor.close();
+        return resultado;
     }
 
     public Receita buscar(Integer id) throws ParseException {
@@ -239,4 +302,6 @@ public class ReceitaDao implements Contas<Receita> {
     public Receita buscar(Double valor) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+	
 }

@@ -19,6 +19,7 @@ import br.com.dreamsoft.dao.interfaces.Contas;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Despesa;
+import br.com.dreamsoft.model.Despesa;
 
 /**
  *
@@ -152,6 +153,49 @@ public class DespesaDao implements Contas<Despesa> {
         cursor.close();
         return despesas;
     }
+    
+    public List<Despesa> buscarIntervaloMes(String dataInicio, String dataFim) throws ParseException{
+    	//cria a clausa where que faz a comparação entre os datas
+    	String where = KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')";
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
+    	
+        List<Despesa> despesas = new ArrayList<Despesa>();
+        //pega os index pelos nomes
+        int indexId = cursor.getColumnIndex(KEY_ID);
+        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+        int indexNom = cursor.getColumnIndex(KEY_NOME);
+        int indexVal = cursor.getColumnIndex(KEY_VALOR);
+        int indexDat = cursor.getColumnIndex(KEY_DATA);
+        //pega os dados
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Despesa despesa = new Despesa();
+
+            despesa.setId(cursor.getInt(indexId));
+            Categoria cat = new Categoria();
+            cat.setId(cursor.getInt(indexCat));
+            despesa.setCategoria(cat);
+            despesa.setNome(cursor.getString(indexNom));
+            despesa.setValor(cursor.getDouble(indexVal));
+            
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
+            
+            despesa.setDate(date);
+
+            despesas.add(despesa);
+            cursor.moveToNext();
+
+        }
+        cursor.close();
+        return despesas;
+        //return null;
+    }
 
     public Despesa buscar(Integer id) throws ParseException{
         Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[]{id.toString()}, null, null, null, null);
@@ -206,7 +250,6 @@ public class DespesaDao implements Contas<Despesa> {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Despesa despesa = new Despesa();
-Log.w("ControCash",cursor.getString(indexDat));
             despesa.setId(cursor.getInt(indexId));
             Categoria cat = new Categoria();
             cat.setId(cursor.getInt(indexCat));
