@@ -90,7 +90,8 @@ public class ListaDespesas extends Activity {
 
 	private void refreshLista() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
-		try {			
+		try {		
+			//pega a data que esta sendo usada
 			String date = sdf.format(Main.data.getTime());
 			List<Despesa> lista = this.dao.buscarMes(date);
 			lv.setAdapter(new DespesaAdapter(this, lista));

@@ -20,6 +20,7 @@ import br.com.dreamsoft.ui.adapters.CategoriaAdapter;
 import br.com.dreamsoft.ui.adapters.SaldosAdapter;
 import br.com.dreamsoft.ui.categoria.CadEdtCategoria;
 import br.com.dreamsoft.utils.Mensagens;
+import br.com.dreamsoft.R;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class ListaSaldos extends ListActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setTitle("Relatório de Saldos");
+		setTitle(R.string.relatorios_saldos);
 
 		this.daoDesp = Factory.createDespesaDao(this);
 		this.daoRec = Factory.createReceitaDao(this);

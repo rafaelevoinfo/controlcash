@@ -6,6 +6,10 @@ package br.com.dreamsoft.ui.adapters;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,47 +25,59 @@ import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.utils.Mensagens;
 
-public class ReceitaAdapter extends BaseAdapter {
+public class RecDespCatAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
-	private List<Receita> receitas;
-	private List<Despesa> despesas;
+	private HashMap<String,Double> map;
+	private List<String> keys;
+	private List<Double> valores;
+	
 
-	public ReceitaAdapter(Context ctx, List<Receita> receitas) {
+	public RecDespCatAdapter(Context ctx, HashMap<String,Double> map) {
 
-		this.receitas = receitas;
+		this.map = map;
+		valores = new ArrayList<Double>();
+		keys = new ArrayList<String>();
+		
+		for(Double d:map.values()){
+			valores.add(d);
+		}
+		for(String key:map.keySet()){
+			keys.add(key);
+		}
 
 		inflater = (LayoutInflater) ctx
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	public int getCount() {
-		return receitas.size();
+		return map.size();
 	}
 
 	public Object getItem(int position) {
-		return receitas.get(position);
+		return valores.get(position);
 	}
 
 	public long getItemId(int position) {
-		return receitas.get(position).getId();
+		return  -1;
 	}
 
 	public View getView(int position, View v, ViewGroup vg) {
-		// recupera a receita
-		Receita rec = receitas.get(position);
-		View view = inflater.inflate(R.layout.list_rec_desp, null);
+		// pega o nome da categoria e o saldo para esta categoria		
+		String categoria = keys.get(position);
+		Double valor = valores.get(position);
+		
+		View view = inflater.inflate(android.R.layout.simple_list_item_2, null);
 		// atualiza o nome na tela
-		TextView nome = (TextView) view.findViewById(R.id.desc);
-		nome.setText(rec.getNome());
-		// atualiza o valor
-		TextView valor = (TextView) view.findViewById(R.id.valor);
-		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
-				"br"));
+		TextView nomeCat = (TextView) view.findViewById(android.R.id.text1);
+		nomeCat.setText(categoria);
+		// atualiza o saldo
+		TextView saldo = (TextView) view.findViewById(android.R.id.text2);
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt","br"));
 		nf.setMaximumFractionDigits(2);
 		try {
-			valor.setText(nf.format(rec.getValor()));
-			valor.setTextColor(view.getResources().getColor(R.color.royal_blue));
+			saldo.setText(nf.format(valor));
+			saldo.setTextColor(view.getResources().getColor(R.color.royal_blue));
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(2, view.getContext());
@@ -71,20 +87,9 @@ public class ReceitaAdapter extends BaseAdapter {
 		} catch (Exception e) {
 			e.printStackTrace();
 			Mensagens.msgErro(-1, view.getContext());
-		}
+		}	
 
-		// atualiza a data
-		TextView data = (TextView) view.findViewById(R.id.date);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-		try {
-			data.setText(sdf.format(rec.getDate()));
-		} catch (Exception e) {
-			e.printStackTrace();
-			Mensagens.msgErro(1, view.getContext());
-		}
-
-		rec = null;
+		
 		return view;
 
 	}

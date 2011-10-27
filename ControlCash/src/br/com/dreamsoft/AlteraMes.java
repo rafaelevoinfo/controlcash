@@ -44,8 +44,9 @@ public class AlteraMes extends Activity implements OnClickListener {
 
 		spAno.setAdapter(adpt);
 		//seta o mes atual como padrão
-		Calendar data = Calendar.getInstance(new Locale("pt","br"));
-		spAno.setSelection(data.get(Calendar.MONTH));
+		//Calendar data = Calendar.getInstance(new Locale("pt","br"));
+		spAno.setSelection(Main.data.get(Calendar.MONTH));
+		edtAno.setText(String.valueOf(Main.data.get(Calendar.YEAR)));		
 
 		btnAlterar.setOnClickListener(this);
 
