@@ -67,7 +67,6 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		setTitle("Control Cash");
 		
-
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
 
@@ -183,8 +182,9 @@ public class Main extends Activity {
 		// ocorreu bem
 		if (requestCode == TROCAR_MES && resultCode == RESULT_OK) {
 			Bundle params = it != null ? it.getExtras() : null;
-			mesDefinido = params.getInt(AlteraMes.MES);
-			anoDefinido = params.getInt(AlteraMes.ANO);
+data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DAY_OF_MONTH);
+			//mesDefinido = params.getInt(AlteraMes.MES);
+			//anoDefinido = params.getInt(AlteraMes.ANO);
 
 			// atualizaSaldo();
 		}
@@ -202,13 +202,14 @@ public class Main extends Activity {
 		String date = null;
 		try {
 			// pega a data e converte para o padrão americano
-			if (mesDefinido == -1 || anoDefinido == -1) {
+			/*if (mesDefinido == -1 || anoDefinido == -1) {
 				date = sdf.format(data.getTime());
 			} else {
 				data.set(anoDefinido, mesDefinido, Calendar.DAY_OF_MONTH);
 				date = sdf.format(data.getTime());
-			}
-
+			}*/
+			date = sdf.format(data.getTime());
+			
 			listRec = daoRec.buscarMes(date);
 			listDesp = daoDesp.buscarMes(date);
 		} catch (ParseException e) {

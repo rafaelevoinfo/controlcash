@@ -247,14 +247,17 @@ public class ReceitaDao implements Contas<Receita> {
         //return null;
     }*/
     
-    public Double buscarSaldoCategoria(int categoria){
+    public Double buscarSaldoCategoria(int categoria, String data){
     	//cria uma query que ja pega o resultado da subtração das receitas e despesas em uma mesma categoria
     	//OBS.: Na teoria nao deveria haver receitas e despesas cadastradas para a mesma categoria, mas o sistema permite isso, por isso trato isto aqui
-    	String sql = "SELECT (rec - desp) as "+KEY_VALOR+" FROM (SELECT rec,desp FROM (SELECT SUM("+KEY_VALOR+") as rec FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = ?),(SELECT SUM("+KEY_VALOR+") as desp FROM despesas WHERE "+KEY_CATEGORIA+" = ?));";
-    	Cursor cursor = this.db.rawQuery(sql,new String[]{String.valueOf(categoria),String.valueOf(categoria)});
+    	//String sql = "SELECT (rec - desp) as "+KEY_VALOR+" FROM (SELECT rec,desp FROM (SELECT SUM("+KEY_VALOR+") as rec FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = ?),(SELECT SUM("+KEY_VALOR+") as desp FROM despesas WHERE "+KEY_CATEGORIA+" = ?));";
+    	//Cursor cursor = this.db.rawQuery(sql,new String[]{String.valueOf(categoria),String.valueOf(categoria)});
+    	
+    	//pega a soma dos valores para uma mesma categoria referente a data passada
+    	String sql = "SELECT SUM("+KEY_VALOR+") AS "+KEY_VALOR+" FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = "+categoria+" AND strftime('%Y-%m',"+KEY_DATA+") = "+"strftime('%Y-%m','"+data+"')";
+    	Cursor cursor = this.db.rawQuery(sql,null);
     	      
-        //pega os index pelos nomes
-        
+        //pega os index pelos nomes        
         int indexVal = cursor.getColumnIndex(KEY_VALOR);
         double resultado = 0.0;
         //pega os dados
