@@ -20,6 +20,8 @@ import br.com.dreamsoft.ui.adapters.CategoriaAdapter;
 import br.com.dreamsoft.ui.adapters.SaldosAdapter;
 import br.com.dreamsoft.ui.categoria.CadEdtCategoria;
 import br.com.dreamsoft.utils.Mensagens;
+import br.com.dreamsoft.ApplicationControlCash;
+import br.com.dreamsoft.Main;
 import br.com.dreamsoft.R;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -44,14 +46,15 @@ public class ListaSaldos extends ListActivity {
 		this.daoDesp = Factory.createDespesaDao(this);
 		this.daoRec = Factory.createReceitaDao(this);
 		this.saldos = new ArrayList<Saldo>();
-		// Cria o calendar que irá fazer as operações com datas
-		Calendar cal = Calendar.getInstance();
+		// pega a data setada para o sistema
+		//Calendar cal = (Calendar)Main.data.clone();
+		Calendar cal = (Calendar)((ApplicationControlCash)getApplication()).getData().clone();
 		SimpleDateFormat sdfUS = new SimpleDateFormat("yyyy-MM-dd");
 
 		List<Receita> receitas = null;
 		List<Despesa> despesas = null;
-		// volta 5 meses atrás
-		for (int i = 0; i < 4; i++) {
+		// volta 6 meses atrás
+		for (int i = 0; i < 6; i++) {
 			// formata as datas
 			String data = sdfUS.format(cal.getTime());
 			try {
@@ -64,8 +67,9 @@ public class ListaSaldos extends ListActivity {
 						"Erro ao formatar as datas na busca por mes");
 			}
 
-			saldos.add(calculaSaldo(receitas, despesas, data));
-			cal.roll(Calendar.MONTH, false);
+			saldos.add(calculaSaldo(receitas, despesas, data));			
+			cal.add(Calendar.MONTH, -1);
+			
 		}
 		setListAdapter(new SaldosAdapter(this, saldos));
 	}

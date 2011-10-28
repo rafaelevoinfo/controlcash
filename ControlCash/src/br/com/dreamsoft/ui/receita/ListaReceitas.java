@@ -24,6 +24,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import br.com.dreamsoft.ApplicationControlCash;
 import br.com.dreamsoft.Main;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
@@ -92,7 +93,8 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
 		try {
 			
-			String date = sdf.format(Main.data.getTime());
+			//String date = sdf.format(Main.data.getTime());
+			String date = sdf.format(((ApplicationControlCash)getApplication()).getData().getTime());
 			List<Receita> lista = this.dao.buscarMes(date);
 			// setListAdapter(new ReceitaAdapter(this, lista));
 			lv.setAdapter(new ReceitaAdapter(this, lista));
