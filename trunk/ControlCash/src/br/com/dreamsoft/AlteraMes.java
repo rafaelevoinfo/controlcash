@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import br.com.dreamsoft.dao.ControlCashBD;
 import br.com.dreamsoft.utils.Mensagens;
 
 public class AlteraMes extends Activity implements OnClickListener {
@@ -45,8 +46,10 @@ public class AlteraMes extends Activity implements OnClickListener {
 		spAno.setAdapter(adpt);
 		//seta o mes atual como padrão
 		//Calendar data = Calendar.getInstance(new Locale("pt","br"));
-		spAno.setSelection(Main.data.get(Calendar.MONTH));
-		edtAno.setText(String.valueOf(Main.data.get(Calendar.YEAR)));		
+		spAno.setSelection(((ApplicationControlCash)getApplication()).getData().get(Calendar.MONTH));
+		edtAno.setText(String.valueOf(((ApplicationControlCash)getApplication()).getData().get(Calendar.YEAR)));
+		//spAno.setSelection(Main.data.get(Calendar.MONTH));
+		//edtAno.setText(String.valueOf(Main.data.get(Calendar.YEAR)));		
 
 		btnAlterar.setOnClickListener(this);
 

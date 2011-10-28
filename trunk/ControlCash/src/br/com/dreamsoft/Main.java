@@ -52,7 +52,8 @@ public class Main extends Activity {
 	private ImageButton addDesp;
 	private ImageButton addRec;
 	private TextView mesAtual;
-	public static Calendar data;
+	//public static Calendar data;
+	private Calendar data;
 	private int mesDefinido = -1;
 	private int anoDefinido = -1;
 
@@ -65,7 +66,7 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		setTitle("Control Cash");
+		setTitle("Control Cash");			
 		
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
@@ -80,7 +81,8 @@ public class Main extends Activity {
 		addRec = (ImageButton) findViewById(R.main.add_receita);
 		mesAtual = (TextView) findViewById(R.main.mes);
 
-		data = Calendar.getInstance(new Locale("pt", "br"));
+		//data = Calendar.getInstance(new Locale("pt", "br"));
+		data = ((ApplicationControlCash) getApplication()).getData();
 
 		receitas.setOnClickListener(new OnClickListener() {
 
