@@ -18,7 +18,7 @@ public class ControlCashBD {
     private static final String[] TABLE_CREATE;
     private static final String DATABASE_NAME = "ControlCash";
     private static final String[] DATABASE_TABLE = {"receitas", "despesas", "categorias", "balanco"};
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 4;
     private static final String TAG = "ControlCashBD";
     private SQLiteDatabase bd;
     private static ControlCashBD dao = new ControlCashBD();
@@ -36,7 +36,6 @@ public class ControlCashBD {
     public static SQLiteDatabase getInstance(Context ctx) {
         if (ControlCashBD.dao.bd == null || !ControlCashBD.dao.bd.isOpen()) {
             ControlCashBD.dao.bd = new DatabaseHelper(ctx).getWritableDatabase();
-
         }
         return ControlCashBD.dao.bd;
     }

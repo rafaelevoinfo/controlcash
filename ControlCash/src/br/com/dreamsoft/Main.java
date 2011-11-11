@@ -238,8 +238,7 @@ data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DA
 			saldo.setTextColor(getResources().getColor(R.color.azul_claro));
 		}
 		// formata o valor
-		NumberFormat nf = NumberFormat
-				.getNumberInstance(new Locale("pt", "br"));
+		NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt", "br"));
 		// DecimalFormat nf = new DecimalFormat("0.##");
 		nf.setMaximumFractionDigits(2);
 		nf.setMinimumFractionDigits(2);
