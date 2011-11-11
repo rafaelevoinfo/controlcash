@@ -159,7 +159,7 @@ public class ListaCategorias extends ListActivity {
 					Mensagens.msgOkSemFechar(this);
 					refreshLista();
 				} else {
-					Mensagens.msgErroBD(1, this);
+					Mensagens.msgErroBD(3, this);
 				}
 				break;
 			default:

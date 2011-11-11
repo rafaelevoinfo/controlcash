@@ -1,5 +1,6 @@
 package br.com.dreamsoft.dao;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,10 +8,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import br.com.dreamsoft.dao.interfaces.BancoDados;
 import br.com.dreamsoft.model.Categoria;
+import br.com.dreamsoft.model.Despesa;
+import br.com.dreamsoft.model.Receita;
+import br.com.dreamsoft.utils.Mensagens;
 
-public class CategoriaDao implements BancoDados<Categoria> {
+public class CategoriaDao {
 
 	private final String KEY_ID = "id";
 	private final String KEY_NOME = "nome";
@@ -18,10 +21,16 @@ public class CategoriaDao implements BancoDados<Categoria> {
 	private final String[] COLUNS = { KEY_ID, KEY_NOME };
 	private final String DATABASE_TABLE = "categorias";
 	private SQLiteDatabase db;
+	private DespesaDao daoDesp;
+	private ReceitaDao daoRec;
+	private Context ctx;
 
 	public CategoriaDao(Context ctx) {
 		super();
 		this.db = ControlCashBD.getInstance(ctx);
+		this.daoDesp = Factory.createDespesaDao(ctx);
+		this.daoRec = Factory.createReceitaDao(ctx);
+		this.ctx = ctx;
 	}
 
 	public long cadastrar(Categoria rc) {
@@ -64,18 +73,26 @@ public class CategoriaDao implements BancoDados<Categoria> {
 		return result;
 	}
 
-	public boolean deletar(Integer id) {
+	public boolean deletar(Integer id){
 		boolean result = false;
 		this.db.beginTransaction();
 
 		try {
-			// deleta no banco
-			id = db.delete(DATABASE_TABLE, KEY_ID + "= ?",
-					new String[] { String.valueOf(id) });
-			if (id != 0) {
-				this.db.setTransactionSuccessful();
-				result = true;
+			//verifica se não existem receitas ou despesas cadastradas para esta categoria, caso exista não permite a exclusão
+			List<Despesa> despesas = this.daoDesp.buscarPorCategoria(id);
+			List<Receita> receitas = this.daoRec.buscarPorCategoria(id);
+			if(despesas.size() < 1 && receitas.size() < 1){//nao pode deletar				
+				// deleta no banco
+				id = db.delete(DATABASE_TABLE, KEY_ID + "= ?",
+						new String[] { String.valueOf(id) });
+				if (id != 0) {
+					this.db.setTransactionSuccessful();
+					result = true;
+				}	
 			}
+		}catch(ParseException e){
+			e.printStackTrace();
+			Mensagens.msgErro(1, ctx);
 		} finally {
 			this.db.endTransaction();
 		}
@@ -127,10 +144,5 @@ public class CategoriaDao implements BancoDados<Categoria> {
 
 	}
 
-	@Override
-	public Categoria buscar(String nome) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

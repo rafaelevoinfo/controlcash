@@ -4,21 +4,16 @@
  */
 package br.com.dreamsoft.dao;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import br.com.dreamsoft.dao.interfaces.Contas;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.model.Receita;
 
@@ -26,7 +21,7 @@ import br.com.dreamsoft.model.Receita;
  *
  * @author rafael
  */
-public class ReceitaDao implements Contas<Receita> {
+public class ReceitaDao{
 
     private final String KEY_ID = "id";
     private final String KEY_NOME = "nome";
@@ -119,39 +114,7 @@ public class ReceitaDao implements Contas<Receita> {
 
     public List<Receita> buscarTodos() throws ParseException {
         Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, null, null, null, null, null, null);
-        List<Receita> receitas = new ArrayList<Receita>();
-        //pega os index pelos nomes
-        int indexId = cursor.getColumnIndex(KEY_ID);
-        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
-        int indexNom = cursor.getColumnIndex(KEY_NOME);
-        int indexVal = cursor.getColumnIndex(KEY_VALOR);
-        int indexDat = cursor.getColumnIndex(KEY_DATA);
-        //pega os dados
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Receita receita = new Receita();
-
-            receita.setId(cursor.getInt(indexId));
-            Categoria cat = new Categoria();
-            cat.setId(cursor.getInt(indexCat));
-            receita.setCategoria(cat);
-            receita.setNome(cursor.getString(indexNom));
-            receita.setValor(cursor.getDouble(indexVal));
-            //cria os formatadores da datas                                 
-            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
-            //transforma a String em Date
-            Date date =  sdfUSA.parse(cursor.getString(indexDat));
-            //transforma o date em String e depois a String em Date
-            date = sdfBRA.parse(sdfBRA.format(date));
-            
-            receita.setDate(date);
-
-            receitas.add(receita);
-            cursor.moveToNext();
-
-        }
-        cursor.close();
+        List<Receita> receitas = preencherArray(cursor);
         return receitas;
     }
     /**
@@ -162,44 +125,10 @@ public class ReceitaDao implements Contas<Receita> {
     public List<Receita> buscarMes(String data) throws ParseException{
     	//cria a clausa where que faz a comparação entre os datas
     	String where = "strftime('%Y-%m',"+KEY_DATA+") = strftime('%Y-%m','"+data+"')";
-    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
-    	//serve para buscar o nome das categorias
-    	CategoriaDao daoCat = Factory.createCategoriaDao(ctx);
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);    	
     	
-        List<Receita> receitas = new ArrayList<Receita>();
-        //pega os index pelos nomes
-        int indexId = cursor.getColumnIndex(KEY_ID);
-        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
-        int indexNom = cursor.getColumnIndex(KEY_NOME);
-        int indexVal = cursor.getColumnIndex(KEY_VALOR);
-        int indexDat = cursor.getColumnIndex(KEY_DATA);
-        //pega os dados
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Receita receita = new Receita();
-
-            receita.setId(cursor.getInt(indexId));
-            Categoria cat = daoCat.buscar(cursor.getInt(indexCat));
-           
-            receita.setCategoria(cat);
-            receita.setNome(cursor.getString(indexNom));
-            receita.setValor(cursor.getDouble(indexVal));
-            
-            //cria os formatadores da datas                                 
-            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
-            //transforma a String em Date
-            Date date =  sdfUSA.parse(cursor.getString(indexDat));
-            //transforma o date em String e depois a String em Date
-            date = sdfBRA.parse(sdfBRA.format(date));
-            
-            receita.setDate(date);
-
-            receitas.add(receita);
-            cursor.moveToNext();
-
-        }
-        cursor.close();
+        List<Receita> receitas = preencherArray(cursor);
+        
         return receitas;
         //return null;
     }
@@ -297,14 +226,55 @@ public class ReceitaDao implements Contas<Receita> {
         return receita;
 
     }
+	
+	public List<Receita> buscarPorCategoria(Integer idCat) throws ParseException {
+		String where = "categoria = "+idCat;
+    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
+    	//preenche o list com objetos Despesa
+    	List<Receita> receitas = preencherArray(cursor);        
+       
+        return receitas; 
+	}
+	
+	private List<Receita> preencherArray(Cursor cursor) throws ParseException{
+		//serve para buscar o nome das categorias
+    	CategoriaDao daoCat = Factory.createCategoriaDao(this.ctx);
+		List<Receita> receitas = new ArrayList<Receita>();
+		//pega os index pelos nomes
+        int indexId = cursor.getColumnIndex(KEY_ID);
+        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+        int indexNom = cursor.getColumnIndex(KEY_NOME);
+        int indexVal = cursor.getColumnIndex(KEY_VALOR);
+        int indexDat = cursor.getColumnIndex(KEY_DATA);
+        //pega os dados
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Receita receita = new Receita();
 
-    public Receita buscar(String nome) throws ParseException{
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+            receita.setId(cursor.getInt(indexId));
+            Categoria cat = daoCat.buscar(cursor.getInt(indexCat));
+           
+            receita.setCategoria(cat);
+            receita.setNome(cursor.getString(indexNom));
+            receita.setValor(cursor.getDouble(indexVal));
+            
+            //cria os formatadores da datas                                 
+            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+            //transforma a String em Date
+            Date date =  sdfUSA.parse(cursor.getString(indexDat));
+            //transforma o date em String e depois a String em Date
+            date = sdfBRA.parse(sdfBRA.format(date));
+            
+            receita.setDate(date);
 
-    public Receita buscar(Double valor) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+            receitas.add(receita);
+            cursor.moveToNext();
+
+        }
+        cursor.close();
+        return receitas;
+	}
 
 	
 }

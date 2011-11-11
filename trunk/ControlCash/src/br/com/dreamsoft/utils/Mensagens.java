@@ -50,6 +50,10 @@ public abstract class Mensagens {
 				dialog.setMessage("Erro ao buscar os dados!");
 				dialog.show();
 				break;
+			case 3://violação de integridade
+				dialog.setMessage("Existem receitas e/ou despesas ligadas a esta categoria! Impossível excluir.");
+				dialog.show();
+				break;
 
 		}
 
