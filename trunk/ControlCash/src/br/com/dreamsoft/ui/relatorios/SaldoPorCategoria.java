@@ -1,30 +1,19 @@
 package br.com.dreamsoft.ui.relatorios;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
 import br.com.dreamsoft.dao.DespesaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Categoria;
-import br.com.dreamsoft.model.Despesa;
-import br.com.dreamsoft.model.Receita;
-import br.com.dreamsoft.ui.adapters.DespesaAdapter;
 import br.com.dreamsoft.ui.adapters.RecDespCatAdapter;
-import br.com.dreamsoft.ui.adapters.ReceitaAdapter;
-import br.com.dreamsoft.ui.adapters.SaldosAdapter;
-import br.com.dreamsoft.utils.Mensagens;
 
 public class SaldoPorCategoria extends Activity {
 	public static final String DATA = "data";
@@ -64,12 +53,12 @@ public class SaldoPorCategoria extends Activity {
 			if(somaRec!=0){
 				//salvo no hash o resultado
 				categoriasRec.put(cat.getNome(), somaRec);
-Log.w("ControlCash", String.valueOf(somaRec));
+//Log.w("ControlCash", String.valueOf(somaRec));
 			}
 			if(somaDesp!=0){
 				//salvo no hash o resultado
 				categoriasDesp.put(cat.getNome(), somaDesp);
-Log.w("ControlCash", String.valueOf(somaDesp));
+//Log.w("ControlCash", String.valueOf(somaDesp));
 			}
 		}
 		

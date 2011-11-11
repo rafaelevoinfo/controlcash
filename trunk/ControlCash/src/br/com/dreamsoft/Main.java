@@ -150,7 +150,7 @@ public class Main extends Activity {
 	 * 
 	 * 
 	 * private Meses(int m){ switch(m){ case 1: mes = "Janeiro"; case 2: mes =
-	 * "Fevereiro"; case 3: mes = "Março"; case 4: mes = "Abril"; case 5: mes =
+	 * "Fevereiro"; case 3: mes = "Marï¿½o"; case 4: mes = "Abril"; case 5: mes =
 	 * "Maio"; case 6: mes = "Junho"; case 7: mes = "Julho"; case 8: mes =
 	 * "Agosto"; case 9: mes = "Setembro"; case 10: mes = "Outubro"; case 11:
 	 * mes = "Novembro"; case 12: mes = "Dezembro"; default: mes = "Indefinido";
@@ -169,7 +169,7 @@ public class Main extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.trocaMes:
-				// deve-se trocar o mes de atuação
+				// deve-se trocar o mes de atuaï¿½ï¿½o
 				startActivityForResult(new Intent(Main.this, AlteraMes.class),
 						TROCAR_MES);
 
@@ -180,7 +180,7 @@ public class Main extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent it) {
-		// verifica se esse é o resultado da chamada do trocar mes e se tudo
+		// verifica se esse ï¿½ o resultado da chamada do trocar mes e se tudo
 		// ocorreu bem
 		if (requestCode == TROCAR_MES && resultCode == RESULT_OK) {
 			Bundle params = it != null ? it.getExtras() : null;
@@ -203,7 +203,7 @@ data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DA
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String date = null;
 		try {
-			// pega a data e converte para o padrão americano
+			// pega a data e converte para o padrï¿½o americano
 			/*if (mesDefinido == -1 || anoDefinido == -1) {
 				date = sdf.format(data.getTime());
 			} else {
@@ -216,7 +216,7 @@ data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DA
 			listDesp = daoDesp.buscarMes(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			Log.w("ControlCash", "Erro ao buscar os dados");
+			//Log.w("ControlCash", "Erro ao buscar os dados");
 			Mensagens.msgErroBD(2, this);
 		}
 		if (listRec != null) {

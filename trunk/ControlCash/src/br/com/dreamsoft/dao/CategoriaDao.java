@@ -78,7 +78,7 @@ public class CategoriaDao {
 		this.db.beginTransaction();
 
 		try {
-			//verifica se não existem receitas ou despesas cadastradas para esta categoria, caso exista não permite a exclusão
+			//verifica se nï¿½o existem receitas ou despesas cadastradas para esta categoria, caso exista nï¿½o permite a exclusï¿½o
 			List<Despesa> despesas = this.daoDesp.buscarPorCategoria(id);
 			List<Receita> receitas = this.daoRec.buscarPorCategoria(id);
 			if(despesas.size() < 1 && receitas.size() < 1){//nao pode deletar				
@@ -115,9 +115,7 @@ public class CategoriaDao {
 			categoria.setNome(cursor.getString(indexNom));
 
 			categorias.add(categoria);
-			cursor.moveToNext();
-			
-
+			cursor.moveToNext();		
 		}
 		cursor.close();
 		return categorias;

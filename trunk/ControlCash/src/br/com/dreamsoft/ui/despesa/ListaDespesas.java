@@ -7,12 +7,10 @@ package br.com.dreamsoft.ui.despesa;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -21,22 +19,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.dreamsoft.ApplicationControlCash;
-import br.com.dreamsoft.Main;
 import br.com.dreamsoft.R;
-import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.DespesaDao;
+import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Despesa;
-import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.ui.adapters.DespesaAdapter;
-import br.com.dreamsoft.ui.adapters.DespesaAdapter;
-import br.com.dreamsoft.ui.receita.CadEdtReceita;
-import br.com.dreamsoft.ui.receita.ListaReceitas;
 import br.com.dreamsoft.utils.Mensagens;
 
 /**
