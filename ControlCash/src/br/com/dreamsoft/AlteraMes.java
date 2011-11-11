@@ -25,7 +25,7 @@ public class AlteraMes extends Activity implements OnClickListener {
 	public static final String ANO = "ano";
 	public static final String MES = "mes";
 
-	private String[] meses = new String[] { "Janeiro", "Fevereiro", "Março",
+	private String[] meses = new String[] { "Janeiro", "Fevereiro", "MarÃ§o",
 			"Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro",
 			"Novembro", "Dezembro" };;
 
@@ -44,7 +44,7 @@ public class AlteraMes extends Activity implements OnClickListener {
 		adpt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		spAno.setAdapter(adpt);
-		//seta o mes atual como padrão
+		//seta o mes atual como padrï¿½o
 		//Calendar data = Calendar.getInstance(new Locale("pt","br"));
 		spAno.setSelection(((ApplicationControlCash)getApplication()).getData().get(Calendar.MONTH));
 		edtAno.setText(String.valueOf(((ApplicationControlCash)getApplication()).getData().get(Calendar.YEAR)));
@@ -80,7 +80,7 @@ public class AlteraMes extends Activity implements OnClickListener {
 		} else {
 			setResult(Activity.RESULT_CANCELED, null);
 			// throw new NumberFormatException();
-			Log.w("ControlCash", "Ano invalido");
+			//Log.w("ControlCash", "Ano invÃ¡lido");
 			Mensagens.msgErro(6, AlteraMes.this);
 		}
 

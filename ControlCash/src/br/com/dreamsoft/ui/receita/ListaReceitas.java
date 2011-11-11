@@ -25,7 +25,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import br.com.dreamsoft.ApplicationControlCash;
-import br.com.dreamsoft.Main;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
@@ -173,7 +172,7 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
-		// pega as informações sobre qual item foi clicado
+		// pega as informaï¿½ï¿½es sobre qual item foi clicado
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
 		boolean result = false;

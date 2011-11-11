@@ -25,7 +25,7 @@ public abstract class Mensagens {
 						((Activity) ctx).finish();
 					}
 				}).create();
-		dialog.setMessage("Operação realizada com sucesso!");
+		dialog.setMessage("OperaÃ§Ã£o realizada com sucesso!");
 		dialog.show();
 	}
 
@@ -33,7 +33,7 @@ public abstract class Mensagens {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		AlertDialog dialog = builder.setTitle("Ok")
 				.setPositiveButton("Ok", null).create();
-		dialog.setMessage("Operação realizada com sucesso!");
+		dialog.setMessage("OperaÃ§Ã£o realizada com sucesso!");
 		dialog.show();
 	}
 
@@ -43,15 +43,15 @@ public abstract class Mensagens {
 				.setPositiveButton("Ok", null).create();
 		switch (cod) {
 			case 1:// erro ao cadastrar, alterar ou excluir
-				dialog.setMessage("Erro ao completar a operação!");
+				dialog.setMessage("Erro ao completar a operaÃ§Ã£o!");
 				dialog.show();
 				break;
 			case 2:// erro ao buscar os dados
 				dialog.setMessage("Erro ao buscar os dados!");
 				dialog.show();
 				break;
-			case 3://violação de integridade
-				dialog.setMessage("Existem receitas e/ou despesas ligadas a esta categoria! Impossível excluir.");
+			case 3://violaï¿½ï¿½o de integridade
+				dialog.setMessage("Existem receitas e/ou despesas ligadas a esta categoria! ImpossÃ­vel excluir.");
 				dialog.show();
 				break;
 
@@ -76,7 +76,7 @@ public abstract class Mensagens {
 				dialog.setMessage("Erro ao pegar o Objeto - Casting!");
 				dialog.show();
 				break;
-			case 4:// Opção de menu não encontrada
+			case 4:// Opï¿½ï¿½o de menu nï¿½o encontrada
 				dialog.setMessage("Nenhum menu com este id foi encontrado!");
 				dialog.show();
 				break;
@@ -85,7 +85,7 @@ public abstract class Mensagens {
 				dialog.show();
 				break;
 			case 6:// Erro ao converter a String
-				dialog.setMessage("Digite um ano válido");
+				dialog.setMessage("Digite um ano vÃ¡lido");
 				dialog.show();
 				break;
 			default:

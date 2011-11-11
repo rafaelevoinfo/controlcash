@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import br.com.dreamsoft.R;
-import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -25,7 +24,7 @@ public class ReceitaAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private List<Receita> receitas;
-	private List<Despesa> despesas;
+	
 
 	public ReceitaAdapter(Context ctx, List<Receita> receitas) {
 

@@ -1,36 +1,27 @@
 package br.com.dreamsoft.ui.relatorios;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.SimpleFormatter;
 
-import br.com.dreamsoft.dao.DespesaDao;
-import br.com.dreamsoft.dao.Factory;
-import br.com.dreamsoft.dao.ReceitaDao;
-import br.com.dreamsoft.model.Categoria;
-import br.com.dreamsoft.model.Despesa;
-import br.com.dreamsoft.model.Receita;
-import br.com.dreamsoft.model.Saldo;
-import br.com.dreamsoft.ui.adapters.CategoriaAdapter;
-import br.com.dreamsoft.ui.adapters.SaldosAdapter;
-import br.com.dreamsoft.ui.categoria.CadEdtCategoria;
-import br.com.dreamsoft.utils.Mensagens;
-import br.com.dreamsoft.ApplicationControlCash;
-import br.com.dreamsoft.Main;
-import br.com.dreamsoft.R;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import br.com.dreamsoft.ApplicationControlCash;
+import br.com.dreamsoft.R;
+import br.com.dreamsoft.dao.DespesaDao;
+import br.com.dreamsoft.dao.Factory;
+import br.com.dreamsoft.dao.ReceitaDao;
+import br.com.dreamsoft.model.Despesa;
+import br.com.dreamsoft.model.Receita;
+import br.com.dreamsoft.model.Saldo;
+import br.com.dreamsoft.ui.adapters.SaldosAdapter;
+import br.com.dreamsoft.utils.Mensagens;
 
 public class ListaSaldos extends ListActivity {
 	private ReceitaDao daoRec;
@@ -53,7 +44,7 @@ public class ListaSaldos extends ListActivity {
 
 		List<Receita> receitas = null;
 		List<Despesa> despesas = null;
-		// volta 6 meses atrás
+		// volta 6 meses atrï¿½s
 		for (int i = 0; i < 6; i++) {
 			// formata as datas
 			String data = sdfUS.format(cal.getTime());
@@ -96,7 +87,7 @@ public class ListaSaldos extends ListActivity {
 	 * @param receitas
 	 * @param despesas
 	 * @param data
-	 *            - Data indicando o mes da operação.
+	 *            - Data indicando o mes da operaï¿½ï¿½o.
 	 * @return
 	 */
 	private Saldo calculaSaldo(List<Receita> receitas, List<Despesa> despesas,

@@ -5,11 +5,8 @@
 package br.com.dreamsoft.ui.adapters;
 
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,8 +18,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import br.com.dreamsoft.R;
-import br.com.dreamsoft.model.Despesa;
-import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.utils.Mensagens;
 
 public class RecDespCatAdapter extends BaseAdapter {

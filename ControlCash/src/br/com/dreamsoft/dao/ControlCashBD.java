@@ -17,8 +17,8 @@ public class ControlCashBD {
 
     private static final String[] TABLE_CREATE;
     private static final String DATABASE_NAME = "ControlCash";
-    private static final String[] DATABASE_TABLE = {"receitas", "despesas", "categorias", "balanco"};
-    private static final int DATABASE_VERSION = 4;
+    private static final String[] DATABASE_TABLE = {"receitas", "despesas", "categorias"};
+    private static final int DATABASE_VERSION = 1;
     private static final String TAG = "ControlCashBD";
     private SQLiteDatabase bd;
     private static ControlCashBD dao = new ControlCashBD();
@@ -27,7 +27,8 @@ public class ControlCashBD {
         TABLE_CREATE = new String[]{"CREATE TABLE receitas (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, categoria INTEGER not null, nome varchar(200) not null, valor DOUBLE not null, date DATE not null);",
                     "CREATE TABLE despesas (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, categoria INTEGER not null, nome varchar(200) not null, valor DOUBLE not null, date DATE not null);",
                     "CREATE TABLE categorias (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, nome VARCHAR(100) NOT NULL);",
-                    "CREATE TABLE balanco (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, date DATE NOT NULL, saldo DOUBLE NOT NULL);"};
+                    "INSERT INTO categorias VALUES (1,'Salario');",
+                    "INSERT INTO categorias VALUES (2,'Lanches');"};
     }
 
     private ControlCashBD() {
@@ -48,7 +49,7 @@ public class ControlCashBD {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
+            //Log.w(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion + ", which will destroy all old data");
             for (String table : DATABASE_TABLE) {
                 db.execSQL("DROP TABLE IF EXISTS " + table);
             }

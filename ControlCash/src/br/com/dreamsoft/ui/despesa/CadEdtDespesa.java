@@ -45,8 +45,7 @@ public class CadEdtDespesa extends Activity {
         
     
     private boolean flagEdt = false;
-    private int idRec = -1;
-    
+    private int idRec = -1;    
     
 
     /** Called when the activity is first created. */

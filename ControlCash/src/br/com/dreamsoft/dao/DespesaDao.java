@@ -126,7 +126,7 @@ public class DespesaDao{
      * @return
      */
     public Double buscarSaldoCategoria(int categoria, String data){
-    	//cria uma query que ja pega o resultado da subtração das receitas e despesas em uma mesma categoria
+    	//cria uma query que ja pega o resultado da subtraï¿½ï¿½o das receitas e despesas em uma mesma categoria
     	//OBS.: Na teoria nao deveria haver receitas e despesas cadastradas para a mesma categoria, mas o sistema permite isso, por isso trato isto aqui
     	//String sql = "SELECT (rec - desp) as "+KEY_VALOR+" FROM (SELECT rec,desp FROM (SELECT SUM("+KEY_VALOR+") as rec FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = ?),(SELECT SUM("+KEY_VALOR+") as desp FROM despesas WHERE "+KEY_CATEGORIA+" = ?));";
     	//Cursor cursor = this.db.rawQuery(sql,new String[]{String.valueOf(categoria),String.valueOf(categoria)});
@@ -147,7 +147,7 @@ public class DespesaDao{
     }
     
     public List<Despesa> buscarIntervaloMes(String dataInicio, String dataFim) throws ParseException{
-    	//cria a clausa where que faz a comparação entre os datas
+    	//cria a clausa where que faz a comparaï¿½ï¿½o entre os datas
     	String where = KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')";
     	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
     	
@@ -196,21 +196,13 @@ public class DespesaDao{
      * @return
      */
     public List<Despesa> buscarMes(String data) throws ParseException{
-    	//cria a clausa where que faz a comparação entre os datas
+    	//cria a clausa where que faz a comparaï¿½ï¿½o entre os datas
     	String where = "strftime('%Y-%m',"+KEY_DATA+") = strftime('%Y-%m','"+data+"')";
     	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
         List<Despesa> despesas = preencherArray(cursor);
         
         return despesas;    
-    }
-
-    public Despesa buscar(String nome) throws ParseException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public Despesa buscar(Double valor) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    }   
 
 	
 	public List<Despesa> buscarPorCategoria(Integer idCat) throws ParseException {

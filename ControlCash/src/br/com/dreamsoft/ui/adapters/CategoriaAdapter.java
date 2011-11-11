@@ -4,21 +4,15 @@
  */
 package br.com.dreamsoft.ui.adapters;
 
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
-import android.net.ParseException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import br.com.dreamsoft.R;
 import br.com.dreamsoft.model.Categoria;
-import br.com.dreamsoft.utils.Mensagens;
 
 public class CategoriaAdapter extends BaseAdapter {
 
