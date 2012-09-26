@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="janeiro">Janeiro</string>
-    <string name="fevereiro">Fevereiro</string>
-    <string name="marco">Março</string>
-    <string name="abril">Abril</string>
-    <string name="maio">Maio</string>
-    <string name="junho">Junho</string>
-    <string name="julho">Julho</string>
-    <string name="agosto">Agosto</string>
-    <string name="setembro">Setembro</string>
-    <string name="outubro">Outubro</string>
-    <string name="novembro">Novembro</string>
-    <string name="dezembro">Dezembro</string>
-    <string name="altera_mes">Alterar intervalo de tempo</string>
+    <string name="altera_mes">Alterar faixa de tempo</string>
     <string name="ano">Ano</string>
     <string name="mes">Mês</string>
     <string name="intervalo_tempo">Mês/Ano atuante</string>
