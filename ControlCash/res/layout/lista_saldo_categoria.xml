@@ -5,22 +5,32 @@
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_weight="1">
-		<TextView android:layout_height="wrap_content"
-            android:layout_width="fill_parent" android:text="@string/receitas_categoria"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textSize="12dp" android:textColor="@android:color/black"
-            android:background="@android:color/white"></TextView>
+
+		<TextView
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@android:color/white"
+		    android:text="@string/receitas_categoria"
+		    android:textAppearance="?android:attr/textAppearanceSmall"
+		    android:textColor="@android:color/black"
+		    android:textSize="12dp" >
+</TextView>
 		<ListView android:id="@+id/categoriasReceita"
 			android:layout_height="fill_parent" android:layout_width="fill_parent"></ListView>
 	</LinearLayout>
 	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		android:orientation="vertical" android:layout_width="fill_parent"
 		android:layout_height="fill_parent" android:layout_weight="1">	
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:text="@string/despesas_categoria"
-			android:textAppearance="?android:attr/textAppearanceSmall"
-			android:textSize="12dp" android:textColor="@android:color/black"
-			android:background="@android:color/white"></TextView>
+
+		<TextView
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:background="@android:color/white"
+		    android:text="@string/despesas_categoria"
+		    android:textAppearance="?android:attr/textAppearanceSmall"
+		    android:textColor="@android:color/black"
+		    android:textSize="12dp" >
+</TextView>
 		<ListView android:id="@+id/categoriasDespesa"
 			android:layout_height="fill_parent" android:layout_width="fill_parent"></ListView>
 	</LinearLayout>

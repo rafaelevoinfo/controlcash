@@ -15,5 +15,15 @@
     <string name="relatorios_saldos_categorias">Distribuição por categoria</string>
     <string name="receitas_categoria">Receitas</string>
     <string name="despesas_categoria">Despesas</string>
+    <string name="erro">Erro</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="outras_opcoes">Demais opções:</string>
+    <string name="categorias">Categorias</string>
+    <string name="despesas">Despesas</string>
+    <string name="receitas">Receitas</string>
+    <string name="nome">Nome</string>
+    <string name="valor">Valor</string>
+    <string name="categoria">Categoria</string>
+    <string name="data">Data</string>
     
 </resources>
