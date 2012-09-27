@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="altera_mes">Alterar faixa de tempo</string>
-    <string name="ano">Ano</string>
-    <string name="mes">Mês</string>
-    <string name="intervalo_tempo">Mês/Ano atuante</string>
-    <string name="altera_faixa_tempo">Alterar data base</string>
-    
-</resources>
