@@ -1,69 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/widget31"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-	<TableLayout android:layout_height="wrap_content"
-		android:orientation="vertical" android:layout_width="fill_parent">
-		<TableRow android:orientation="horizontal"
-			android:layout_height="wrap_content" android:baselineAligned="true" android:layout_width="fill_parent">
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:stretchColumns="1" >
 
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="@string/nome" >
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="true"
+                android:orientation="horizontal" >
 
-			</TextView>
-			<EditText android:id="@+id/nome" android:layout_height="wrap_content"
-				android:textSize="18sp" android:layout_width="wrap_content">
-			</EditText>
-		</TableRow>
-		<TableRow android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="fill_parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nome" >
+                </TextView>
 
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:text="@string/valor" >
+                <EditText
+                    android:id="@+id/nome"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp" >
+                </EditText>
+            </TableRow>
 
-			</TextView>
-			<EditText android:id="@+id/valor" android:layout_height="wrap_content"
-				android:textSize="18sp" android:layout_width="wrap_content" android:inputType="numberDecimal">
-			</EditText>
-		</TableRow>
-		<TableRow android:orientation="horizontal"
-			android:layout_height="wrap_content" android:layout_width="fill_parent">
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
 
-			<TextView
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_gravity="center_vertical"
-			    android:gravity="center_vertical"
-			    android:text="@string/categoria" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/valor" >
+                </TextView>
 
-			</TextView>
-			<Spinner android:layout_height="wrap_content" android:id="@+id/categoria" android:layout_width="wrap_content"></Spinner>
-		</TableRow>
-	
-		<TableRow android:layout_height="wrap_content" android:orientation="horizontal" android:layout_width="wrap_content">
+                <EditText
+                    android:id="@+id/valor"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:textSize="18sp" >
+                </EditText>
+            </TableRow>
+        </TableLayout>
 
-		  <TextView
-		      android:layout_width="wrap_content"
-		      android:layout_height="wrap_content"
-		      android:text="@string/data" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:text="@string/categoria" >
+        </TextView>
 
+        <Spinner
+            android:id="@+id/categoria"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </Spinner>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/data" >
             </TextView>
-			<DatePicker android:layout_height="wrap_content"
-				android:id="@+id/date" android:layout_width="wrap_content"></DatePicker>
-		</TableRow>
 
+            <DatePicker
+                android:id="@+id/date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+            </DatePicker>
+        </TableRow>
 
+        <Button
+            android:id="@+id/cadastrarDesp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@android:drawable/ic_menu_save"
+            android:text="@string/add_despesa" />
+    </LinearLayout>
 
-	</TableLayout>
-
-
-	<Button android:id="@+id/cadastrarDesp" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:text="@string/add_despesa"/>
-
-
-</LinearLayout>
+</ScrollView>
