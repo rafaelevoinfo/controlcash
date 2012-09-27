@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
-  xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/add_categoria" android:id="@+id/addCategoria"></item>
-    
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/addCategoria"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/add_categoria">
+    </item>
+
 </menu>

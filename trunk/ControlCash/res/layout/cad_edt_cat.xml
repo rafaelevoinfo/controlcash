@@ -9,8 +9,14 @@
 		android:layout_height="wrap_content" android:layout_width="fill_parent">
 		<requestFocus></requestFocus>
 	</EditText>
-	<Button android:layout_height="wrap_content" android:id="@+id/btnCadCat"
-		android:text="@string/add_categoria" android:layout_width="fill_parent"></Button>
 
+	<Button
+	    android:id="@+id/btnCadCat"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:drawableLeft="@android:drawable/ic_menu_save"
+	    android:text="@string/add_categoria" >
+
+	</Button>
 
 </LinearLayout>
