@@ -8,7 +8,6 @@ import java.sql.SQLException;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -28,7 +27,7 @@ public class CadEdtCategoria extends Activity {
 	private Button btCat;
 	private EditText nome;
 
-	// atributos static usados para saber se esta sendo feita uma edição ou
+	// atributos static usados para saber se esta sendo feita uma ediï¿½ï¿½o ou
 	// cadastro
 	public static String OBJ_CAT = "categoria";
 
@@ -40,7 +39,7 @@ public class CadEdtCategoria extends Activity {
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
 		setContentView(R.layout.cad_edt_cat);
-		setTitle("Categoria");
+		setTitle(getString(R.string.categoria));
 
 		this.btCat = (Button) findViewById(R.id.btnCadCat);
 		this.nome = (EditText) findViewById(R.id.nomeCat);
@@ -55,7 +54,7 @@ public class CadEdtCategoria extends Activity {
 				this.idCat = cat.getId();
 				this.nome.setText(cat.getNome());
 
-				this.btCat.setText("Editar");
+				this.btCat.setText(getString(R.string.salvar));
 			} catch (ClassCastException e) {
 				e.printStackTrace();
 				Mensagens.msgErro(3, this);
@@ -75,12 +74,11 @@ public class CadEdtCategoria extends Activity {
 		this.btCat.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				CategoriaDao catDao = Factory
-						.createCategoriaDao(CadEdtCategoria.this);
+				CategoriaDao catDao = Factory.createCategoriaDao(CadEdtCategoria.this);
 
 				Categoria cat = new Categoria();
 				cat.setNome(nome.getText().toString());
-				try {				
+				try {
 					if (!flagEdt) {
 						// realiza o cadastro
 						if (catDao.cadastrar(cat) != -1) {

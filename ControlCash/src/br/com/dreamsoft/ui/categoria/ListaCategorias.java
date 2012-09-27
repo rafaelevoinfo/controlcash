@@ -4,17 +4,11 @@
  */
 package br.com.dreamsoft.ui.categoria;
 
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
@@ -22,15 +16,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import br.com.dreamsoft.R;
-import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.CategoriaDao;
+import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.ui.adapters.CategoriaAdapter;
-import br.com.dreamsoft.ui.adapters.ReceitaAdapter;
 import br.com.dreamsoft.utils.Mensagens;
 
 /**
@@ -47,7 +38,7 @@ public class ListaCategorias extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		this.dao = Factory.createCategoriaDao(this);
-		setTitle("Categorias cadastradas");
+		setTitle(getString(R.string.categorias_cadastradas));
 		// getListView().setBackgroundResource(R.drawable.background);
 		getListView().setCacheColorHint(0x00000000);
 		registerForContextMenu(getListView());
@@ -72,7 +63,7 @@ public class ListaCategorias extends ListActivity {
 		 * HashMap<String, String>(); m.put("ID", String.valueOf(cat.getId()));
 		 * m.put("NOME", cat.getNome()); listCat.add(m); } //array contendo o
 		 * nome das chaves do meu hash String[] from = { "NOME" }; //array
-		 * contendo o nome dos campos no layout que irão receber a os valores do
+		 * contendo o nome dos campos no layout que irï¿½o receber a os valores do
 		 * hash int[] to = { android.R.id.text1 }; setListAdapter(new
 		 * SimpleAdapter(this, listCat, android.R.layout.simple_list_item_1,
 		 * from, to));
@@ -94,7 +85,7 @@ public class ListaCategorias extends ListActivity {
 			e.printStackTrace();
 			Mensagens.msgErro(3, this);
 		}
-		it.putExtra(CadEdtCategoria.OBJ_CAT,cat);
+		it.putExtra(CadEdtCategoria.OBJ_CAT, cat);
 		startActivity(it);
 		/*
 		 * try { //pego o hash que guarda o id e o nome da categoria HashMap map
@@ -134,8 +125,7 @@ public class ListaCategorias extends ListActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 
 		MenuInflater inflater = getMenuInflater();
@@ -146,14 +136,14 @@ public class ListaCategorias extends ListActivity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
-		// pega as informações sobre qual item foi clicado
+		// pega as informaï¿½ï¿½es sobre qual item foi clicado
 
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		boolean result = false;
 
 		switch (item.getItemId()) { // pego o id do item selecionado atraves do
 									// info.id
-			case R.id.btnDelCat:							
+			case R.id.btnDelCat:
 				if (dao.deletar(Integer.parseInt(Long.toString(info.id)))) {
 					result = true;
 					Mensagens.msgOkSemFechar(this);

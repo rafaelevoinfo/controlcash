@@ -1,34 +1,34 @@
 package br.com.dreamsoft.utils;
 
-public class Meses{
-	public static final String getMes(int mes){
-		switch (mes) {
-			case 0:
-				return "Janeiro";
-			case 1:
-				return "Fevereiro";
-			case 2:
-				return "Março";
-			case 3:
-				return "Abril";
-			case 4:
-				return "Maio";
-			case 5:
-				return "Junho";
-			case 6:
-				return "Julho";
-			case 7:
-				return "Agosto";
-			case 8:
-				return "Setembro";
-			case 9:
-				return "Outubro";
-			case 10:
-				return "Novembro";
-			case 11:
-				return "Dezembro";
-			default:
-				return "Indefinido";
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.content.Context;
+import br.com.dreamsoft.R;
+
+public class Meses {
+
+	/**
+	 * Converte um numero que representa um mes em uma string contendo o nome do
+	 * MÃªs.
+	 * 
+	 * @param mes
+	 *            - Valor numero de 0 a 11
+	 * @param ctx
+	 * @return
+	 */
+	public static String converterDiaMesToString(int mes, Context ctx) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM");
+		try {
+			Date data = sdf.parse(String.valueOf(mes + 1));
+			sdf.applyPattern("MMMM");
+			String nomeMes = sdf.format(data);
+
+			return nomeMes;
+		} catch (ParseException e) {
+			return ctx.getString(R.string.erro);
 		}
 	}
+
 }

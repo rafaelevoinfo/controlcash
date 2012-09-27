@@ -15,7 +15,6 @@
     <string name="relatorios_saldos_categorias">Distribuição por categoria</string>
     <string name="receitas_categoria">Receitas</string>
     <string name="despesas_categoria">Despesas</string>
-    <string name="erro">Erro</string>
     <string name="cadastrar">Cadastrar</string>
     <string name="outras_opcoes">Demais opções:</string>
     <string name="categorias">Categorias</string>
@@ -25,5 +24,12 @@
     <string name="valor">Valor</string>
     <string name="categoria">Categoria</string>
     <string name="data">Data</string>
+    <string name="salvar">Salvar</string>
+    <string name="categorias_cadastradas">Categorias Cadastradas</string>
+    <string name="receita">Receita</string>
+    <string name="despesa">Despesa</string>
+    <string name="despesas_cadastradas">Despesas Cadastradas</string>
+    <string name="receitas_cadastradas">Receitas Cadastradas</string>
+    <string name="operacao_ok">Operação realizada com sucesso!</string>
     
 </resources>

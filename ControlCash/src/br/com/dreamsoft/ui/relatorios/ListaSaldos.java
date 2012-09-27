@@ -38,8 +38,8 @@ public class ListaSaldos extends ListActivity {
 		this.daoRec = Factory.createReceitaDao(this);
 		this.saldos = new ArrayList<Saldo>();
 		// pega a data setada para o sistema
-		//Calendar cal = (Calendar)Main.data.clone();
-		Calendar cal = (Calendar)((ApplicationControlCash)getApplication()).getData().clone();
+		// Calendar cal = (Calendar)Main.data.clone();
+		Calendar cal = (Calendar) ((ApplicationControlCash) getApplication()).getData().clone();
 		SimpleDateFormat sdfUS = new SimpleDateFormat("yyyy-MM-dd");
 
 		List<Receita> receitas = null;
@@ -54,13 +54,12 @@ public class ListaSaldos extends ListActivity {
 			} catch (ParseException e) {
 				e.printStackTrace();
 				Mensagens.msgErro(1, this);
-				Log.w("ControlCash",
-						"Erro ao formatar as datas na busca por mes");
+				Log.w("ControlCash", "Erro ao formatar as datas na busca por mes");
 			}
 
-			saldos.add(calculaSaldo(receitas, despesas, data));			
+			saldos.add(calculaSaldo(receitas, despesas, data));
 			cal.add(Calendar.MONTH, -1);
-			
+
 		}
 		setListAdapter(new SaldosAdapter(this, saldos));
 	}
@@ -77,7 +76,7 @@ public class ListaSaldos extends ListActivity {
 			e.printStackTrace();
 			Mensagens.msgErro(3, this);
 		}
-		it.putExtra(SaldoPorCategoria.DATA,saldo.getData());
+		it.putExtra(SaldoPorCategoria.DATA, saldo.getData());
 		startActivity(it);
 	}
 
@@ -90,8 +89,7 @@ public class ListaSaldos extends ListActivity {
 	 *            - Data indicando o mes da opera��o.
 	 * @return
 	 */
-	private Saldo calculaSaldo(List<Receita> receitas, List<Despesa> despesas,
-			String data) {
+	private Saldo calculaSaldo(List<Receita> receitas, List<Despesa> despesas, String data) {
 		double res = 0.0;
 		for (Receita r : receitas) {
 			res += r.getValor();
@@ -111,11 +109,6 @@ public class ListaSaldos extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		refreshLista();
-	}
-
-	private void refreshLista() {
-
 	}
 
 }

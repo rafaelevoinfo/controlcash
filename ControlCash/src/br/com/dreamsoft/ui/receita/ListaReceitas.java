@@ -8,7 +8,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -48,19 +47,17 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		this.dao = Factory.createReceitaDao(this);
-		setTitle("Receitas cadastradas");
+		setTitle(getString(R.string.receitas_cadastradas));
 
 		setContentView(R.layout.lista);
 
 		lv = (ListView) findViewById(R.id.list);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Intent it = new Intent(ListaReceitas.this, CadEdtReceita.class);
 				try {
 					Receita rc = (Receita) lv.getAdapter().getItem(arg2);
-					it.putExtra(CadEdtReceita.EDIT, true);
 					it.putExtra(CadEdtReceita.OBJ_REC, rc);
 					startActivity(it);
 				} catch (ClassCastException e) {
@@ -89,11 +86,12 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 	}
 
 	private void refreshLista() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		try {
-			
-			//String date = sdf.format(Main.data.getTime());
-			String date = sdf.format(((ApplicationControlCash)getApplication()).getData().getTime());
+
+			// String date = sdf.format(Main.data.getTime());
+			String date = sdf.format(((ApplicationControlCash) getApplication()).getData()
+					.getTime());
 			List<Receita> lista = this.dao.buscarMes(date);
 			// setListAdapter(new ReceitaAdapter(this, lista));
 			lv.setAdapter(new ReceitaAdapter(this, lista));
@@ -105,8 +103,7 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 				total += ((Receita) lv.getAdapter().getItem(i)).getValor();
 			}
 			// formata o valor
-			NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
-					"br"));
+			NumberFormat nf = NumberFormat.getCurrencyInstance();
 			nf.setMaximumFractionDigits(2);
 			try {
 				tv.setText(nf.format(total));
@@ -162,8 +159,7 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.del_receita, menu);

@@ -4,12 +4,11 @@
  */
 package br.com.dreamsoft;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -52,7 +51,7 @@ public class Main extends Activity {
 	private ImageButton addDesp;
 	private ImageButton addRec;
 	private TextView mesAtual;
-	//public static Calendar data;
+	// public static Calendar data;
 	private Calendar data;
 	private int mesDefinido = -1;
 	private int anoDefinido = -1;
@@ -66,8 +65,8 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		setTitle("Control Cash");			
-		
+		setTitle(getString(R.string.app_name));
+
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
 
@@ -81,7 +80,7 @@ public class Main extends Activity {
 		addRec = (ImageButton) findViewById(R.main.add_receita);
 		mesAtual = (TextView) findViewById(R.main.mes);
 
-		//data = Calendar.getInstance(new Locale("pt", "br"));
+		// data = Calendar.getInstance(new Locale("pt", "br"));
 		data = ((ApplicationControlCash) getApplication()).getData();
 
 		receitas.setOnClickListener(new OnClickListener() {
@@ -96,7 +95,7 @@ public class Main extends Activity {
 				startActivity(new Intent(Main.this, ListaDespesas.class));
 			}
 		});
-		
+
 		rels.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
@@ -136,28 +135,15 @@ public class Main extends Activity {
 	public void onResume() {
 		super.onResume();
 		if (mesDefinido == -1 || anoDefinido == -1) {
-			this.mesAtual.setText(Meses.getMes(data.get(Calendar.MONTH))+"/"+data.get(Calendar.YEAR));
+			this.mesAtual.setText(Meses.converterDiaMesToString(data.get(Calendar.MONTH), this)
+					+ "/" + data.get(Calendar.YEAR));
 		} else {
-			this.mesAtual.setText(Meses.getMes(mesDefinido)+"/"+anoDefinido);
+			this.mesAtual.setText(Meses.converterDiaMesToString(mesDefinido, this) + "/"
+					+ anoDefinido);
 		}
 		atualizaSaldo();
 	}
 
-	/*
-	 * public enum Meses{
-	 * JANEIRO(1),FEVEREIRO(2),MARCO(3),ABRIL(4),MAIO(5),JUNHO(6),
-	 * JULHO(7),AGOSTO(8),SETEMBRO(9),OUTUBRO(10),NOVEMBRO(11),DEZEMBRO(12);
-	 * 
-	 * 
-	 * private Meses(int m){ switch(m){ case 1: mes = "Janeiro"; case 2: mes =
-	 * "Fevereiro"; case 3: mes = "Mar�o"; case 4: mes = "Abril"; case 5: mes =
-	 * "Maio"; case 6: mes = "Junho"; case 7: mes = "Julho"; case 8: mes =
-	 * "Agosto"; case 9: mes = "Setembro"; case 10: mes = "Outubro"; case 11:
-	 * mes = "Novembro"; case 12: mes = "Dezembro"; default: mes = "Indefinido";
-	 * } } private String mes(){ return mes; } private String mes = ""; }
-	 */
-
-	
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.opcoes_main, menu);
@@ -170,8 +156,7 @@ public class Main extends Activity {
 		switch (item.getItemId()) {
 			case R.id.trocaMes:
 				// deve-se trocar o mes de atua��o
-				startActivityForResult(new Intent(Main.this, AlteraMes.class),
-						TROCAR_MES);
+				startActivityForResult(new Intent(Main.this, AlteraMes.class), TROCAR_MES);
 
 				return true;
 		}
@@ -180,15 +165,12 @@ public class Main extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent it) {
-		// verifica se esse � o resultado da chamada do trocar mes e se tudo
+		// verifica se esse é o resultado da chamada do trocar mes e se tudo
 		// ocorreu bem
 		if (requestCode == TROCAR_MES && resultCode == RESULT_OK) {
 			Bundle params = it != null ? it.getExtras() : null;
-data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DAY_OF_MONTH);
-			//mesDefinido = params.getInt(AlteraMes.MES);
-			//anoDefinido = params.getInt(AlteraMes.ANO);
-
-			// atualizaSaldo();
+			data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES),
+					Calendar.DAY_OF_MONTH);
 		}
 	}
 
@@ -201,22 +183,24 @@ data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DA
 		List<Despesa> listDesp = null;
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		// java.text.DateFormat df = DateFormat.getDateFormat(this);
+
 		String date = null;
 		try {
 			// pega a data e converte para o padr�o americano
-			/*if (mesDefinido == -1 || anoDefinido == -1) {
-				date = sdf.format(data.getTime());
-			} else {
-				data.set(anoDefinido, mesDefinido, Calendar.DAY_OF_MONTH);
-				date = sdf.format(data.getTime());
-			}*/
+			/*
+			 * if (mesDefinido == -1 || anoDefinido == -1) { date =
+			 * sdf.format(data.getTime()); } else { data.set(anoDefinido,
+			 * mesDefinido, Calendar.DAY_OF_MONTH); date =
+			 * sdf.format(data.getTime()); }
+			 */
 			date = sdf.format(data.getTime());
-			
+
 			listRec = daoRec.buscarMes(date);
 			listDesp = daoDesp.buscarMes(date);
 		} catch (ParseException e) {
-			e.printStackTrace();
-			//Log.w("ControlCash", "Erro ao buscar os dados");
+			// e.printStackTrace();
+			Log.w("ControlCash", "Erro ao buscar os dados");
 			Mensagens.msgErroBD(2, this);
 		}
 		if (listRec != null) {
@@ -238,19 +222,20 @@ data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DA
 			saldo.setTextColor(getResources().getColor(R.color.azul_claro));
 		}
 		// formata o valor
-		NumberFormat nf = NumberFormat.getNumberInstance(new Locale("pt", "br"));
-		// DecimalFormat nf = new DecimalFormat("0.##");
-		nf.setMaximumFractionDigits(2);
-		nf.setMinimumFractionDigits(2);
+		DecimalFormat df = new DecimalFormat("¤");// esse simbolo estranho faz
+													// add o simbolo monetario
+		// nao usei um NumberFormat padrao pq ele coloca o valor negativo entre
+		// parenteses
+		df.setMaximumFractionDigits(2);
+		df.setMinimumFractionDigits(2);
 
 		try {
-			// saldo.setText(nf.format(resultado));
-			saldo.setText("R$ " + nf.format(resultado));
+			saldo.setText(df.format(resultado));
+			// saldo.setText("R$ " + nf.format(resultado));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.w("ControlCash", "Erro ao formatar o saldo");
 			Mensagens.msgErro(2, this);
 		}
 
 	}
-
 }
