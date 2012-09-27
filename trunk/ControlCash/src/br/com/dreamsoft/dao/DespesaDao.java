@@ -38,18 +38,18 @@ public class DespesaDao{
         this.ctx = ctx;
     }
 
-    public long cadastrar(Despesa rc) {
+    public long cadastrar(Despesa despesa) {
         this.db.beginTransaction();
         long id = -1;
         try {
         	 ContentValues initialValues = new ContentValues();
              
-             initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
-             initialValues.put(KEY_NOME, rc.getNome());
-             initialValues.put(KEY_VALOR, rc.getValor());
+             initialValues.put(KEY_CATEGORIA, despesa.getCategoria().getId());
+             initialValues.put(KEY_NOME, despesa.getNome());
+             initialValues.put(KEY_VALOR, despesa.getValor());
              SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
              try {
-                 initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+                 initialValues.put(KEY_DATA, sdf.format(despesa.getDate()));
              	//initialValues.put(KEY_DATA, rc.getDate().toString());
              } catch (Exception e) {
                  return -1L;
@@ -65,27 +65,27 @@ public class DespesaDao{
         return id;
     }
 
-    public boolean alterar(Despesa rc) {
+    public boolean alterar(Despesa despesa) {
         boolean result = false;
         this.db.beginTransaction();
         long id = 0;
         try {
         	ContentValues initialValues = new ContentValues();
-            initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
-            initialValues.put(KEY_NOME, rc.getNome());
-            initialValues.put(KEY_VALOR, rc.getValor());
+            initialValues.put(KEY_CATEGORIA, despesa.getCategoria().getId());
+            initialValues.put(KEY_NOME, despesa.getNome());
+            initialValues.put(KEY_VALOR, despesa.getValor());
            
             //SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
-                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));            	
+                initialValues.put(KEY_DATA, sdf.format(despesa.getDate()));            	
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
 
             //atualiza no banco
-            id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?", new String[]{String.valueOf(rc.getId())});
+            id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?", new String[]{String.valueOf(despesa.getId())});
             if (id != 0) {
                 this.db.setTransactionSuccessful();
                 result = true;

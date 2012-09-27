@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="erro">Erro</string>
+    <string name="erro_completar_operacao">Erro ao realizar a operação!</string>
+    <string name="erro_buscar_dados">Erro ao buscar os dados!</string>
+    <string name="erro_valor_usado">Existem receitas e/ou despesas ligadas a esta categoria! Impossível excluir.</string>
+    <string name="erro_formatar_data">Erro ao formatar a data!</string>
+    <string name="erro_formatar_moeda">Erro ao formatar a moeda!</string>
+    <string name="erro_cast">Erro ao pegar o Objeto - Casting!</string>
+    <string name="erro_menu_id">Nenhum menu com este id foi encontrado!</string>
+    <string name="erro_definir_cor">Erro ao definir a cor dos textos!</string>
+    <string name="erro_ano_invalido">Ano inválido!</string>
+    <string name="erro_desconhecido">Desculpe! Erro desconhecido.</string>
+    
+</resources>

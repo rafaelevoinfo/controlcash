@@ -8,7 +8,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -48,19 +47,17 @@ public class ListaDespesas extends Activity {
 		super.onCreate(savedInstanceState);
 
 		this.dao = Factory.createDespesaDao(this);
-		setTitle("Despesas cadastradas");
+		setTitle(getString(R.string.despesas_cadastradas));
 		setContentView(R.layout.lista);
 
 		lv = (ListView) findViewById(R.id.list);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1,
-					int position, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 
 				Intent it = new Intent(ListaDespesas.this, CadEdtDespesa.class);
 				try {
 					Despesa desp = (Despesa) lv.getAdapter().getItem(position);
-					it.putExtra(CadEdtDespesa.EDIT, true);
 					it.putExtra(CadEdtDespesa.OBJ_DESP, desp);
 					startActivity(it);
 				} catch (ClassCastException e) {
@@ -80,18 +77,19 @@ public class ListaDespesas extends Activity {
 	protected void onResume() {
 		super.onResume();
 		refreshLista();
-		
+
 	}
 
 	private void refreshLista() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");		
-		try {		
-			//pega a data que esta sendo usada
-			//String date = sdf.format(Main.data.getTime());
-			String date = sdf.format(((ApplicationControlCash)getApplication()).getData().getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			// pega a data que esta sendo usada
+			// String date = sdf.format(Main.data.getTime());
+			String date = sdf.format(((ApplicationControlCash) getApplication()).getData()
+					.getTime());
 			List<Despesa> lista = this.dao.buscarMes(date);
 			lv.setAdapter(new DespesaAdapter(this, lista));
-			
+
 			tv = (TextView) findViewById(R.id.saldo);
 
 			double total = 0;
@@ -99,16 +97,16 @@ public class ListaDespesas extends Activity {
 				total += ((Despesa) lv.getAdapter().getItem(i)).getValor();
 			}
 			// formata o valor
-			NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
-					"br"));
+			NumberFormat nf = NumberFormat.getCurrencyInstance();
 			nf.setMaximumFractionDigits(2);
+			nf.setMinimumFractionDigits(2);
 			try {
 				tv.setText(nf.format(total));
 			} catch (Exception e) {
 				e.printStackTrace();
 				Mensagens.msgErro(2, this);
 			}
-			
+
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, this);
@@ -118,8 +116,6 @@ public class ListaDespesas extends Activity {
 		}
 
 	}
-
-	
 
 	// protected void onActivityResult(int cod){
 	//
@@ -144,8 +140,7 @@ public class ListaDespesas extends Activity {
 	}
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.del_despesa, menu);
@@ -155,8 +150,7 @@ public class ListaDespesas extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		super.onContextItemSelected(item);
 		// pega as informa��es sobre qual item foi clicado
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 
 		boolean result = false;
 

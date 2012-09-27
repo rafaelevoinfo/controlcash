@@ -4,10 +4,9 @@
  */
 package br.com.dreamsoft.ui.adapters;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Locale;
 
 import android.content.Context;
 import android.net.ParseException;
@@ -24,14 +23,12 @@ public class ReceitaAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private List<Receita> receitas;
-	
 
 	public ReceitaAdapter(Context ctx, List<Receita> receitas) {
 
 		this.receitas = receitas;
 
-		inflater = (LayoutInflater) ctx
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	public int getCount() {
@@ -55,8 +52,8 @@ public class ReceitaAdapter extends BaseAdapter {
 		nome.setText(rec.getNome());
 		// atualiza o valor
 		TextView valor = (TextView) view.findViewById(R.id.valor);
-		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
-				"br"));
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
+		nf.setMinimumFractionDigits(2);
 		nf.setMaximumFractionDigits(2);
 		try {
 			valor.setText(nf.format(rec.getValor()));
@@ -74,10 +71,11 @@ public class ReceitaAdapter extends BaseAdapter {
 
 		// atualiza a data
 		TextView data = (TextView) view.findViewById(R.id.date);
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		// SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 		try {
-			data.setText(sdf.format(rec.getDate()));
+			data.setText(df.format(rec.getDate()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, view.getContext());
