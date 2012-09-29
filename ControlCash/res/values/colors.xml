@@ -2,5 +2,6 @@
 <resources>
     <color name="azul_claro">#00BFFF</color>
     <color name="vermelho_escarlata">#8C1717</color>
-    <color name="royal_blue">#4169E1</color>    
+    <color name="royal_blue">#4169E1</color>
+    <color name="verde">#99088818</color>    
 </resources>

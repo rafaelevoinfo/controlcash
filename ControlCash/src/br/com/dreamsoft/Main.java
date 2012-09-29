@@ -20,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import br.com.dreamsoft.dao.DespesaDao;
@@ -43,10 +42,10 @@ import br.com.dreamsoft.utils.Meses;
  */
 public class Main extends Activity {
 
-	private Button receitas;
-	private Button despesas;
-	private Button categoria;
-	private Button rels;
+	private ImageButton receitas;
+	private ImageButton despesas;
+	private ImageButton categoria;
+	private ImageButton rels;
 	private TextView saldo;
 	private ImageButton addDesp;
 	private ImageButton addRec;
@@ -70,10 +69,10 @@ public class Main extends Activity {
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
 
-		receitas = (Button) findViewById(R.id.btnRec);
-		despesas = (Button) findViewById(R.id.btnDesp);
-		rels = (Button) findViewById(R.id.btnRelatorios);
-		categoria = (Button) findViewById(R.id.btnCat);
+		receitas = (ImageButton) findViewById(R.id.btnRec);
+		despesas = (ImageButton) findViewById(R.id.btnDesp);
+		rels = (ImageButton) findViewById(R.id.btnRelatorios);
+		categoria = (ImageButton) findViewById(R.id.btnCat);
 		saldo = (TextView) findViewById(R.id.saldo);
 
 		addDesp = (ImageButton) findViewById(R.main.add_despesa);
@@ -135,11 +134,10 @@ public class Main extends Activity {
 	public void onResume() {
 		super.onResume();
 		if (mesDefinido == -1 || anoDefinido == -1) {
-			this.mesAtual.setText(Meses.converterDiaMesToString(data.get(Calendar.MONTH), this)
-					+ "/" + data.get(Calendar.YEAR));
+			this.mesAtual.setText(Meses.converterDiaMesToString(data.get(Calendar.MONTH), this) + "/"
+					+ data.get(Calendar.YEAR));
 		} else {
-			this.mesAtual.setText(Meses.converterDiaMesToString(mesDefinido, this) + "/"
-					+ anoDefinido);
+			this.mesAtual.setText(Meses.converterDiaMesToString(mesDefinido, this) + "/" + anoDefinido);
 		}
 		atualizaSaldo();
 	}
@@ -169,8 +167,7 @@ public class Main extends Activity {
 		// ocorreu bem
 		if (requestCode == TROCAR_MES && resultCode == RESULT_OK) {
 			Bundle params = it != null ? it.getExtras() : null;
-			data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES),
-					Calendar.DAY_OF_MONTH);
+			data.set(params.getInt(AlteraMes.ANO), params.getInt(AlteraMes.MES), Calendar.DAY_OF_MONTH);
 		}
 	}
 

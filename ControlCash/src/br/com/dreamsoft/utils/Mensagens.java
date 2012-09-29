@@ -7,6 +7,11 @@ package br.com.dreamsoft.utils;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import br.com.dreamsoft.R;
 
@@ -18,7 +23,9 @@ public abstract class Mensagens {
 
 	// TODO Adicionar todas as mensagens desta classe para o string.xml
 	public static void msgOk(final Context ctx) {
-		Toast.makeText(ctx, ctx.getString(R.string.operacao_ok), 0).show();
+
+		msgOkSemFechar(ctx);
+		// Toast.makeText(ctx, ctx.getString(R.string.operacao_ok), 0).show();
 		((Activity) ctx).finish();
 		// AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		// AlertDialog dialog = builder.setTitle("Ok")
@@ -38,7 +45,18 @@ public abstract class Mensagens {
 		// null).create();
 		// dialog.setMessage("Operação realizada com sucesso!");
 		// dialog.show();
-		Toast.makeText(ctx, ctx.getString(R.string.operacao_ok), 0).show();
+		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View v = inflater.inflate(R.layout.toast, null);
+		ImageView img = (ImageView) v.findViewById(R.id.msg_icon);
+		img.setImageResource(R.drawable.ok);
+		TextView tvMsg = (TextView) v.findViewById(R.id.msg);
+		tvMsg.setText(ctx.getString(R.string.operacao_ok));
+
+		Toast msgToast = new Toast(ctx);
+		msgToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+		msgToast.setDuration(Toast.LENGTH_SHORT);
+		msgToast.setView(v);
+		msgToast.show();
 	}
 
 	public static void msgErroBD(int cod, Context ctx) {
