@@ -7,7 +7,9 @@
         android:id="@+id/widget31"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:background="@drawable/backgroud_middle"
+        android:orientation="vertical"
+        android:tileMode="repeat">
 
         <TableLayout
             android:layout_width="fill_parent"

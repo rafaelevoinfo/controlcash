@@ -1,38 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="br.com.dreamsoft" android:versionCode="1" android:versionName="1.0">
-	<uses-sdk android:minSdkVersion="7"></uses-sdk>
-	<!-- Aqui estou usando uma classe personalizada que extende Application, 
-		pois ele guarda a informação da data que deve ser compartilhada entre todas 
-		as activitys -->
-	<application android:name="br.com.dreamsoft.ApplicationControlCash"
-		android:label="@string/app_name" android:icon="@drawable/icon"
-		android:theme="@android:style/Theme.Light">
-		<activity android:name=".Main" android:label="ControlCash">
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
-		</activity>
-		<activity android:name=".ui.receita.ListaReceitas"
-			android:configChanges="keyboardHidden|orientation">
-		</activity>
-		<activity android:name=".ui.receita.CadEdtReceita"
-			android:configChanges="keyboardHidden|orientation"></activity>
-		<activity android:configChanges="keyboardHidden|orientation"
-			android:name=".ui.despesa.CadEdtDespesa">
-			<!-- <intent-filter > <action android:name="TESTE_RAFAEL" /> <category 
-				android:name="android.intent.category.DEFAULT" /> </intent-filter> -->
-		</activity>
-		<activity android:name=".ui.categoria.CadEdtCategoria"
-			android:configChanges="keyboardHidden|orientation"></activity>
-		<activity android:name=".ui.categoria.ListaCategorias"></activity>
-		<activity android:configChanges="keyboardHidden|orientation"
-			android:name=".ui.despesa.ListaDespesas">
-		</activity>
-		<activity android:name=".AlteraMes"></activity>
-		<activity android:name=".ui.relatorios.ListaSaldos"></activity>
-		<activity android:name=".ui.relatorios.SaldoPorCategoria"></activity>
+    package="br.com.dreamsoft"
+    android:versionCode="1"
+    android:versionName="1.0" >
 
-	</application>
+    <uses-sdk android:minSdkVersion="7" >
+    </uses-sdk>
+    <!--
+         Aqui estou usando uma classe personalizada que extende Application, 
+		pois ele guarda a informação da data que deve ser compartilhada entre todas 
+		as activitys
+    -->
+    <application
+        android:name="br.com.dreamsoft.ApplicationControlCash"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Light" >
+        <activity
+            android:name=".Main"
+            android:label="ControlCash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.receita.ListaReceitas"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name=".ui.receita.CadEdtReceita"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity
+            android:name=".ui.despesa.CadEdtDespesa"
+            android:configChanges="keyboardHidden|orientation" >
+
+            <!--
+                 <intent-filter > <action android:name="TESTE_RAFAEL" /> <category 
+				android:name="android.intent.category.DEFAULT" /> </intent-filter>
+            -->
+        </activity>
+        <activity
+            android:name=".ui.categoria.CadEdtCategoria"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity android:name=".ui.categoria.ListaCategorias" >
+        </activity>
+        <activity
+            android:name=".ui.despesa.ListaDespesas"
+            android:configChanges="keyboardHidden|orientation" >
+        </activity>
+        <activity android:name=".AlteraMes" >
+        </activity>
+        <activity android:name=".ui.relatorios.ListaSaldos" >
+        </activity>
+        <activity android:name=".ui.relatorios.SaldoPorCategoria" >
+        </activity>
+    </application>
+
 </manifest>

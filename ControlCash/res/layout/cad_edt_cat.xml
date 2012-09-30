@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:baselineAligned="false"
-	android:layout_height="wrap_content" android:orientation="vertical">
-	<TextView android:text="@string/txtCategoria"
-		android:layout_height="wrap_content" android:layout_weight="1"
-		android:layout_width="fill_parent" android:layout_gravity="center_horizontal"></TextView>
-	<EditText android:id="@+id/nomeCat" android:layout_weight="1"
-		android:layout_height="wrap_content" android:layout_width="fill_parent">
-		<requestFocus></requestFocus>
-	</EditText>
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:background="@drawable/backgroud_middle"
+    android:tileMode="repeat" >
 
-	<Button
-	    android:id="@+id/btnCadCat"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:drawableLeft="@android:drawable/ic_menu_save"
-	    android:text="@string/add_categoria" >
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:text="@string/txtCategoria" >
+    </TextView>
 
-	</Button>
+    <EditText
+        android:id="@+id/nomeCat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <requestFocus>
+        </requestFocus>
+    </EditText>
+
+    <Button
+        android:id="@+id/btnCadCat"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:text="@string/add_categoria" >
+    </Button>
 
 </LinearLayout>

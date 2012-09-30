@@ -14,12 +14,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import br.com.dreamsoft.dao.DespesaDao;
@@ -47,6 +50,8 @@ public class Main extends Activity {
 	private ImageButton categoria;
 	private ImageButton rels;
 	private TextView saldo;
+	private TextView saldoRec;
+	private TextView saldoDesp;
 	private ImageButton addDesp;
 	private ImageButton addRec;
 	private TextView mesAtual;
@@ -54,7 +59,8 @@ public class Main extends Activity {
 	private Calendar data;
 	private int mesDefinido = -1;
 	private int anoDefinido = -1;
-
+	private Handler handler;
+	private Animation anin;
 	ReceitaDao daoRec;
 	DespesaDao daoDesp;
 
@@ -66,6 +72,9 @@ public class Main extends Activity {
 		setContentView(R.layout.main);
 		setTitle(getString(R.string.app_name));
 
+		handler = new Handler();
+		anin = AnimationUtils.loadAnimation(Main.this, R.layout.press_btn);
+
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
 
@@ -74,6 +83,8 @@ public class Main extends Activity {
 		rels = (ImageButton) findViewById(R.id.btnRelatorios);
 		categoria = (ImageButton) findViewById(R.id.btnCat);
 		saldo = (TextView) findViewById(R.id.saldo);
+		saldoRec = (TextView) findViewById(R.id.saldo_receitas);
+		saldoDesp = (TextView) findViewById(R.id.saldo_despesas);
 
 		addDesp = (ImageButton) findViewById(R.main.add_despesa);
 		addRec = (ImageButton) findViewById(R.main.add_receita);
@@ -85,27 +96,26 @@ public class Main extends Activity {
 		receitas.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				startActivity(new Intent(Main.this, ListaReceitas.class));
+				openActivity(receitas, ListaReceitas.class);
 			}
 		});
 		despesas.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				startActivity(new Intent(Main.this, ListaDespesas.class));
+				openActivity(despesas, ListaDespesas.class);
+
 			}
 		});
 
 		rels.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View arg0) {
-				startActivity(new Intent(Main.this, ListaSaldos.class));
+				openActivity(rels, ListaSaldos.class);
 			}
 		});
 
 		categoria.setOnClickListener(new OnClickListener() {
-
 			public void onClick(View arg0) {
-				startActivity(new Intent(Main.this, ListaCategorias.class));
+				openActivity(categoria, ListaCategorias.class);
 			}
 		});
 
@@ -113,22 +123,29 @@ public class Main extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(Main.this, CadEdtReceita.class));
-
+				openActivity(addRec, CadEdtReceita.class);
 			}
 		});
 
 		addDesp.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(Main.this, CadEdtDespesa.class));
-
+				openActivity(addDesp, CadEdtDespesa.class);
 			}
 		});
 
 		atualizaSaldo();
 
+	}
+
+	protected void openActivity(View v, final Class classe) {
+		v.startAnimation(anin);
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				startActivity(new Intent(Main.this, classe));
+			}
+		}, 250);
 	}
 
 	public void onResume() {
@@ -227,6 +244,8 @@ public class Main extends Activity {
 		df.setMinimumFractionDigits(2);
 
 		try {
+			saldoRec.setText(df.format(receitas));
+			saldoDesp.setText(df.format(despesas));
 			saldo.setText(df.format(resultado));
 			// saldo.setText("R$ " + nf.format(resultado));
 		} catch (Exception e) {
