@@ -85,8 +85,7 @@ public class ListaDespesas extends Activity {
 		try {
 			// pega a data que esta sendo usada
 			// String date = sdf.format(Main.data.getTime());
-			String date = sdf.format(((ApplicationControlCash) getApplication()).getData()
-					.getTime());
+			String date = sdf.format(((ApplicationControlCash) getApplication()).getData().getTime());
 			List<Despesa> lista = this.dao.buscarMes(date);
 			lv.setAdapter(new DespesaAdapter(this, lista));
 
@@ -102,6 +101,7 @@ public class ListaDespesas extends Activity {
 			nf.setMinimumFractionDigits(2);
 			try {
 				tv.setText(nf.format(total));
+				// tv.refreshDrawableState();
 			} catch (Exception e) {
 				e.printStackTrace();
 				Mensagens.msgErro(2, this);

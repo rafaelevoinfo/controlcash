@@ -2,20 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/backgroud_middle"
     android:orientation="vertical"
+    android:tileMode="repeat"
     android:weightSum="1" >
 
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingLeft="45dp" >
     </ListView>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingLeft="45dp" >
 
         <TextView
             android:layout_width="wrap_content"
@@ -29,6 +33,7 @@
             android:id="@+id/saldo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:layout_weight="1"
             android:gravity="right"
             android:textColor="#00BFFF"
