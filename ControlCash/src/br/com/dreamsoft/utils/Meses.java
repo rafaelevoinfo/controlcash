@@ -24,6 +24,9 @@ public class Meses {
 			Date data = sdf.parse(String.valueOf(mes + 1));
 			sdf.applyPattern("MMMM");
 			String nomeMes = sdf.format(data);
+			char[] letras = nomeMes.toCharArray();
+			letras[0] = Character.toUpperCase(letras[0]);
+			nomeMes = String.valueOf(letras);
 
 			return nomeMes;
 		} catch (ParseException e) {

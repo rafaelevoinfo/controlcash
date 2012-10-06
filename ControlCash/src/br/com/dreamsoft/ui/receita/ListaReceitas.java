@@ -90,8 +90,7 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 		try {
 
 			// String date = sdf.format(Main.data.getTime());
-			String date = sdf.format(((ApplicationControlCash) getApplication()).getData()
-					.getTime());
+			String date = sdf.format(((ApplicationControlCash) getApplication()).getData().getTime());
 			List<Receita> lista = this.dao.buscarMes(date);
 			// setListAdapter(new ReceitaAdapter(this, lista));
 			lv.setAdapter(new ReceitaAdapter(this, lista));

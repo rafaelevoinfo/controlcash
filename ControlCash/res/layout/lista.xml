@@ -1,42 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/background"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/backgroud_middle"
-    android:orientation="vertical"
-    android:tileMode="repeat"
-    android:weightSum="1" >
+    android:orientation="vertical" >
 
     <ListView
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingLeft="45dp" >
+        android:layout_marginLeft="45dp"
+        android:layout_weight="1" >
     </ListView>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="45dp" >
+        android:layout_gravity="left"
+        android:layout_marginLeft="40dp"
+        android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="left"
             android:layout_weight="1"
             android:text="@string/total"
-            android:textSize="18dp" >
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:typeface="serif" >
         </TextView>
 
         <TextView
             android:id="@+id/saldo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:textColor="#00BFFF"
+            android:text="valor"
+            android:textColor="#099000"
             android:textSize="18dp" >
         </TextView>
     </LinearLayout>

@@ -153,6 +153,7 @@ public class Main extends Activity {
 		if (mesDefinido == -1 || anoDefinido == -1) {
 			this.mesAtual.setText(Meses.converterDiaMesToString(data.get(Calendar.MONTH), this) + "/"
 					+ data.get(Calendar.YEAR));
+
 		} else {
 			this.mesAtual.setText(Meses.converterDiaMesToString(mesDefinido, this) + "/" + anoDefinido);
 		}
@@ -242,6 +243,7 @@ public class Main extends Activity {
 		// parenteses
 		df.setMaximumFractionDigits(2);
 		df.setMinimumFractionDigits(2);
+		df.setMinimumIntegerDigits(1);
 
 		try {
 			saldoRec.setText(df.format(receitas));

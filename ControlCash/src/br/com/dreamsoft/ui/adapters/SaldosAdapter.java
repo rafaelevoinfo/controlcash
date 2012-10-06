@@ -43,7 +43,7 @@ public class SaldosAdapter extends BaseAdapter {
 	}
 
 	/**
-	 * Retorna posi��o da lista que cont�m este saldo
+	 * Retorna posicao da lista que contem este saldo
 	 */
 	public long getItemId(int position) {
 		return saldos.indexOf(saldos.get(position));
@@ -59,8 +59,7 @@ public class SaldosAdapter extends BaseAdapter {
 		SimpleDateFormat sdfUS = new SimpleDateFormat("yyyy-MM-dd");
 
 		try {
-			tvMes.setText(Meses.converterDiaMesToString(sdfUS.parse(saldo.getData()).getMonth(),
-					ctx));
+			tvMes.setText(Meses.converterDiaMesToString(sdfUS.parse(saldo.getData()).getMonth(), ctx));
 		} catch (java.text.ParseException e1) {
 			e1.printStackTrace();
 			Mensagens.msgErro(1, view.getContext());
