@@ -4,9 +4,7 @@
     android:layout_height="wrap_content"
     
     android:baselineAligned="false"
-    android:orientation="vertical"
-    android:background="@drawable/backgroud_middle"
-    android:tileMode="repeat" >
+    android:orientation="vertical" >
 
     <TextView
         android:layout_width="fill_parent"
@@ -30,7 +28,7 @@
         android:id="@+id/btnCadCat"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@android:drawable/ic_menu_save"
+        android:drawableLeft="@drawable/salvar"
         android:text="@string/add_categoria" >
     </Button>
 

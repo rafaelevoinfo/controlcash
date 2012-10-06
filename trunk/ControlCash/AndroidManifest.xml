@@ -25,32 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.receita.ListaReceitas"
-            android:configChanges="keyboardHidden|orientation" >
+        <activity android:name=".ui.receita.ListaReceitas" >
         </activity>
-        <activity
-            android:name=".ui.receita.CadEdtReceita"
-            android:configChanges="keyboardHidden|orientation" >
+        <activity android:name=".ui.receita.CadEdtReceita" >
         </activity>
-        <activity
-            android:name=".ui.despesa.CadEdtDespesa"
-            android:configChanges="keyboardHidden|orientation" >
+        <activity android:name=".ui.despesa.CadEdtDespesa" >
 
             <!--
                  <intent-filter > <action android:name="TESTE_RAFAEL" /> <category 
 				android:name="android.intent.category.DEFAULT" /> </intent-filter>
             -->
         </activity>
-        <activity
-            android:name=".ui.categoria.CadEdtCategoria"
-            android:configChanges="keyboardHidden|orientation" >
+        <activity android:name=".ui.categoria.CadEdtCategoria" >
         </activity>
         <activity android:name=".ui.categoria.ListaCategorias" >
         </activity>
-        <activity
-            android:name=".ui.despesa.ListaDespesas"
-            android:configChanges="keyboardHidden|orientation" >
+        <activity android:name=".ui.despesa.ListaDespesas" >
         </activity>
         <activity android:name=".AlteraMes" >
         </activity>

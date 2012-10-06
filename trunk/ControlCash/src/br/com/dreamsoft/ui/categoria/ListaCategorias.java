@@ -36,10 +36,12 @@ public class ListaCategorias extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-
 		this.dao = Factory.createCategoriaDao(this);
 		setTitle(getString(R.string.categorias_cadastradas));
-		// getListView().setBackgroundResource(R.drawable.background);
+		// getListView().setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
+		// MarginLayoutParams mlp = (MarginLayoutParams)
+		// getListView().getLayoutParams();
+		// mlp.leftMargin = 45;
 		getListView().setCacheColorHint(0x00000000);
 		registerForContextMenu(getListView());
 	}
