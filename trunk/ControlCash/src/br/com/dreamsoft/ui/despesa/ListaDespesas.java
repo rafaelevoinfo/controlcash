@@ -29,6 +29,7 @@ import br.com.dreamsoft.dao.DespesaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.ui.adapters.DespesaAdapter;
+import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
 /**
@@ -71,6 +72,10 @@ public class ListaDespesas extends Activity {
 		// getListView().setBackgroundResource(R.drawable.background);
 		lv.setCacheColorHint(0x00000000);
 		registerForContextMenu(lv);
+		// faz a animacao da lista quando ela aparece
+		Animacao.addAnimacaoLista(lv);
+
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 
 	@Override

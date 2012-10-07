@@ -25,6 +25,7 @@ import br.com.dreamsoft.dao.CategoriaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.ui.adapters.CategoriaAdapter;
+import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
 /**
@@ -58,6 +59,10 @@ public class ListaCategorias extends ListActivity {
 		ll.addView(getListView(), lp);
 		// dizendo ao Android para usar meu LinearLayout
 		setContentView(ll);
+
+		Animacao.addAnimacaoLista(getListView());
+
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 
 	@Override
