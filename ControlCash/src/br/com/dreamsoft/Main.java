@@ -73,7 +73,7 @@ public class Main extends Activity {
 		setTitle(getString(R.string.app_name));
 
 		handler = new Handler();
-		anin = AnimationUtils.loadAnimation(Main.this, R.layout.press_btn);
+		anin = AnimationUtils.loadAnimation(Main.this, R.anim.press_btn);
 
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);

@@ -24,6 +24,7 @@ import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.model.Saldo;
 import br.com.dreamsoft.ui.adapters.SaldosAdapter;
+import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
 public class ListaSaldos extends ListActivity {
@@ -65,8 +66,12 @@ public class ListaSaldos extends ListActivity {
 
 		}
 		setListAdapter(new SaldosAdapter(this, saldos));
-
+		// impede que o fundo fique branco durante a animação
+		getListView().setCacheColorHint(0x00000000);
 		alterarLayout();
+
+		Animacao.addAnimacaoLista(getListView());
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 
 	private void alterarLayout() {

@@ -29,6 +29,7 @@ import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.ui.adapters.ReceitaAdapter;
+import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
 /**
@@ -71,11 +72,9 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 		// getListView().setBackgroundResource(R.drawable.background);
 		lv.setCacheColorHint(0x00000000);
 		registerForContextMenu(lv);
-
-		/*
-		 * getListView().setCacheColorHint(0x00000000);
-		 * registerForContextMenu(getListView());
-		 */
+		// faz uma animacao para quando a lista aparece
+		Animacao.addAnimacaoLista(lv);
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 
 	@Override
