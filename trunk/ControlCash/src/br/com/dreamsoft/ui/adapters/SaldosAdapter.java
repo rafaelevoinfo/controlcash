@@ -69,7 +69,7 @@ public class SaldosAdapter extends BaseAdapter {
 		if (saldo.getSaldo() < 0) {
 			tvSaldo.setTextColor(Color.RED);
 		} else {
-			tvSaldo.setTextColor(view.getResources().getColor(R.color.azul_claro));
+			tvSaldo.setTextColor(view.getResources().getColor(R.color.royal_blue));
 		}
 		/*
 		 * esse simbolo estranho faz add o simbolo monetario nao usei um

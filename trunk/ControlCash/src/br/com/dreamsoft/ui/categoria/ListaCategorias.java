@@ -16,6 +16,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
@@ -38,12 +41,23 @@ public class ListaCategorias extends ListActivity {
 		super.onCreate(savedInstanceState);
 		this.dao = Factory.createCategoriaDao(this);
 		setTitle(getString(R.string.categorias_cadastradas));
-		// getListView().setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
-		// MarginLayoutParams mlp = (MarginLayoutParams)
-		// getListView().getLayoutParams();
-		// mlp.leftMargin = 45;
 		getListView().setCacheColorHint(0x00000000);
 		registerForContextMenu(getListView());
+
+		LinearLayout ll = new LinearLayout(this);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+				LayoutParams.WRAP_CONTENT);
+		lp.leftMargin = 45;
+
+		ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
+		// como estou usando um layout padrao do Android, aqui eu vou remover a
+		// list do parent e então add ela no meu
+		// linearLayout, isto foi feito para que eu conseguise colocar a margin.
+		((FrameLayout) getListView().getParent()).removeAllViews();
+		// add a lista a meu linearLayout
+		ll.addView(getListView(), lp);
+		// dizendo ao Android para usar meu LinearLayout
+		setContentView(ll);
 	}
 
 	@Override

@@ -131,7 +131,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:orientation="horizontal"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="20dp">
 
         <ImageButton
             android:id="@+main/add_receita"

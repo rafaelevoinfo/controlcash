@@ -3,7 +3,8 @@
     style="@style/background"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:baselineAligned="False" >
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -30,6 +31,7 @@
 
         <ListView
             android:id="@+id/categoriasReceita"
+            style="@style/TransparentListView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp" >
@@ -61,6 +63,7 @@
 
         <ListView
             android:id="@+id/categoriasDespesa"
+            style="@style/TransparentListView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="10dp" >
