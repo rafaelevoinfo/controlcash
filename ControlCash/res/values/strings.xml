@@ -8,16 +8,11 @@
     <string name="txtCategoria">Category Name</string>
     <string name="add_categoria">Add Category</string>
     <string name="del_categoria">Delete Category</string>
-    <string name="saldo">Balance</string>
     <string name="total">Total</string>
-    <string name="relatorios">Reports</string>
     <string name="relatorios_saldos">Balance Reports</string>
     <string name="relatorios_saldos_categorias">Distribution by Category</string>
     <string name="receitas_categoria">Incomes</string>
     <string name="despesas_categoria">Expenses</string>
-    <string name="cadastrar">Add</string>
-    <string name="outras_opcoes">Other options:</string>
-    <string name="categorias">Categories</string>
     <string name="despesas">Expenses</string>
     <string name="receitas">Incomes</string>
     <string name="nome">Name</string>
@@ -34,6 +29,5 @@
     <string name="altera_mes">Change Time Range</string>
     <string name="ano">Year</string>
     <string name="mes">Month</string>
-    <string name="intervalo_tempo">Month/Active Year</string>
     <string name="altera_faixa_tempo">Change Base Date</string>
 </resources>

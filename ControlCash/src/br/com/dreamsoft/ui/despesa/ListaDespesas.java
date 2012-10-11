@@ -74,7 +74,7 @@ public class ListaDespesas extends Activity {
 		registerForContextMenu(lv);
 		// faz a animacao da lista quando ela aparece
 		Animacao.addAnimacaoLista(lv);
-
+		// faz a animação na activity
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 

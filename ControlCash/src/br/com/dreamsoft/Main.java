@@ -244,6 +244,8 @@ public class Main extends Activity {
 		df.setMaximumFractionDigits(2);
 		df.setMinimumFractionDigits(2);
 		df.setMinimumIntegerDigits(1);
+		df.setGroupingUsed(true);
+		df.setGroupingSize(3);
 
 		try {
 			saldoRec.setText(df.format(receitas));
