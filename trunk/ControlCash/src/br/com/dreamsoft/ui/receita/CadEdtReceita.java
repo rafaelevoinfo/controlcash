@@ -52,6 +52,8 @@ public class CadEdtReceita extends Activity {
 		setContentView(R.layout.cad_edt_rec);
 		setTitle(getString(R.string.receita));
 
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
 		this.btCad = (Button) findViewById(R.id.cadastrar);
 		this.nome = (EditText) findViewById(R.id.nome);
 		this.valor = (EditText) findViewById(R.id.valor);

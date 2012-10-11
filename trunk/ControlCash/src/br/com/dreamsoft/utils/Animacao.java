@@ -18,7 +18,7 @@ public class Animacao {
 		anin = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
 				Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
 
-		anin.setDuration(200);
+		anin.setDuration(100);
 		set.addAnimation(anin);
 
 		LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);

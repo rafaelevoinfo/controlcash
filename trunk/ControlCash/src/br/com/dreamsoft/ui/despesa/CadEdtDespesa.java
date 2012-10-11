@@ -52,6 +52,8 @@ public class CadEdtDespesa extends Activity {
 		setContentView(R.layout.cad_edt_desp);
 		setTitle(getString(R.string.despesa));
 
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
 		this.btCad = (Button) findViewById(R.id.cadastrarDesp);
 		this.nome = (EditText) findViewById(R.id.nome);
 		this.valor = (EditText) findViewById(R.id.valor);

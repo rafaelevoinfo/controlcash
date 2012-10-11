@@ -41,6 +41,8 @@ public class CadEdtCategoria extends Activity {
 		setContentView(R.layout.cad_edt_cat);
 		setTitle(getString(R.string.categoria));
 
+		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+
 		this.btCat = (Button) findViewById(R.id.btnCadCat);
 		this.nome = (EditText) findViewById(R.id.nomeCat);
 

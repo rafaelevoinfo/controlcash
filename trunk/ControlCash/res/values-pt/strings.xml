@@ -8,16 +8,11 @@
     <string name="txtCategoria">Nome da categoria</string>
     <string name="add_categoria">Cadastrar categoria</string>
     <string name="del_categoria">Remover categoria</string>
-    <string name="saldo">SALDO</string>
     <string name="total">Total</string>
-    <string name="relatorios">Relatórios</string>
     <string name="relatorios_saldos">Relatórios de Saldos</string>
     <string name="relatorios_saldos_categorias">Distribuição por categoria</string>
     <string name="receitas_categoria">Receitas</string>
     <string name="despesas_categoria">Despesas</string>
-    <string name="cadastrar">Cadastrar</string>
-    <string name="outras_opcoes">Demais opções:</string>
-    <string name="categorias">Categorias</string>
     <string name="despesas">Despesas</string>
     <string name="receitas">Receitas</string>
     <string name="nome">Nome</string>
@@ -34,6 +29,5 @@
     <string name="altera_mes">Alterar faixa de tempo</string>
     <string name="ano">Ano</string>
     <string name="mes">Mês</string>
-    <string name="intervalo_tempo">Mês/Ano atuante</string>
     <string name="altera_faixa_tempo">Alterar data base</string>
 </resources>
