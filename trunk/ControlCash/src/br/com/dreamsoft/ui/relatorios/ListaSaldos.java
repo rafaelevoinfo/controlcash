@@ -6,14 +6,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import br.com.dreamsoft.ApplicationControlCash;
 import br.com.dreamsoft.R;
@@ -27,9 +26,10 @@ import br.com.dreamsoft.ui.adapters.SaldosAdapter;
 import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
-public class ListaSaldos extends ListActivity {
+public class ListaSaldos extends Activity implements OnItemClickListener {
 	private ReceitaDao daoRec;
 	private DespesaDao daoDesp;
+	private ListView lv;
 
 	private List<Saldo> saldos;
 
@@ -37,6 +37,12 @@ public class ListaSaldos extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle(R.string.relatorios_saldos);
+		setContentView(R.layout.lista_categoria_relatorio);
+
+		lv = (ListView) findViewById(R.id.lista_cat_rel);
+		// impede que o fundo fique branco durante a animação
+		lv.setCacheColorHint(0x000000);
+		lv.setOnItemClickListener(this);
 
 		this.daoDesp = Factory.createDespesaDao(this);
 		this.daoRec = Factory.createReceitaDao(this);
@@ -65,47 +71,10 @@ public class ListaSaldos extends ListActivity {
 			cal.add(Calendar.MONTH, -1);
 
 		}
-		setListAdapter(new SaldosAdapter(this, saldos));
-		// impede que o fundo fique branco durante a animação
-		getListView().setCacheColorHint(0x00000000);
-		alterarLayout();
+		lv.setAdapter(new SaldosAdapter(this, saldos));
 
-		Animacao.addAnimacaoLista(getListView());
+		Animacao.addAnimacaoLista(lv);
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
-	}
-
-	private void alterarLayout() {
-		// alterando o layout para conseguir fazer o leftMargin
-		LinearLayout ll = new LinearLayout(this);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.WRAP_CONTENT);
-		lp.leftMargin = 45;
-
-		ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
-		// como estou usando um layout padrao do Android, aqui eu vou remover a
-		// list do parent e então add ela no meu
-		// linearLayout, isto foi feito para que eu conseguise colocar a margin.
-		((FrameLayout) getListView().getParent()).removeAllViews();
-		// add a lista a meu linearLayout
-		ll.addView(getListView(), lp);
-		// dizendo ao Android para usar meu LinearLayout
-		setContentView(ll);
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
-		super.onListItemClick(l, v, position, id);
-		Intent it = new Intent(this, SaldoPorCategoria.class);
-		Saldo saldo = null;
-		try {
-			saldo = (Saldo) l.getAdapter().getItem(position);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			Mensagens.msgErro(3, this);
-		}
-		it.putExtra(SaldoPorCategoria.DATA, saldo.getData());
-		startActivity(it);
 	}
 
 	/**
@@ -137,6 +106,21 @@ public class ListaSaldos extends ListActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		Intent it = new Intent(this, SaldoPorCategoria.class);
+		Saldo saldo = null;
+		try {
+			saldo = (Saldo) lv.getAdapter().getItem(position);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			Mensagens.msgErro(3, this);
+		}
+		it.putExtra(SaldoPorCategoria.DATA, saldo.getData());
+		startActivity(it);
+
 	}
 
 }
