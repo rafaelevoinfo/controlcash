@@ -6,7 +6,7 @@ package br.com.dreamsoft.ui.categoria;
 
 import java.util.List;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -15,10 +15,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
@@ -32,9 +31,10 @@ import br.com.dreamsoft.utils.Mensagens;
  * 
  * @author rafael
  */
-public class ListaCategorias extends ListActivity {
+public class ListaCategorias extends Activity implements OnItemClickListener {
 
 	private CategoriaDao dao;
+	private ListView lv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,25 +42,33 @@ public class ListaCategorias extends ListActivity {
 		super.onCreate(savedInstanceState);
 		this.dao = Factory.createCategoriaDao(this);
 		setTitle(getString(R.string.categorias_cadastradas));
-		getListView().setCacheColorHint(0x00000000);
-		registerForContextMenu(getListView());
+		setContentView(R.layout.lista_categoria_relatorio);
 
-		LinearLayout ll = new LinearLayout(this);
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-				LayoutParams.WRAP_CONTENT);
-		lp.leftMargin = 45;
+		lv = (ListView) findViewById(R.id.lista_cat_rel);
+		lv.setCacheColorHint(0x000000);
+		lv.setOnItemClickListener(this);
 
-		ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
-		// como estou usando um layout padrao do Android, aqui eu vou remover a
-		// list do parent e então add ela no meu
-		// linearLayout, isto foi feito para que eu conseguise colocar a margin.
-		((FrameLayout) getListView().getParent()).removeAllViews();
-		// add a lista a meu linearLayout
-		ll.addView(getListView(), lp);
-		// dizendo ao Android para usar meu LinearLayout
-		setContentView(ll);
+		registerForContextMenu(lv);
 
-		Animacao.addAnimacaoLista(getListView());
+		// LinearLayout ll = new LinearLayout(this);
+		// LinearLayout.LayoutParams lp = new
+		// LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
+		// LayoutParams.WRAP_CONTENT);
+		// lp.leftMargin = 45;
+		//
+		// ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
+		// // como estou usando um layout padrao do Android, aqui eu vou remover
+		// a
+		// // list do parent e então add ela no meu
+		// // linearLayout, isto foi feito para que eu conseguise colocar a
+		// margin.
+		// ((FrameLayout) getListView().getParent()).removeAllViews();
+		// // add a lista a meu linearLayout
+		// ll.addView(getListView(), lp);
+		// // dizendo ao Android para usar meu LinearLayout
+		// setContentView(ll);
+
+		Animacao.addAnimacaoLista(lv);
 
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
@@ -73,7 +81,7 @@ public class ListaCategorias extends ListActivity {
 
 	private void refreshLista() {
 		List<Categoria> lista = this.dao.buscarTodos();
-		setListAdapter(new CategoriaAdapter(this, lista));
+		lv.setAdapter(new CategoriaAdapter(this, lista));
 
 		/*
 		 * try { List<Categoria> lista = this.dao.buscarTodos();
@@ -92,33 +100,6 @@ public class ListaCategorias extends ListActivity {
 		 * } catch (Exception e) { e.printStackTrace(); Mensagens.msgErroBD(2,
 		 * this); }
 		 */
-	}
-
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-
-		Intent it = new Intent(this, CadEdtCategoria.class);
-		Categoria cat = null;
-		try {
-			cat = (Categoria) l.getAdapter().getItem(position);
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-			Mensagens.msgErro(3, this);
-		}
-		it.putExtra(CadEdtCategoria.OBJ_CAT, cat);
-		startActivity(it);
-		/*
-		 * try { //pego o hash que guarda o id e o nome da categoria HashMap map
-		 * = (HashMap) l.getAdapter().getItem(position);
-		 * it.putExtra(CadEdtCategoria.EDIT, true); //crio um novo obj Categoria
-		 * e passo ele para a proxima tela it.putExtra(CadEdtCategoria.OBJ_CAT,
-		 * new
-		 * Categoria(Integer.parseInt(map.get("ID").toString()),map.get("NOME"
-		 * ).toString())); startActivity(it); } catch (ClassCastException e) {
-		 * e.printStackTrace(); Mensagens.msgErro(3, this); }
-		 */
-
 	}
 
 	// protected void onActivityResult(int cod){
@@ -180,4 +161,20 @@ public class ListaCategorias extends ListActivity {
 
 		return false;
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+		Intent it = new Intent(this, CadEdtCategoria.class);
+		Categoria cat = null;
+		try {
+			cat = (Categoria) lv.getAdapter().getItem(position);
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+			Mensagens.msgErro(3, this);
+		}
+		it.putExtra(CadEdtCategoria.OBJ_CAT, cat);
+		startActivity(it);
+
+	}
+
 }

@@ -1,73 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/background"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:baselineAligned="False" >
+    android:orientation="horizontal" >
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:background="@drawable/background_left" />
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+       	style="@style/background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginLeft="45dp" >
+        android:orientation="vertical" >
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/receitas_categoria"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black"
-            android:textSize="12dp"
-            android:typeface="serif" >
-        </TextView>
-
-        <View
-            android:layout_width="80dp"
-            android:layout_height="2dp"
-            android:background="@color/vermelho_escarlata" />
-
-        <ListView
-            android:id="@+id/categoriasReceita"
-            style="@style/TransparentListView"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp" >
-        </ListView>
-    </LinearLayout>
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginLeft="45dp" >
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/receitas_categoria"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black"
+                android:textSize="12dp"
+                android:typeface="serif" >
+            </TextView>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/despesas_categoria"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:textColor="@android:color/black"
-            android:textSize="12dp"
-            android:typeface="serif" >
-        </TextView>
+            <View
+                android:layout_width="80dp"
+                android:layout_height="2dp"
+                android:background="@color/vermelho_escarlata" />
 
-        <View
-            android:layout_width="80dp"
-            android:layout_height="2dp"
-            android:background="@color/vermelho_escarlata" />
+            <ListView
+                android:id="@+id/categoriasReceita"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp" >
+            </ListView>
+        </LinearLayout>
 
-        <ListView
-            android:id="@+id/categoriasDespesa"
-            style="@style/TransparentListView"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="10dp" >
-        </ListView>
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/despesas_categoria"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black"
+                android:textSize="12dp"
+                android:typeface="serif" >
+            </TextView>
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="2dp"
+                android:background="@color/vermelho_escarlata" />
+
+            <ListView
+                android:id="@+id/categoriasDespesa"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="10dp" >
+            </ListView>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
