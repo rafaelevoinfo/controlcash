@@ -21,6 +21,14 @@ import br.com.dreamsoft.R;
  */
 public abstract class Mensagens {
 
+	public enum Infos {
+		INFO_ID_EXPORT;
+	};
+
+	public enum Erros {
+		CRIAR_FILE_PLANILHA;
+	}
+
 	// TODO Adicionar todas as mensagens desta classe para o string.xml
 	public static void msgOk(final Context ctx) {
 
@@ -78,6 +86,32 @@ public abstract class Mensagens {
 
 		}
 
+	}
+
+	public static void msgInfo(Infos info, Context ctx) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		builder = builder.setIcon(ctx.getResources().getDrawable(R.drawable.help));
+		builder = builder.setTitle(ctx.getString(R.string.info));
+		AlertDialog dialog = builder.setPositiveButton("Ok", null).create();
+
+		switch (info) {
+			case INFO_ID_EXPORT: {
+				dialog.setMessage(ctx.getString(R.string.info_id_export));
+				dialog.show();
+				break;
+			}
+		}
+	}
+
+	public static void msgErro(Erros erro, Context ctx) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+		AlertDialog dialog = builder.setTitle("Erro").setPositiveButton("Ok", null).create();
+		switch (erro) {
+			case CRIAR_FILE_PLANILHA:
+				dialog.setMessage("Erro de IO");// ctx.getString(R.string.erro_criar_arq_planilha));
+				dialog.show();
+				break;
+		}
 	}
 
 	public static void msgErro(int cod, Context ctx) {

@@ -8,15 +8,20 @@ import java.sql.SQLException;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.utils.Mensagens;
+import br.com.dreamsoft.utils.Mensagens.Infos;
 
 /**
  * 
@@ -24,8 +29,13 @@ import br.com.dreamsoft.utils.Mensagens;
  */
 public class CadEdtCategoria extends Activity {
 
-	private Button btCat;
-	private EditText nome;
+	private Button btnCat;
+	private EditText edtNome;
+	private EditText edtIdExport;
+	private ImageButton btnInfoIdExport;
+
+	private Animation anin;
+	private Handler handle;
 
 	// atributos static usados para saber se esta sendo feita uma edi��o ou
 	// cadastro
@@ -42,9 +52,13 @@ public class CadEdtCategoria extends Activity {
 		setTitle(getString(R.string.categoria));
 
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
+		anin = AnimationUtils.loadAnimation(this, R.anim.press_btn);
+		handle = new Handler();
 
-		this.btCat = (Button) findViewById(R.id.btnCadCat);
-		this.nome = (EditText) findViewById(R.id.nomeCat);
+		this.btnCat = (Button) findViewById(R.id.btnCadCat);
+		this.edtNome = (EditText) findViewById(R.id.nomeCat);
+		this.btnInfoIdExport = (ImageButton) findViewById(R.id.btnInfoIdExport);
+		this.edtIdExport = (EditText) findViewById(R.id.edtIdExport);
 
 		// verifica se esta editando
 		if (getIntent().getExtras() != null) {
@@ -54,32 +68,35 @@ public class CadEdtCategoria extends Activity {
 				cat = (Categoria) getIntent().getExtras().get(OBJ_CAT);
 
 				this.idCat = cat.getId();
-				this.nome.setText(cat.getNome());
+				this.edtNome.setText(cat.getNome());
+				if (cat.getIdExport() != 0) {
+					this.edtIdExport.setText(String.valueOf(cat.getIdExport()));
+				}
 
-				this.btCat.setText(getString(R.string.salvar));
+				this.btnCat.setText(getString(R.string.salvar));
 			} catch (ClassCastException e) {
 				e.printStackTrace();
 				Mensagens.msgErro(3, this);
 			}
 		}
-		/*
-		 * if (getIntent().getBooleanExtra(CadEdtCategoria.EDIT, false)) {
-		 * flagEdt = true; Categoria cat = null; try { cat = (Categoria)
-		 * getIntent().getExtras().get(OBJ_CAT);
-		 * 
-		 * this.idCat = cat.getId(); this.nome.setText(cat.getNome());
-		 * 
-		 * this.btCat.setText("Editar"); } catch (ClassCastException e) {
-		 * e.printStackTrace(); Mensagens.msgErro(3, this); } }
-		 */
 
-		this.btCat.setOnClickListener(new OnClickListener() {
+		configurarInfoButton();
+
+		configurarAddButton();
+
+	}
+
+	private void configurarAddButton() {
+		this.btnCat.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
 				CategoriaDao catDao = Factory.createCategoriaDao(CadEdtCategoria.this);
 
 				Categoria cat = new Categoria();
-				cat.setNome(nome.getText().toString());
+				cat.setNome(edtNome.getText().toString());
+				if (!edtIdExport.getText().toString().trim().equals("")) {
+					cat.setIdExport(Integer.parseInt(edtIdExport.getText().toString()));
+				}
 				try {
 					if (!flagEdt) {
 						// realiza o cadastro
@@ -104,6 +121,24 @@ public class CadEdtCategoria extends Activity {
 					e.printStackTrace();
 					Mensagens.msgErroBD(1, CadEdtCategoria.this);
 				}
+			}
+		});
+
+	}
+
+	private void configurarInfoButton() {
+
+		this.btnInfoIdExport.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				btnInfoIdExport.startAnimation(anin);
+				handle.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						Mensagens.msgInfo(Infos.INFO_ID_EXPORT, CadEdtCategoria.this);
+					}
+				}, 250);
+
 			}
 		});
 

@@ -45,28 +45,10 @@ public class ListaCategorias extends Activity implements OnItemClickListener {
 		setContentView(R.layout.lista_categoria_relatorio);
 
 		lv = (ListView) findViewById(R.id.lista_cat_rel);
-		lv.setCacheColorHint(0x000000);
+		lv.setCacheColorHint(getResources().getColor(android.R.color.transparent));
 		lv.setOnItemClickListener(this);
 
 		registerForContextMenu(lv);
-
-		// LinearLayout ll = new LinearLayout(this);
-		// LinearLayout.LayoutParams lp = new
-		// LinearLayout.LayoutParams(LayoutParams.FILL_PARENT,
-		// LayoutParams.WRAP_CONTENT);
-		// lp.leftMargin = 45;
-		//
-		// ll.setBackgroundDrawable(getResources().getDrawable(R.drawable.app_background));
-		// // como estou usando um layout padrao do Android, aqui eu vou remover
-		// a
-		// // list do parent e então add ela no meu
-		// // linearLayout, isto foi feito para que eu conseguise colocar a
-		// margin.
-		// ((FrameLayout) getListView().getParent()).removeAllViews();
-		// // add a lista a meu linearLayout
-		// ll.addView(getListView(), lp);
-		// // dizendo ao Android para usar meu LinearLayout
-		// setContentView(ll);
 
 		Animacao.addAnimacaoLista(lv);
 
@@ -82,24 +64,6 @@ public class ListaCategorias extends Activity implements OnItemClickListener {
 	private void refreshLista() {
 		List<Categoria> lista = this.dao.buscarTodos();
 		lv.setAdapter(new CategoriaAdapter(this, lista));
-
-		/*
-		 * try { List<Categoria> lista = this.dao.buscarTodos();
-		 * List<HashMap<String, String>> listCat = new ArrayList<HashMap<String,
-		 * String>>();
-		 * 
-		 * for (Categoria cat : lista) { HashMap<String, String> m = new
-		 * HashMap<String, String>(); m.put("ID", String.valueOf(cat.getId()));
-		 * m.put("NOME", cat.getNome()); listCat.add(m); } //array contendo o
-		 * nome das chaves do meu hash String[] from = { "NOME" }; //array
-		 * contendo o nome dos campos no layout que ir�o receber a os valores do
-		 * hash int[] to = { android.R.id.text1 }; setListAdapter(new
-		 * SimpleAdapter(this, listCat, android.R.layout.simple_list_item_1,
-		 * from, to));
-		 * 
-		 * } catch (Exception e) { e.printStackTrace(); Mensagens.msgErroBD(2,
-		 * this); }
-		 */
 	}
 
 	// protected void onActivityResult(int cod){
@@ -107,19 +71,18 @@ public class ListaCategorias extends Activity implements OnItemClickListener {
 	// }
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.nova_categoria, menu);
+		inflater.inflate(R.menu.categoria, menu);
 		return true;
 	}
 
 	// chamado quando se clica em alguma opção do menu
-
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.addCategoria:
 				Intent it = new Intent(this, CadEdtCategoria.class);
 				startActivity(it);
-				return true;
 
+				return true;
 			default:
 				return false;
 		}

@@ -11,6 +11,8 @@
 		pois ele guarda a informação da data que deve ser compartilhada entre todas 
 		as activitys
     -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:name="br.com.dreamsoft.ApplicationControlCash"
         android:icon="@drawable/icon"

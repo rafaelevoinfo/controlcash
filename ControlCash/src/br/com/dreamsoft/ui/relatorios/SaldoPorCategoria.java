@@ -1,10 +1,16 @@
 package br.com.dreamsoft.ui.relatorios;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
@@ -13,6 +19,7 @@ import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.ui.adapters.RecDespCatAdapter;
+import br.com.dreamsoft.utils.Planilha;
 
 public class SaldoPorCategoria extends Activity {
 	public static final String DATA = "data";
@@ -30,9 +37,47 @@ public class SaldoPorCategoria extends Activity {
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 
 		lvReceitas = (ListView) findViewById(R.id.categoriasReceita);
+		lvReceitas.setCacheColorHint(getResources().getColor(android.R.color.transparent));
 		lvDespesas = (ListView) findViewById(R.id.categoriasDespesa);
+		lvDespesas.setCacheColorHint(getResources().getColor(android.R.color.transparent));
 
 		preencherListViews();
+
+	}
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.exportar, menu);
+		return true;
+	}
+
+	// chamado quando se clica em alguma opção do menu
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.exportPlanilha:
+				// TODO: Refazer isto aqui. fiz assim somente para teste
+				Planilha pn = new Planilha(this);
+				try {
+					pn.createPlanilha();
+				} catch (RowsExceededException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (WriteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				return true;
+			default:
+				return false;
+		}
+
 	}
 
 	private void preencherListViews() {
