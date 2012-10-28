@@ -8,20 +8,19 @@ package br.com.dreamsoft.model;
 import java.io.Serializable;
 
 /**
- *
+ * 
  * @author rafael
  */
 public class Categoria implements Serializable {
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
-    private String nome;
+	private int idExport;
+	private String nome;
 
-    
-    
-    public Categoria() {
+	public Categoria() {
 		super();
 	}
 
@@ -32,27 +31,32 @@ public class Categoria implements Serializable {
 	}
 
 	public int getId() {
-        return id;
-    }
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getNome() {
-        return nome;
-    }
+	public String getNome() {
+		return nome;
+	}
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	@Override
 	public String toString() {
 		return this.nome;
 	}
-    
-    
 
-    
+	public int getIdExport() {
+		return idExport;
+	}
+
+	public void setIdExport(int idExport) {
+		this.idExport = idExport;
+	}
+
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+
     <string name="app_name">ControlCash</string>
     <string name="add_receita">Cadastrar receita</string>
     <string name="add_despesa">Cadastrar despesa</string>
@@ -30,4 +31,11 @@
     <string name="ano">Ano</string>
     <string name="mes">Mês</string>
     <string name="altera_faixa_tempo">Alterar data base</string>
+    <string name="id_export">Código de Exportação</string>
+    <string name="info">Informação</string>
+    <string name="info_id_export">Preencha este campo caso deseje utilizá-lo como código da categoria no momento da exportação.</string>
+    <string name="nome_arquivo">Informe o nome do arquivo para exportar</string>
+    <string name="planilha">Planilha</string>
+    <string name="exportar">Exportar</string>
+
 </resources>

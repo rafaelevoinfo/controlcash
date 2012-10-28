@@ -1,10 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"    
+    android:layout_height="fill_parent"
+    android:background="@color/beje"
     android:baselineAligned="false"
-    android:orientation="vertical"
-    android:background="@color/beje"  >
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/id_export" />
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/edtIdExport"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="numberSigned" />
+
+        <ImageButton
+            android:id="@+id/btnInfoIdExport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:padding="5dip"
+            android:src="@drawable/help" />
+    </TableRow>
 
     <TextView
         android:layout_width="fill_parent"

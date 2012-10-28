@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="/media/DADOS/Desenvolvimento/Java/Componentes_Java/jexcelapi/jxl.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
