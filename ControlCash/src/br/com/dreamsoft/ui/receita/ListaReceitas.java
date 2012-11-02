@@ -70,7 +70,7 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 		});
 
 		// getListView().setBackgroundResource(R.drawable.background);
-		lv.setCacheColorHint(0x00000000);
+		lv.setCacheColorHint(getResources().getColor(android.R.color.transparent));
 		registerForContextMenu(lv);
 		// faz uma animacao para quando a lista aparece
 		Animacao.addAnimacaoLista(lv);

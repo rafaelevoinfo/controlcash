@@ -41,7 +41,7 @@ public class ListaSaldos extends Activity implements OnItemClickListener {
 
 		lv = (ListView) findViewById(R.id.lista_cat_rel);
 		// impede que o fundo fique branco durante a animação
-		lv.setCacheColorHint(0x000000);
+		lv.setCacheColorHint(getResources().getColor(android.R.color.transparent));
 		lv.setOnItemClickListener(this);
 
 		this.daoDesp = Factory.createDespesaDao(this);
