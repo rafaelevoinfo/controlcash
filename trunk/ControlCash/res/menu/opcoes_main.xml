@@ -6,5 +6,12 @@
         android:icon="@android:drawable/ic_menu_my_calendar"
         android:title="@string/altera_faixa_tempo">
     </item>
+    <item
+        android:id="@+id/exportPlanilha"
+        android:enabled="true"
+        android:icon="@drawable/planilha"
+        android:title="@string/exportar"
+        android:visible="true">
+    </item>
 
 </menu>

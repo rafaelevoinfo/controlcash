@@ -1,94 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<!-- <RadioGroup android:orientation="horizontal" android:id="@+main/meses" android:layout_width="fill_parent"
-		android:layout_height="wrap_content">
-		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			android:orientation="vertical" android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
-			<TableRow android:id="@+id/tableRow1" android:layout_width="fill_parent"
-				android:layout_height="wrap_content">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    style="@style/background" >
 
-				<RadioButton android:textSize="12sp" android:id="@+main/jan"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/janeiro"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/fev"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/fevereiro"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/mar"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/marco"></RadioButton>
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mes"
+        android:textAppearance="?android:attr/textAppearanceSmall" >
+    </TextView>
 
-			</TableRow>
-			<TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-				<RadioButton android:textSize="12sp" android:id="@+main/abr"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/abril"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/mai"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/maio"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/jun"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/junho"></RadioButton>
-
-			</TableRow>
-			<TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-
-				<RadioButton android:textSize="12sp" android:id="@+main/jul"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/julho"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/ago"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/agosto"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/set"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/setembro"></RadioButton>
-
-			</TableRow>
-			<TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content"
-				android:layout_height="wrap_content">
-				<RadioButton android:textSize="12sp" android:id="@+main/out"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/outubro"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/nov"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/novembro"></RadioButton>
-				<RadioButton android:textSize="12sp" android:id="@+main/dez"
-					android:layout_width="fill_parent" android:layout_weight="1"
-					android:layout_height="wrap_content" android:text="@string/dezembro"></RadioButton>
-
-
-
-
-			</TableRow>
-		</TableLayout>
-	</RadioGroup>-->
-    <TextView android:id="@+id/textView1" android:textAppearance="?android:attr/textAppearanceSmall" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mes"></TextView>
-    <Spinner android:layout_height="wrap_content"
-	android:layout_width="fill_parent" android:id="@+main/meses"></Spinner>
+    <Spinner
+        android:id="@+main/meses"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+    </Spinner>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/ano"
         android:textAppearance="?android:attr/textAppearanceSmall" >
-</TextView>
-	<EditText android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:id="@+main/edtAno"
-		android:inputType="numberDecimal">
-		<requestFocus></requestFocus>
-	</EditText>
-	
-	<Button
-	    android:id="@+main/btnAltAno"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:text="@string/altera_mes"
-	    android:drawableLeft="@drawable/calendario"
-	     />
+    </TextView>
 
+    <EditText
+        android:id="@+main/edtAno"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal" >
+
+        <requestFocus>
+        </requestFocus>
+    </EditText>
+
+    <Button
+        android:id="@+main/btnAltAno"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/calendario"
+        android:text="@string/altera_mes" />
 
 </LinearLayout>

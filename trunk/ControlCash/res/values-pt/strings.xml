@@ -34,8 +34,9 @@
     <string name="id_export">Código de Exportação</string>
     <string name="info">Informação</string>
     <string name="info_id_export">Preencha este campo caso deseje utilizá-lo como código da categoria no momento da exportação.</string>
-    <string name="nome_arquivo">Informe o nome do arquivo para exportar</string>
+    <string name="nome_arquivo">Nome do arquivo</string>
     <string name="planilha">Planilha</string>
     <string name="exportar">Exportar</string>
+     <string name="positive_button">Ok</string>
 
 </resources>

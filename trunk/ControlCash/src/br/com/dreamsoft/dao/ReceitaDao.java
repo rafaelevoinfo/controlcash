@@ -18,263 +18,266 @@ import br.com.dreamsoft.model.Categoria;
 import br.com.dreamsoft.model.Receita;
 
 /**
- *
+ * 
  * @author rafael
  */
-public class ReceitaDao{
+public class ReceitaDao {
 
-    private final String KEY_ID = "id";
-    private final String KEY_NOME = "nome";
-    private final String KEY_VALOR = "valor";
-    private final String KEY_DATA = "date";
-    private final String KEY_CATEGORIA = "categoria";
-    private final String[] COLUNS = {KEY_ID, KEY_CATEGORIA, KEY_NOME, KEY_VALOR, KEY_DATA};
-    private final String DATABASE_TABLE = "receitas";
-    private SQLiteDatabase db;
-    private Context ctx;
+	private final String KEY_ID = "id";
+	private final String KEY_NOME = "nome";
+	private final String KEY_VALOR = "valor";
+	private final String KEY_DATA = "date";
+	private final String KEY_CATEGORIA = "categoria";
+	private final String[] COLUNS = { KEY_ID, KEY_CATEGORIA, KEY_NOME, KEY_VALOR, KEY_DATA };
+	private final String DATABASE_TABLE = "receitas";
+	private SQLiteDatabase db;
+	private Context ctx;
 
-    public ReceitaDao(Context ctx) {
-        this.db = ControlCashBD.getInstance(ctx);
-        this.ctx = ctx;
-    }
+	public ReceitaDao(Context ctx) {
+		this.db = ControlCashBD.getInstance(ctx);
+		this.ctx = ctx;
+	}
 
-    public long cadastrar(Receita rc) {
-        this.db.beginTransaction();
-        long id = -1;
-        try {
-            ContentValues initialValues = new ContentValues();            
-            initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
-            initialValues.put(KEY_NOME, rc.getNome());
-            initialValues.put(KEY_VALOR, rc.getValor());
-            SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
-            	//initialValues.put(KEY_DATA, rc.getDate().toString());
-            } catch (Exception e) {
-                return -1L;
-            }
-            //grava no banco
-            id = db.insert(DATABASE_TABLE, null, initialValues);           
-            if (id != -1) {
-                this.db.setTransactionSuccessful();
-            }
-        } finally {
-            this.db.endTransaction();            
-        }
-        return id;
-    }
+	public long cadastrar(Receita rc) {
+		this.db.beginTransaction();
+		long id = -1;
+		try {
+			ContentValues initialValues = new ContentValues();
+			initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
+			initialValues.put(KEY_NOME, rc.getNome());
+			initialValues.put(KEY_VALOR, rc.getValor());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+				// initialValues.put(KEY_DATA, rc.getDate().toString());
+			} catch (Exception e) {
+				return -1L;
+			}
+			// grava no banco
+			id = db.insert(DATABASE_TABLE, null, initialValues);
+			if (id != -1) {
+				this.db.setTransactionSuccessful();
+			}
+		} finally {
+			this.db.endTransaction();
+		}
+		return id;
+	}
 
-    public boolean alterar(Receita rc) {
-        boolean result = false;
-        this.db.beginTransaction();
-        long id = 0;
-        try {
-            ContentValues initialValues = new ContentValues();
-            initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
-            initialValues.put(KEY_NOME, rc.getNome());
-            initialValues.put(KEY_VALOR, rc.getValor());
-           
-            //SimpleDateFormat  sdf = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                initialValues.put(KEY_DATA, sdf.format(rc.getDate()));            	
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
+	public boolean alterar(Receita rc) {
+		boolean result = false;
+		this.db.beginTransaction();
+		long id = 0;
+		try {
+			ContentValues initialValues = new ContentValues();
+			initialValues.put(KEY_CATEGORIA, rc.getCategoria().getId());
+			initialValues.put(KEY_NOME, rc.getNome());
+			initialValues.put(KEY_VALOR, rc.getValor());
 
-            //atualiza no banco
-            id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?", new String[]{String.valueOf(rc.getId())});
-            if (id != 0) {
-                this.db.setTransactionSuccessful();
-                result = true;
-            }
-        } finally {
-            this.db.endTransaction();            
-        }
-        return result;
-    }
+			// SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				initialValues.put(KEY_DATA, sdf.format(rc.getDate()));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
 
-    public boolean deletar(Integer id) {
-        boolean result = false;
-        this.db.beginTransaction();
+			// atualiza no banco
+			id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?",
+					new String[] { String.valueOf(rc.getId()) });
+			if (id != 0) {
+				this.db.setTransactionSuccessful();
+				result = true;
+			}
+		} finally {
+			this.db.endTransaction();
+		}
+		return result;
+	}
 
-        try {
-            //deleta no banco
-            id = db.delete(DATABASE_TABLE, KEY_ID + "= ?", new String[]{String.valueOf(id)});
-            if (id != 0) {
-                this.db.setTransactionSuccessful();
-                result = true;
-            }
-        } finally {
-            this.db.endTransaction();            
-        }
-        return result;
-    }
+	public boolean deletar(Integer id) {
+		boolean result = false;
+		this.db.beginTransaction();
 
-    public List<Receita> buscarTodos() throws ParseException {
-        Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, null, null, null, null, null, null);
-        List<Receita> receitas = preencherArray(cursor);
-        return receitas;
-    }
-    /**
-     * Busca as receitas do mes da data passada
-     * @param data - String no formato yyyy-MM-dd
-     * @return
-     */
-    public List<Receita> buscarMes(String data) throws ParseException{
-    	//cria a clausa where que faz a comparação entre os datas
-    	String where = "strftime('%Y-%m',"+KEY_DATA+") = strftime('%Y-%m','"+data+"')";
-    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);    	
-    	
-        List<Receita> receitas = preencherArray(cursor);
-        
-        return receitas;
-        //return null;
-    }
-    
-   /* public List<Receita> buscarIntervaloMes(String dataInicio, String dataFim) throws ParseException{
-    	//cria a clausa where que faz a comparação entre os datas
-    	String where = KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')";
-    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
-    	
-        List<Receita> receitas = new ArrayList<Receita>();
-        //pega os index pelos nomes
-        int indexId = cursor.getColumnIndex(KEY_ID);
-        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
-        int indexNom = cursor.getColumnIndex(KEY_NOME);
-        int indexVal = cursor.getColumnIndex(KEY_VALOR);
-        int indexDat = cursor.getColumnIndex(KEY_DATA);
-        //pega os dados
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Receita receita = new Receita();
+		try {
+			// deleta no banco
+			id = db.delete(DATABASE_TABLE, KEY_ID + "= ?", new String[] { String.valueOf(id) });
+			if (id != 0) {
+				this.db.setTransactionSuccessful();
+				result = true;
+			}
+		} finally {
+			this.db.endTransaction();
+		}
+		return result;
+	}
 
-            receita.setId(cursor.getInt(indexId));
-            Categoria cat = new Categoria();
-            cat.setId(cursor.getInt(indexCat));
-            receita.setCategoria(cat);
-            receita.setNome(cursor.getString(indexNom));
-            receita.setValor(cursor.getDouble(indexVal));
-            
-            //cria os formatadores da datas                                 
-            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
-            //transforma a String em Date
-            Date date =  sdfUSA.parse(cursor.getString(indexDat));
-            //transforma o date em String e depois a String em Date
-            date = sdfBRA.parse(sdfBRA.format(date));
-            
-            receita.setDate(date);
+	public List<Receita> buscarTodos() throws ParseException {
+		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, null, null, null, null, null, null);
+		List<Receita> receitas = preencherArray(cursor);
+		return receitas;
+	}
 
-            receitas.add(receita);
-            cursor.moveToNext();
+	/**
+	 * Busca as receitas do mes da data passada
+	 * 
+	 * @param data
+	 *            - String no formato yyyy-MM-dd
+	 * @return
+	 */
+	public List<Receita> buscarMes(String data) throws ParseException {
+		// cria a clausa where que faz a comparaï¿½ï¿½o entre os datas
+		String where = "strftime('%Y-%m'," + KEY_DATA + ") = strftime('%Y-%m','" + data + "')";
+		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
 
-        }
-        cursor.close();
-        return receitas;
-        //return null;
-    }*/
-    
-    public Double buscarSaldoCategoria(int categoria, String data){
-    	//cria uma query que ja pega o resultado da subtração das receitas e despesas em uma mesma categoria
-    	//OBS.: Na teoria nao deveria haver receitas e despesas cadastradas para a mesma categoria, mas o sistema permite isso, por isso trato isto aqui
-    	//String sql = "SELECT (rec - desp) as "+KEY_VALOR+" FROM (SELECT rec,desp FROM (SELECT SUM("+KEY_VALOR+") as rec FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = ?),(SELECT SUM("+KEY_VALOR+") as desp FROM despesas WHERE "+KEY_CATEGORIA+" = ?));";
-    	//Cursor cursor = this.db.rawQuery(sql,new String[]{String.valueOf(categoria),String.valueOf(categoria)});
-    	
-    	//pega a soma dos valores para uma mesma categoria referente a data passada
-    	String sql = "SELECT SUM("+KEY_VALOR+") AS "+KEY_VALOR+" FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = "+categoria+" AND strftime('%Y-%m',"+KEY_DATA+") = "+"strftime('%Y-%m','"+data+"')";
-    	Cursor cursor = this.db.rawQuery(sql,null);
-    	      
-        //pega os index pelos nomes        
-        int indexVal = cursor.getColumnIndex(KEY_VALOR);
-        double resultado = 0.0;
-        //pega os dados
-        cursor.moveToFirst();
-        resultado = cursor.getDouble(indexVal);  
-        cursor.close();
-        return resultado;
-    }
+		List<Receita> receitas = preencherArray(cursor);
 
-    public Receita buscar(Integer id) throws ParseException {
-        Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[]{id.toString()}, null, null, null, null);
-        Receita receita = new Receita();
-        //pega os index pelos nomes
-        int indexId = cursor.getColumnIndex(KEY_ID);
-        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
-        int indexNom = cursor.getColumnIndex(KEY_NOME);
-        int indexVal = cursor.getColumnIndex(KEY_VALOR);
-        int indexDat = cursor.getColumnIndex(KEY_DATA);
-        //pega os dados
-        receita.setId(cursor.getInt(indexId));
-        Categoria cat = new Categoria();
-        cat.setId(cursor.getInt(indexCat));
-        receita.setCategoria(cat);
-        receita.setNome(cursor.getString(indexNom));
-        receita.setValor(cursor.getDouble(indexVal));
-        //cria os formatadores da datas                                 
-        SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
-        //transforma a String em Date
-        Date date =  sdfUSA.parse(cursor.getString(indexDat));
-        //transforma o date em String e depois a String em Date
-        date = sdfBRA.parse(sdfBRA.format(date));
-        
-        receita.setDate(date);
+		return receitas;
+		// return null;
+	}
 
-        cursor.close();
-        return receita;
+	/*
+	 * public List<Receita> buscarIntervaloMes(String dataInicio, String
+	 * dataFim) throws ParseException{ //cria a clausa where que faz a
+	 * comparaï¿½ï¿½o entre os datas String where =
+	 * KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')";
+	 * Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null,
+	 * null, null, null, null);
+	 * 
+	 * List<Receita> receitas = new ArrayList<Receita>(); //pega os index pelos
+	 * nomes int indexId = cursor.getColumnIndex(KEY_ID); int indexCat =
+	 * cursor.getColumnIndex(KEY_CATEGORIA); int indexNom =
+	 * cursor.getColumnIndex(KEY_NOME); int indexVal =
+	 * cursor.getColumnIndex(KEY_VALOR); int indexDat =
+	 * cursor.getColumnIndex(KEY_DATA); //pega os dados cursor.moveToFirst();
+	 * while (!cursor.isAfterLast()) { Receita receita = new Receita();
+	 * 
+	 * receita.setId(cursor.getInt(indexId)); Categoria cat = new Categoria();
+	 * cat.setId(cursor.getInt(indexCat)); receita.setCategoria(cat);
+	 * receita.setNome(cursor.getString(indexNom));
+	 * receita.setValor(cursor.getDouble(indexVal));
+	 * 
+	 * //cria os formatadores da datas SimpleDateFormat sdfBRA = new
+	 * SimpleDateFormat("dd/MM/yyyy"); SimpleDateFormat sdfUSA = new
+	 * SimpleDateFormat("yyyy-MM-dd"); //transforma a String em Date Date date =
+	 * sdfUSA.parse(cursor.getString(indexDat)); //transforma o date em String e
+	 * depois a String em Date date = sdfBRA.parse(sdfBRA.format(date));
+	 * 
+	 * receita.setDate(date);
+	 * 
+	 * receitas.add(receita); cursor.moveToNext();
+	 * 
+	 * } cursor.close(); return receitas; //return null; }
+	 */
 
-    }
-	
+	public Double buscarSaldoCategoria(int categoria, String data) {
+		// cria uma query que ja pega o resultado da subtraï¿½ï¿½o das receitas e
+		// despesas em uma mesma categoria
+		// OBS.: Na teoria nao deveria haver receitas e despesas cadastradas
+		// para a mesma categoria, mas o sistema permite isso, por isso trato
+		// isto aqui
+		// String sql =
+		// "SELECT (rec - desp) as "+KEY_VALOR+" FROM (SELECT rec,desp FROM (SELECT SUM("+KEY_VALOR+") as rec FROM "+DATABASE_TABLE+" WHERE "+KEY_CATEGORIA+" = ?),(SELECT SUM("+KEY_VALOR+") as desp FROM despesas WHERE "+KEY_CATEGORIA+" = ?));";
+		// Cursor cursor = this.db.rawQuery(sql,new
+		// String[]{String.valueOf(categoria),String.valueOf(categoria)});
+
+		// pega a soma dos valores para uma mesma categoria referente a data
+		// passada
+		String sql = "SELECT SUM(" + KEY_VALOR + ") AS " + KEY_VALOR + " FROM " + DATABASE_TABLE + " WHERE "
+				+ KEY_CATEGORIA + " = " + categoria + " AND strftime('%Y-%m'," + KEY_DATA + ") = "
+				+ "strftime('%Y-%m','" + data + "')";
+		Cursor cursor = this.db.rawQuery(sql, null);
+
+		// pega os index pelos nomes
+		int indexVal = cursor.getColumnIndex(KEY_VALOR);
+		double resultado = 0.0;
+		// pega os dados
+		cursor.moveToFirst();
+		resultado = cursor.getDouble(indexVal);
+		cursor.close();
+		return resultado;
+	}
+
+	public Receita buscar(Integer id) throws ParseException {
+		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?",
+				new String[] { id.toString() }, null, null, null, null);
+		Receita receita = new Receita();
+		// pega os index pelos nomes
+		int indexId = cursor.getColumnIndex(KEY_ID);
+		int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+		int indexNom = cursor.getColumnIndex(KEY_NOME);
+		int indexVal = cursor.getColumnIndex(KEY_VALOR);
+		int indexDat = cursor.getColumnIndex(KEY_DATA);
+		// pega os dados
+		receita.setId(cursor.getInt(indexId));
+		Categoria cat = new Categoria();
+		cat.setId(cursor.getInt(indexCat));
+		receita.setCategoria(cat);
+		receita.setNome(cursor.getString(indexNom));
+		receita.setValor(cursor.getDouble(indexVal));
+		// cria os formatadores da datas
+		SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+		// transforma a String em Date
+		Date date = sdfUSA.parse(cursor.getString(indexDat));
+		// transforma o date em String e depois a String em Date
+		date = sdfBRA.parse(sdfBRA.format(date));
+
+		receita.setDate(date);
+
+		cursor.close();
+		return receita;
+
+	}
+
 	public List<Receita> buscarPorCategoria(Integer idCat) throws ParseException {
-		String where = "categoria = "+idCat;
-    	Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
-    	//preenche o list com objetos Despesa
-    	List<Receita> receitas = preencherArray(cursor);        
-       
-        return receitas; 
+		String where = "categoria = " + idCat;
+		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
+		// preenche o list com objetos Despesa
+		List<Receita> receitas = preencherArray(cursor);
+
+		return receitas;
 	}
-	
-	private List<Receita> preencherArray(Cursor cursor) throws ParseException{
-		//serve para buscar o nome das categorias
-    	CategoriaDao daoCat = Factory.createCategoriaDao(this.ctx);
+
+	private List<Receita> preencherArray(Cursor cursor) throws ParseException {
+		// serve para buscar o nome das categorias
+		CategoriaDao daoCat = Factory.createCategoriaDao(this.ctx);
 		List<Receita> receitas = new ArrayList<Receita>();
-		//pega os index pelos nomes
-        int indexId = cursor.getColumnIndex(KEY_ID);
-        int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
-        int indexNom = cursor.getColumnIndex(KEY_NOME);
-        int indexVal = cursor.getColumnIndex(KEY_VALOR);
-        int indexDat = cursor.getColumnIndex(KEY_DATA);
-        //pega os dados
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            Receita receita = new Receita();
+		// pega os index pelos nomes
+		int indexId = cursor.getColumnIndex(KEY_ID);
+		int indexCat = cursor.getColumnIndex(KEY_CATEGORIA);
+		int indexNom = cursor.getColumnIndex(KEY_NOME);
+		int indexVal = cursor.getColumnIndex(KEY_VALOR);
+		int indexDat = cursor.getColumnIndex(KEY_DATA);
+		// pega os dados
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Receita receita = new Receita();
 
-            receita.setId(cursor.getInt(indexId));
-            Categoria cat = daoCat.buscar(cursor.getInt(indexCat));
-           
-            receita.setCategoria(cat);
-            receita.setNome(cursor.getString(indexNom));
-            receita.setValor(cursor.getDouble(indexVal));
-            
-            //cria os formatadores da datas                                 
-            SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
-            //transforma a String em Date
-            Date date =  sdfUSA.parse(cursor.getString(indexDat));
-            //transforma o date em String e depois a String em Date
-            date = sdfBRA.parse(sdfBRA.format(date));
-            
-            receita.setDate(date);
+			receita.setId(cursor.getInt(indexId));
+			Categoria cat = daoCat.buscar(cursor.getInt(indexCat));
 
-            receitas.add(receita);
-            cursor.moveToNext();
+			receita.setCategoria(cat);
+			receita.setNome(cursor.getString(indexNom));
+			receita.setValor(cursor.getDouble(indexVal));
 
-        }
-        cursor.close();
-        return receitas;
+			// cria os formatadores da datas
+			SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd");
+			// transforma a String em Date
+			Date date = sdfUSA.parse(cursor.getString(indexDat));
+			// transforma o date em String e depois a String em Date
+			date = sdfBRA.parse(sdfBRA.format(date));
+
+			receita.setDate(date);
+
+			receitas.add(receita);
+			cursor.moveToNext();
+
+		}
+		cursor.close();
+		return receitas;
 	}
 
-	
 }

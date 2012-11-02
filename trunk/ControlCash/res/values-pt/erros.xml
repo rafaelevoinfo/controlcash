@@ -11,5 +11,5 @@
     <string name="erro_definir_cor">Erro ao definir a cor dos textos!</string>
     <string name="erro_ano_invalido">Ano inválido!</string>
     <string name="erro_desconhecido">Desculpe! Erro desconhecido.</string>
-     <string name="erro_criar_arq_planilha">Erro ao criar o arquivo da planilha.</string>
+    <string name="erro_criar_arq_planilha">Erro ao criar o arquivo da planilha.</string>
 </resources>

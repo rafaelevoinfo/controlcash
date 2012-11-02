@@ -108,7 +108,7 @@ public abstract class Mensagens {
 		AlertDialog dialog = builder.setTitle("Erro").setPositiveButton("Ok", null).create();
 		switch (erro) {
 			case CRIAR_FILE_PLANILHA:
-				dialog.setMessage("Erro de IO");// ctx.getString(R.string.erro_criar_arq_planilha));
+				dialog.setMessage(ctx.getString(R.string.erro_criar_arq_planilha));
 				dialog.show();
 				break;
 		}

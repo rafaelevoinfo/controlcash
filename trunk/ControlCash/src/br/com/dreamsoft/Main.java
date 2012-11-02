@@ -7,6 +7,7 @@ package br.com.dreamsoft;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,12 +31,16 @@ import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
+import br.com.dreamsoft.planilha.ExportXls;
+import br.com.dreamsoft.planilha.Planilha;
 import br.com.dreamsoft.ui.categoria.ListaCategorias;
 import br.com.dreamsoft.ui.despesa.CadEdtDespesa;
 import br.com.dreamsoft.ui.despesa.ListaDespesas;
 import br.com.dreamsoft.ui.receita.CadEdtReceita;
 import br.com.dreamsoft.ui.receita.ListaReceitas;
 import br.com.dreamsoft.ui.relatorios.ListaSaldos;
+import br.com.dreamsoft.utils.AdapterDaoPlanilha;
+import br.com.dreamsoft.utils.AdapterDaoPlanilha.Tipo;
 import br.com.dreamsoft.utils.Mensagens;
 import br.com.dreamsoft.utils.Meses;
 
@@ -173,6 +178,30 @@ public class Main extends Activity {
 			case R.id.trocaMes:
 				// deve-se trocar o mes de atua��o
 				startActivityForResult(new Intent(Main.this, AlteraMes.class), TROCAR_MES);
+
+				return true;
+			case R.id.exportPlanilha:
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				String date = sdf.format(data.getTime());
+
+				List<ExportXls> listRec = null;
+				List<ExportXls> listDesp = null;
+				try {
+					listRec = AdapterDaoPlanilha.buscarMes(this, date, Tipo.RECEITA);
+					listDesp = AdapterDaoPlanilha.buscarMes(this, date, Tipo.DESPESA);
+					List<List<ExportXls>> dados = new ArrayList<List<ExportXls>>();
+					if (listRec.size() > 0)
+						dados.add(listRec);
+
+					if (listDesp.size() > 0)
+						dados.add(listDesp);
+
+					Planilha pn = new Planilha(this, dados);
+					pn.gerarPlanilha();
+
+				} catch (ParseException e) {
+					Mensagens.msgErroBD(2, this);
+				}
 
 				return true;
 		}

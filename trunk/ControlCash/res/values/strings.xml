@@ -33,7 +33,8 @@
     <string name="id_export">Export Code</string>
     <string name="info">Information</string>
     <string name="info_id_export">Complete this field if you want to use it as a category code at the time of export.</string>
-    <string name="nome_arquivo">Enter the filename to export</string>
+    <string name="nome_arquivo">Filename</string>
      <string name="planilha">SpreadSheet</string>
     <string name="exportar">Export</string>
+    <string name="positive_button">Ok</string>
 </resources>
