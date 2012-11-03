@@ -28,7 +28,9 @@ import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.DespesaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Despesa;
+import br.com.dreamsoft.planilha.ListaExportar;
 import br.com.dreamsoft.ui.adapters.DespesaAdapter;
+import br.com.dreamsoft.utils.AdapterDaoPlanilha.Tipo;
 import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -95,6 +97,7 @@ public class ListaDespesas extends Activity {
 			lv.setAdapter(new DespesaAdapter(this, lista));
 
 			tv = (TextView) findViewById(R.id.saldo);
+			tv.setTextColor(getResources().getColor(R.color.vermelho_escarlata));
 
 			double total = 0;
 			for (int i = 0; i < lv.getCount(); i++) {
@@ -134,10 +137,16 @@ public class ListaDespesas extends Activity {
 	// chamado quando se clica em alguma opção do menu
 
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent it = null;
 		switch (item.getItemId()) {
 
 			case R.id.addDespesa:
-				Intent it = new Intent(this, CadEdtDespesa.class);
+				it = new Intent(this, CadEdtDespesa.class);
+				startActivity(it);
+				return true;
+			case R.id.exportPlanilha:
+				it = new Intent(this, ListaExportar.class);
+				it.putExtra(ListaExportar.TIPO, Tipo.DESPESA);
 				startActivity(it);
 				return true;
 		}

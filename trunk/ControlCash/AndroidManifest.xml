@@ -49,6 +49,7 @@
         </activity>
         <activity android:name=".ui.relatorios.SaldoPorCategoria" >
         </activity>
+        <activity android:name=".planilha.ListaExportar"></activity>
     </application>
 
 </manifest>

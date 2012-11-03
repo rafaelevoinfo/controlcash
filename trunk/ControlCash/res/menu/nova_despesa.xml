@@ -5,5 +5,12 @@
         android:id="@+id/addDespesa"
         android:icon="@android:drawable/ic_menu_add"
         android:title="@string/add_despesa"/>
+   <item
+        android:id="@+id/exportPlanilha"
+        android:enabled="true"
+        android:icon="@drawable/planilha"
+        android:title="@string/exportar"
+        android:visible="true">
+    </item>
 
 </menu>

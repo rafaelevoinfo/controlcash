@@ -37,6 +37,9 @@
     <string name="nome_arquivo">Nome do arquivo</string>
     <string name="planilha">Planilha</string>
     <string name="exportar">Exportar</string>
-     <string name="positive_button">Ok</string>
+    <string name="positive_button">Ok</string>
+    <string name="todas">Todas</string>
+     <string name="export_receita_despesa">Exportar receitas e despesas</string>
+     <string name="objeto_movimentacao_invalido">Movimentação inválida</string>
 
 </resources>
