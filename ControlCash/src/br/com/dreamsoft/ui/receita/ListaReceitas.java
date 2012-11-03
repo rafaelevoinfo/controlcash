@@ -28,7 +28,9 @@ import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Receita;
+import br.com.dreamsoft.planilha.ListaExportar;
 import br.com.dreamsoft.ui.adapters.ReceitaAdapter;
+import br.com.dreamsoft.utils.AdapterDaoPlanilha.Tipo;
 import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -121,13 +123,12 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 	}
 
 	/*
-	 * @Override protected void onListItemClick(ListView l, View v, int
-	 * position, long id) { super.onListItemClick(l, v, position, id);
+	 * @Override protected void onListItemClick(ListView l, View v, int position, long id) {
+	 * super.onListItemClick(l, v, position, id);
 	 * 
-	 * Intent it = new Intent(this, CadEdtReceita.class); try { Receita rc =
-	 * (Receita) l.getAdapter().getItem(position);
-	 * it.putExtra(CadEdtReceita.EDIT, true); it.putExtra(CadEdtReceita.OBJ_REC,
-	 * rc); startActivity(it); } catch (ClassCastException e) {
+	 * Intent it = new Intent(this, CadEdtReceita.class); try { Receita rc = (Receita)
+	 * l.getAdapter().getItem(position); it.putExtra(CadEdtReceita.EDIT, true);
+	 * it.putExtra(CadEdtReceita.OBJ_REC, rc); startActivity(it); } catch (ClassCastException e) {
 	 * e.printStackTrace(); Mensagens.msgErro(3, this); }
 	 * 
 	 * 
@@ -150,6 +151,11 @@ public class ListaReceitas extends Activity {// extends ListActivity {
 
 			case R.id.addReceita:
 				Intent it = new Intent(this, CadEdtReceita.class);
+				startActivity(it);
+				return true;
+			case R.id.exportPlanilha:
+				it = new Intent(this, ListaExportar.class);
+				it.putExtra(ListaExportar.TIPO, Tipo.RECEITA);
 				startActivity(it);
 				return true;
 		}

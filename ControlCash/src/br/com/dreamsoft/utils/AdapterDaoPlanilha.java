@@ -29,7 +29,7 @@ public class AdapterDaoPlanilha {
 
 	}
 
-	private static List<ExportXls> copiar(List<? extends Object> recDesp) {
+	public static List<ExportXls> copiar(List<? extends Object> recDesp) {
 		List<ExportXls> lista = new ArrayList<ExportXls>();
 		for (Object obj : recDesp) {
 			if (obj instanceof ExportXls) {

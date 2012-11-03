@@ -26,7 +26,7 @@ public abstract class Mensagens {
 	};
 
 	public enum Erros {
-		CRIAR_FILE_PLANILHA;
+		CRIAR_FILE_PLANILHA, MOVIMENTACAO_INVALIDA;
 	}
 
 	// TODO Adicionar todas as mensagens desta classe para o string.xml
@@ -109,6 +109,10 @@ public abstract class Mensagens {
 		switch (erro) {
 			case CRIAR_FILE_PLANILHA:
 				dialog.setMessage(ctx.getString(R.string.erro_criar_arq_planilha));
+				dialog.show();
+				break;
+			case MOVIMENTACAO_INVALIDA:
+				dialog.setMessage(ctx.getString(R.string.objeto_movimentacao_invalido));
 				dialog.show();
 				break;
 		}
