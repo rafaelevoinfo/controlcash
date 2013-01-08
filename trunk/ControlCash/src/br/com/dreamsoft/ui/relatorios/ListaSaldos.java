@@ -10,6 +10,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,7 +25,11 @@ import br.com.dreamsoft.dao.ReceitaDao;
 import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.model.Receita;
 import br.com.dreamsoft.model.Saldo;
+import br.com.dreamsoft.planilha.ExportXls;
+import br.com.dreamsoft.planilha.Planilha;
 import br.com.dreamsoft.ui.adapters.SaldosAdapter;
+import br.com.dreamsoft.utils.AdapterDaoPlanilha;
+import br.com.dreamsoft.utils.AdapterDaoPlanilha.Tipo;
 import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
@@ -73,6 +80,8 @@ public class ListaSaldos extends Activity implements OnItemClickListener {
 		}
 		lv.setAdapter(new SaldosAdapter(this, saldos));
 
+		registerForContextMenu(lv);
+
 		Animacao.addAnimacaoLista(lv);
 		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
@@ -106,6 +115,51 @@ public class ListaSaldos extends Activity implements OnItemClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+	}
+
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.exportar, menu);
+		return true;
+	}
+
+	// chamado quando se clica em alguma opção do menu
+
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.exportPlanilha:
+				Calendar cal = (Calendar) ((ApplicationControlCash) getApplication()).getData().clone();
+				SimpleDateFormat sdfUS = new SimpleDateFormat("yyyy-MM-dd");
+
+				List<List<ExportXls>> dados = new ArrayList<List<ExportXls>>();
+				// volta 6 meses atr�s
+				for (int i = 0; i < 6; i++) {
+					// formata as datas
+					String data = sdfUS.format(cal.getTime());
+					List<ExportXls> listRec = null;
+					List<ExportXls> listDesp = null;
+					try {
+						listRec = AdapterDaoPlanilha.buscarMes(this, data, Tipo.RECEITA);
+						listDesp = AdapterDaoPlanilha.buscarMes(this, data, Tipo.DESPESA);
+						if (listRec.size() > 0)
+							dados.add(listRec);
+
+						if (listDesp.size() > 0)
+							dados.add(listDesp);
+					} catch (ParseException e) {
+						Mensagens.msgErro(1, this);
+						Log.w("ControlCash", "Erro ao formatar as datas na busca por mes");
+					}
+
+					cal.add(Calendar.MONTH, -1);
+
+				}
+				Planilha pn = new Planilha(this, dados);
+				pn.gerarPlanilha();
+
+				return true;
+		}
+		return false;
 	}
 
 	@Override

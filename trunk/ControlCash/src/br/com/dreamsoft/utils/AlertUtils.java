@@ -42,6 +42,7 @@ public class AlertUtils {
 		final View view = inflater.inflate(layout, null);
 		alerta.setView(view);
 		alerta.setTitle(title);
+		alerta.setIcon(ctx.getResources().getDrawable(R.drawable.salvar));
 
 		alerta.setPositiveButton(ctx.getString(R.string.positive_button), new OnClickListener() {
 			@Override
@@ -61,8 +62,14 @@ public class AlertUtils {
 			}
 		});
 
-		alerta.setOnCancelListener(new OnCancelListener() {
+		alerta.setNegativeButton(ctx.getString(R.string.cancelar), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				handler.sendEmptyMessage(OpcaoEscolhida.CANCEL.getValue());
+			}
+		});
 
+		alerta.setOnCancelListener(new OnCancelListener() {
 			@Override
 			public void onCancel(DialogInterface dialog) {
 				handler.sendEmptyMessage(OpcaoEscolhida.CANCEL.getValue());

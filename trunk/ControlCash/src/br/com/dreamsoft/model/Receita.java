@@ -5,8 +5,6 @@
 
 package br.com.dreamsoft.model;
 
-import java.io.Serializable;
-
 import android.content.Context;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.planilha.ExportXls;
@@ -15,7 +13,7 @@ import br.com.dreamsoft.planilha.ExportXls;
  * 
  * @author rafael
  */
-public class Receita extends Movimentacao implements Serializable, ExportXls {
+public class Receita extends Movimentacao implements ExportXls {
 
 	private static final long serialVersionUID = 1L;
 	private Categoria categoria;
