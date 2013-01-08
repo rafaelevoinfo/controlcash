@@ -10,19 +10,52 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <TextView
-            android:id="@+main/mes"
-            android:layout_width="wrap_content"
+        <TableRow
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:paddingTop="5dp"
-            android:text="TextView"
-            android:textColor="@color/royal_blue"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:typeface="serif" >
-        </TextView>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" >
+
+            <ImageButton
+                android:id="@+main/dec_mes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:src="@drawable/clipes_esquerda" />
+
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:id="@+main/mes"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+ 
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingTop="5dp"
+                    android:text="TextView"
+                    android:textColor="@color/royal_blue"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:typeface="serif" >
+                </TextView>
+            </TableRow>
+
+            <ImageButton
+                android:id="@+main/inc_mes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:src="@drawable/clipes_direita" />
+        </TableRow>
 
         <TableRow
             android:layout_width="wrap_content"

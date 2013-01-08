@@ -1,12 +1,15 @@
 package br.com.dreamsoft.planilha;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import jxl.SheetSettings;
 import jxl.Workbook;
 import jxl.biff.DisplayFormat;
 import jxl.format.Colour;
@@ -15,6 +18,7 @@ import jxl.write.Number;
 import jxl.write.NumberFormats;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
+import jxl.write.WritableImage;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
@@ -24,6 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.Toast;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.utils.AlertUtils;
 import br.com.dreamsoft.utils.AlertUtils.OpcaoEscolhida;
@@ -50,17 +55,15 @@ public class Planilha {
 						String fileName = bundle.getString(OpcaoEscolhida.OK.getTextoValue());
 						CorePlanilha core = new CorePlanilha();
 						try {
-							core.criarPlanilha(fileName, dados);
-							Mensagens.msgOkSemFechar(ctx);
+							String path = core.criarPlanilha(fileName, dados);
+							Mensagens.msgOkSemFechar(ctx, ctx.getString(R.string.arquivo_criado) + " " + path,
+									Toast.LENGTH_LONG);
 						} catch (RowsExceededException e) {
 							// TODO Alterar a mensagem de erro
 							Mensagens.msgErro(Erros.CRIAR_FILE_PLANILHA, ctx);
 						} catch (Exception e) {
 							Mensagens.msgErro(Erros.CRIAR_FILE_PLANILHA, ctx);
 						}
-
-					} else if (msg.what == OpcaoEscolhida.CANCEL.getValue()) {
-						Mensagens.msgErro(Erros.CRIAR_FILE_PLANILHA, ctx);
 					}
 				}
 			}
@@ -77,7 +80,7 @@ public class Planilha {
 		private int row = 0;// guarda a maior linha existente
 		private int col = 0;// guarda a maior coluna existente
 
-		public void criarPlanilha(String fileName, List<List<ExportXls>> dados) throws Exception {
+		public String criarPlanilha(String fileName, List<List<ExportXls>> dados) throws Exception {
 
 			File file = null;
 
@@ -91,16 +94,23 @@ public class Planilha {
 				file = new File(ctx.getDir("ControlCash", Context.MODE_PRIVATE), fileName + ".xls");
 			}
 
+			String path = file.getAbsolutePath();
+
 			planilha = Workbook.createWorkbook(file);
 			WritableSheet sheet = planilha.createSheet(ctx.getString(R.string.app_name), 0);
 
-			SheetSettings ss = new SheetSettings(sheet);
-			ss.setShowGridLines(true);
-			ss.setDisplayZeroValues(false);
-			ss.setAutomaticFormulaCalculation(true);
-			ss.setDefaultColumnWidth(40);
+			// SheetSettings ss = new SheetSettings(sheet);
+			// ss.setShowGridLines(true);
+			// ss.setDisplayZeroValues(false);
+			// ss.setAutomaticFormulaCalculation(true);
+			// ss.setDefaultColumnWidth(120);
 
-			sheet.mergeCells(col, row, 4, 0);
+			// cria um File apartir de um drawable e então o usa para colocar na planilha
+			file = criarFileImage();
+			WritableImage img = new WritableImage(col, row, 1, 1, file);
+			sheet.addImage(img);
+			// gravando o nome controlCash no topo da planilha
+			sheet.mergeCells(++col, row, 4, 0);
 			sheet.addCell(criarLabel(WritableFont.ARIAL, "ControlCash", col, row, 18, true, Colour.GREY_40_PERCENT));
 
 			for (List<ExportXls> valores : dados) {
@@ -134,10 +144,26 @@ public class Planilha {
 				sheet.insertRow(++row);// insere uma linha em branco
 			}
 
-			// TODO: VERIFICAR SE AO REINICIAR O ANDROID OS DADOS SAO PERDIDOS
-
 			planilha.write();
 			planilha.close();
+
+			return path;
+		}
+
+		private File criarFileImage() throws FileNotFoundException, IOException {
+			File file;
+			InputStream is = ctx.getResources().openRawResource(R.drawable.icon);
+			file = new File(ctx.getDir("ControlCash", Context.MODE_PRIVATE), "icon.png");
+			FileOutputStream fos = new FileOutputStream(file);
+
+			byte buf[] = new byte[1024];
+			int len;
+			while ((len = is.read(buf)) > 0)
+				fos.write(buf, 0, len);
+
+			fos.close();
+			is.close();
+			return file;
 		}
 
 		private void gravarValor(WritableSheet sheet, ExportXls valor, int startRow) throws RowsExceededException,
@@ -145,8 +171,10 @@ public class Planilha {
 			int col = 0;
 			for (Object v : valor.getValores()) {
 				if (v instanceof Integer) {
-					sheet.addCell(criarNumber(WritableFont.ARIAL, NumberFormats.INTEGER, ((Integer) v).doubleValue(),
-							col, startRow, 10, false));
+					Number number = criarNumber(WritableFont.ARIAL, NumberFormats.INTEGER, ((Integer) v).doubleValue(),
+							col, startRow, 10, false);
+					if (number.getValue() > 0)
+						sheet.addCell(number);
 
 				} else if (v instanceof Double) {
 					sheet.addCell(criarNumber(WritableFont.ARIAL, NumberFormats.FLOAT, ((Double) v).doubleValue(), col,
@@ -201,9 +229,8 @@ public class Planilha {
 		private Number criarNumber(WritableFont.FontName fontType, DisplayFormat tipo, double valor, int col, int row,
 				int tamanho, boolean bold) throws WriteException {
 			WritableFont font = criarFormatFont(fontType, tamanho, bold);
-
 			WritableCellFormat numberFormat = new WritableCellFormat(font, tipo);
-			numberFormat.setWrap(false);
+			numberFormat.setShrinkToFit(false);
 
 			Number number = new Number(col, row, valor, numberFormat);
 
@@ -213,10 +240,9 @@ public class Planilha {
 		private Number criarNumber(WritableFont.FontName fontType, DisplayFormat tipo, double valor, int col, int row,
 				int tamanho, boolean bold, Colour background) throws WriteException {
 			WritableFont font = criarFormatFont(fontType, tamanho, bold);
-
 			WritableCellFormat numberFormat = new WritableCellFormat(font, tipo);
+			numberFormat.setShrinkToFit(false);
 			numberFormat.setBackground(background);
-			numberFormat.setWrap(false);
 
 			Number number = new Number(col, row, valor, numberFormat);
 
@@ -225,11 +251,8 @@ public class Planilha {
 
 		private Label criarLabel(WritableFont.FontName fontType, String texto, int col, int row, int tamanho,
 				boolean bold) throws WriteException {
-			WritableFont font = criarFormatFont(fontType, tamanho, bold);
 
-			WritableCellFormat format = new WritableCellFormat(font);
-			format.setWrap(false);
-
+			WritableCellFormat format = criarFormat(fontType, tamanho, bold);
 			Label lb = new Label(col, row, texto, format);
 
 			return lb;
@@ -237,12 +260,10 @@ public class Planilha {
 
 		private Label criarLabel(WritableFont.FontName fontType, String texto, int col, int row, int tamanho,
 				boolean bold, Colour background) throws WriteException {
-			WritableFont font = criarFormatFont(fontType, tamanho, bold);
-			WritableCellFormat format = new WritableCellFormat(font);
+			WritableCellFormat format = criarFormat(fontType, tamanho, bold);
 			format.setBackground(background);
-			format.setWrap(false);
-
 			Label lb = new Label(col, row, texto, format);
+
 			return lb;
 		}
 
@@ -254,6 +275,16 @@ public class Planilha {
 				font = new WritableFont(fontType, tamanho);
 			}
 			return font;
+		}
+
+		private WritableCellFormat criarFormat(WritableFont.FontName fontType, int tamanho, boolean bold)
+				throws WriteException {
+			WritableFont font = criarFormatFont(fontType, tamanho, bold);
+			WritableCellFormat format = new WritableCellFormat(font);
+			format.setShrinkToFit(false);
+			format.setWrap(false);
+
+			return format;
 		}
 	}
 }

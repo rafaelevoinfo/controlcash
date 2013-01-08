@@ -53,16 +53,21 @@ public abstract class Mensagens {
 		// null).create();
 		// dialog.setMessage("Operação realizada com sucesso!");
 		// dialog.show();
+		msgOkSemFechar(ctx, ctx.getString(R.string.operacao_ok), Toast.LENGTH_SHORT);
+	}
+
+	public static void msgOkSemFechar(final Context ctx, String msg, int duracao) {
+
 		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View v = inflater.inflate(R.layout.toast, null);
 		ImageView img = (ImageView) v.findViewById(R.id.msg_icon);
 		img.setImageResource(R.drawable.ok);
 		TextView tvMsg = (TextView) v.findViewById(R.id.msg);
-		tvMsg.setText(ctx.getString(R.string.operacao_ok));
+		tvMsg.setText(msg);
 
 		Toast msgToast = new Toast(ctx);
 		msgToast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-		msgToast.setDuration(Toast.LENGTH_SHORT);
+		msgToast.setDuration(duracao);
 		msgToast.setView(v);
 		msgToast.show();
 	}
@@ -70,6 +75,7 @@ public abstract class Mensagens {
 	public static void msgErroBD(int cod, Context ctx) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 		AlertDialog dialog = builder.setTitle("Erro").setPositiveButton("Ok", null).create();
+		dialog.setIcon(ctx.getResources().getDrawable(android.R.drawable.ic_dialog_alert));
 		switch (cod) {
 			case 1:// erro ao cadastrar, alterar ou excluir
 				dialog.setMessage(ctx.getString(R.string.erro_completar_operacao));

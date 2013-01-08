@@ -1,8 +1,11 @@
 package br.com.dreamsoft.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Movimentacao {
+public abstract class Movimentacao implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	protected int id;
 	protected String nome;
 	protected double valor;

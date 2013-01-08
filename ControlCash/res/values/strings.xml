@@ -31,7 +31,7 @@
     <string name="ano">Year</string>
     <string name="mes">Month</string>
     <string name="altera_faixa_tempo">Change Base Date</string>
-    <string name="id_export">Export Code</string>
+    <string name="id_export">Category Code</string>
     <string name="info">Information</string>
     <string name="info_id_export">Complete this field if you want to use it as a category code at the time of export.</string>
     <string name="nome_arquivo">Filename</string>
@@ -41,5 +41,7 @@
     <string name="todas">All</string>
     <string name="export_receita_despesa">Export incomes and expenses</string>
     <string name="objeto_movimentacao_invalido">Invalid movimentation</string>
+    <string name="cancelar">Cancel</string>
+    <string name="arquivo_criado">File created in</string>
 
 </resources>

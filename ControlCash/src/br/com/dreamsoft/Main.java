@@ -54,6 +54,8 @@ public class Main extends Activity {
 	private ImageButton despesas;
 	private ImageButton categoria;
 	private ImageButton rels;
+	private ImageButton ibtnIncMes;
+	private ImageButton ibtnDecMes;
 	private TextView saldo;
 	private TextView saldoRec;
 	private TextView saldoDesp;
@@ -66,6 +68,8 @@ public class Main extends Activity {
 	private int anoDefinido = -1;
 	private Handler handler;
 	private Animation anin;
+	private Animation aninPushIn;
+	private Animation aninPushOut;
 	ReceitaDao daoRec;
 	DespesaDao daoDesp;
 
@@ -79,6 +83,8 @@ public class Main extends Activity {
 
 		handler = new Handler();
 		anin = AnimationUtils.loadAnimation(Main.this, R.anim.press_btn);
+		aninPushIn = AnimationUtils.loadAnimation(Main.this, R.anim.push_in);
+		aninPushOut = AnimationUtils.loadAnimation(Main.this, R.anim.push_out);
 
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
@@ -94,6 +100,9 @@ public class Main extends Activity {
 		addDesp = (ImageButton) findViewById(R.main.add_despesa);
 		addRec = (ImageButton) findViewById(R.main.add_receita);
 		mesAtual = (TextView) findViewById(R.main.mes);
+
+		ibtnIncMes = (ImageButton) findViewById(R.main.inc_mes);
+		ibtnDecMes = (ImageButton) findViewById(R.main.dec_mes);
 
 		// data = Calendar.getInstance(new Locale("pt", "br"));
 		data = ((ApplicationControlCash) getApplication()).getData();
@@ -139,6 +148,28 @@ public class Main extends Activity {
 			}
 		});
 
+		ibtnIncMes.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				v.startAnimation(aninPushOut);
+				ibtnDecMes.startAnimation(aninPushOut);
+				Main.this.data.add(Calendar.MONTH, 1);
+				atualizarData();
+
+			}
+		});
+
+		ibtnDecMes.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				v.startAnimation(aninPushOut);
+				ibtnIncMes.startAnimation(aninPushOut);
+				Main.this.data.add(Calendar.MONTH, -1);
+				atualizarData();
+			}
+		});
+
 		atualizaSaldo();
 
 	}
@@ -153,8 +184,7 @@ public class Main extends Activity {
 		}, 250);
 	}
 
-	public void onResume() {
-		super.onResume();
+	public void atualizarData() {
 		if (mesDefinido == -1 || anoDefinido == -1) {
 			this.mesAtual.setText(Meses.converterDiaMesToString(data.get(Calendar.MONTH), this) + "/"
 					+ data.get(Calendar.YEAR));
@@ -162,6 +192,11 @@ public class Main extends Activity {
 		} else {
 			this.mesAtual.setText(Meses.converterDiaMesToString(mesDefinido, this) + "/" + anoDefinido);
 		}
+	}
+
+	public void onResume() {
+		super.onResume();
+		atualizarData();
 		atualizaSaldo();
 	}
 
@@ -233,10 +268,8 @@ public class Main extends Activity {
 		try {
 			// pega a data e converte para o padr�o americano
 			/*
-			 * if (mesDefinido == -1 || anoDefinido == -1) { date =
-			 * sdf.format(data.getTime()); } else { data.set(anoDefinido,
-			 * mesDefinido, Calendar.DAY_OF_MONTH); date =
-			 * sdf.format(data.getTime()); }
+			 * if (mesDefinido == -1 || anoDefinido == -1) { date = sdf.format(data.getTime()); } else {
+			 * data.set(anoDefinido, mesDefinido, Calendar.DAY_OF_MONTH); date = sdf.format(data.getTime()); }
 			 */
 			date = sdf.format(data.getTime());
 
