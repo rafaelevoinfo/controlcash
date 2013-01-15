@@ -68,8 +68,7 @@ public class Main extends Activity {
 	private int anoDefinido = -1;
 	private Handler handler;
 	private Animation anin;
-	private Animation aninPushIn;
-	private Animation aninPushOut;
+	private Animation aninPushInOut;
 	ReceitaDao daoRec;
 	DespesaDao daoDesp;
 
@@ -83,8 +82,7 @@ public class Main extends Activity {
 
 		handler = new Handler();
 		anin = AnimationUtils.loadAnimation(Main.this, R.anim.press_btn);
-		aninPushIn = AnimationUtils.loadAnimation(Main.this, R.anim.push_in);
-		aninPushOut = AnimationUtils.loadAnimation(Main.this, R.anim.push_out);
+		aninPushInOut = AnimationUtils.loadAnimation(Main.this, R.anim.push_in_out);
 
 		daoRec = Factory.createReceitaDao(this);
 		daoDesp = Factory.createDespesaDao(this);
@@ -149,24 +147,33 @@ public class Main extends Activity {
 		});
 
 		ibtnIncMes.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(aninPushOut);
-				ibtnDecMes.startAnimation(aninPushOut);
-				Main.this.data.add(Calendar.MONTH, 1);
-				atualizarData();
-
+				v.startAnimation(aninPushInOut);
+				ibtnDecMes.startAnimation(aninPushInOut);
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						Main.this.data.add(Calendar.MONTH, 1);
+						atualizarData();
+					}
+				}, 200);
 			}
 		});
 
 		ibtnDecMes.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				v.startAnimation(aninPushOut);
-				ibtnIncMes.startAnimation(aninPushOut);
-				Main.this.data.add(Calendar.MONTH, -1);
-				atualizarData();
+				v.startAnimation(aninPushInOut);
+				ibtnIncMes.startAnimation(aninPushInOut);
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						Main.this.data.add(Calendar.MONTH, -1);
+						atualizarData();
+					}
+				}, 200);
+
 			}
 		});
 
