@@ -37,22 +37,36 @@
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:text="@string/valor" >
                 </TextView>
 
-                <EditText
-                    android:id="@+id/valor"
+                <TableRow
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:textSize="18sp" >
-                </EditText>
+                    android:layout_height="wrap_content" >
+
+                    <EditText
+                        android:id="@+id/valor"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberDecimal"
+                        android:textSize="18sp" >
+                    </EditText>
+
+                    <ImageButton
+                        android:id="@+id/ibtnCalc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#00000000"
+                        android:padding="5dp"
+                        android:src="@drawable/calc" />
+                </TableRow>
             </TableRow>
         </TableLayout>
 

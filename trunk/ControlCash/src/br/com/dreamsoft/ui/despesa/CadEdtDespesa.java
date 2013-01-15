@@ -8,13 +8,18 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
@@ -35,6 +40,9 @@ public class CadEdtDespesa extends Activity {
 	private EditText valor;
 	private Spinner categoria;
 	private DatePicker date;
+	private ImageButton ibtnCalc;
+	private Animation anin;
+	private Handler handler;
 	// atributos static usados para saber se esta sendo feita uma edi��o ou
 	// cadastro
 	public static String OBJ_DESP = "despesa";
@@ -59,12 +67,14 @@ public class CadEdtDespesa extends Activity {
 		this.valor = (EditText) findViewById(R.id.valor);
 		this.categoria = (Spinner) findViewById(R.id.categoria);
 		this.date = (DatePicker) findViewById(R.id.date);
+		ibtnCalc = (ImageButton) findViewById(R.id.ibtnCalc);
+		anin = AnimationUtils.loadAnimation(this, R.anim.press_btn);
+		handler = new Handler();
 
 		CategoriaDao daoCat = Factory.createCategoriaDao(this);
 		this.categorias = daoCat.buscarTodos();
 
-		this.catsAdp = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item,
-				this.categorias);
+		this.catsAdp = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, this.categorias);
 		// da uma enfeita na lista
 		catsAdp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		this.categoria.setAdapter(this.catsAdp);
@@ -95,8 +105,7 @@ public class CadEdtDespesa extends Activity {
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(desp.getDate());
 
-				this.date.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-						cal.get(Calendar.DAY_OF_MONTH));
+				this.date.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
 
 				this.btCad.setText(getString(R.string.salvar));
 			} catch (ClassCastException e) {
@@ -104,7 +113,13 @@ public class CadEdtDespesa extends Activity {
 				Mensagens.msgErro(1, this);
 			}
 		}
+		;
 
+		addListeners();
+
+	}
+
+	public void addListeners() {
 		this.btCad.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
@@ -133,6 +148,7 @@ public class CadEdtDespesa extends Activity {
 							throw new Exception();
 						}
 					} else {
+
 						// realiza a alteracao
 						desp.setId(CadEdtDespesa.this.idRec);
 						// TODO: Retirar essas mensagens e colocar um Toast
@@ -150,5 +166,24 @@ public class CadEdtDespesa extends Activity {
 			}
 		});
 
+		ibtnCalc.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				v.startAnimation(anin);
+				handler.postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						Intent it = new Intent();
+						it.setAction(Intent.ACTION_MAIN);
+						it.addCategory(Intent.CATEGORY_LAUNCHER);
+						it.setClassName("com.android.calculator2", "Calculator");
+						startActivity(it);
+					}
+				}, 250);
+
+			}
+		});
 	}
 }

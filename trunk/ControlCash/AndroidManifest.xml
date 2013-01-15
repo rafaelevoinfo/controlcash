@@ -50,6 +50,7 @@
         <activity android:name=".ui.relatorios.SaldoPorCategoria" >
         </activity>
         <activity android:name=".planilha.ListaExportar"></activity>
+        <activity android:name="com.android.calculator2.Calculator"></activity>
     </application>
 
 </manifest>
