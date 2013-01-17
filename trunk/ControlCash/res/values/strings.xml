@@ -43,5 +43,11 @@
     <string name="objeto_movimentacao_invalido">Invalid movimentation</string>
     <string name="cancelar">Cancel</string>
     <string name="arquivo_criado">File created in</string>
+    <string name="ordernar">Sort By</string>
+    <string-array name="ordens">
+        <item >Date</item>
+        <item >Name</item>
+        <item >Value</item>
+    </string-array>
 
 </resources>

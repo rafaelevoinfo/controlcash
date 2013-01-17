@@ -45,11 +45,11 @@ public class DespesaAdapter extends BaseAdapter {
 
 	public View getView(int position, View v, ViewGroup vg) {
 		// recupera a Despesa
-		Despesa rec = despesas.get(position);
+		Despesa desp = despesas.get(position);
 		View view = inflater.inflate(R.layout.list_rec_desp, null);
 		// atualiza o nome na tela
 		TextView nome = (TextView) view.findViewById(R.id.desc);
-		nome.setText(rec.getNome());
+		nome.setText(desp.getNome());
 		// atualiza o valor
 		TextView valor = (TextView) view.findViewById(R.id.valor);
 		// NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt",
@@ -58,7 +58,7 @@ public class DespesaAdapter extends BaseAdapter {
 		nf.setMaximumFractionDigits(2);
 		nf.setMinimumFractionDigits(2);
 		try {
-			valor.setText(nf.format(rec.getValor()));
+			valor.setText(nf.format(desp.getValor()));
 			// troca a cor
 			valor.setTextColor(view.getResources().getColor(R.color.vermelho_escarlata));
 		} catch (ParseException e) {
@@ -78,13 +78,13 @@ public class DespesaAdapter extends BaseAdapter {
 		DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
 		try {
-			data.setText(df.format(rec.getDate()));
+			data.setText(df.format(desp.getDate()));
 		} catch (Exception e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, view.getContext());
 		}
 
-		rec = null;
+		desp = null;
 		return view;
 
 	}

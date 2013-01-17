@@ -2,14 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/addDespesa"
+        android:id="@+id/addReceita"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="@string/add_despesa"/>
-   <item
+        android:title="@string/add_receita"/>
+    <item
         android:id="@+id/exportPlanilha"
         android:enabled="true"
         android:icon="@drawable/planilha"
         android:title="@string/exportar"
+        android:visible="true">
+    </item>
+    
+     <item
+        android:id="@+id/ordernar"
+        android:enabled="true"
+        android:icon="@android:drawable/ic_menu_sort_alphabetically"
+        android:title="@string/ordernar"
         android:visible="true">
     </item>
 
