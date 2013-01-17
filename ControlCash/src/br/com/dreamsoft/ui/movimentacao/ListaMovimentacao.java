@@ -95,6 +95,8 @@ public abstract class ListaMovimentacao<T extends Movimentacao> extends Activity
 			default:
 				ordenarPorData();
 		}
+		// faz a animacao da lista quando ela aparece
+		Animacao.addAnimacaoLista(lv);
 
 	}
 
