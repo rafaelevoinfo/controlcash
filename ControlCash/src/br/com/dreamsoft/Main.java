@@ -155,7 +155,7 @@ public class Main extends Activity {
 					@Override
 					public void run() {
 						Main.this.data.add(Calendar.MONTH, 1);
-						atualizarData();
+						onResume();
 					}
 				}, 200);
 			}
@@ -170,7 +170,7 @@ public class Main extends Activity {
 					@Override
 					public void run() {
 						Main.this.data.add(Calendar.MONTH, -1);
-						atualizarData();
+						onResume();
 					}
 				}, 200);
 

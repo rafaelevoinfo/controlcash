@@ -21,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import br.com.dreamsoft.ApplicationControlCash;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.CategoriaDao;
 import br.com.dreamsoft.dao.DespesaDao;
@@ -79,6 +80,11 @@ public class CadEdtDespesa extends Activity {
 		catsAdp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		this.categoria.setAdapter(this.catsAdp);
 
+		Calendar dataBase = ((ApplicationControlCash) getApplication()).getData();
+		// preenchendo o datePicker com a database do sistema
+		this.date.updateDate(dataBase.get(Calendar.YEAR), dataBase.get(Calendar.MONTH),
+				dataBase.get(Calendar.DAY_OF_MONTH));
+
 		// verifica se esta editando
 		if (getIntent().getExtras() != null) {
 			flagEdt = true;
@@ -113,7 +119,6 @@ public class CadEdtDespesa extends Activity {
 				Mensagens.msgErro(1, this);
 			}
 		}
-		;
 
 		addListeners();
 
@@ -166,24 +171,28 @@ public class CadEdtDespesa extends Activity {
 			}
 		});
 
-		ibtnCalc.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				v.startAnimation(anin);
-				handler.postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						Intent it = new Intent();
-						it.setAction(Intent.ACTION_MAIN);
-						it.addCategory(Intent.CATEGORY_LAUNCHER);
-						it.setClassName("com.android.calculator2", "Calculator");
-						startActivity(it);
-					}
-				}, 250);
-
-			}
-		});
+		// ibtnCalc.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// v.startAnimation(anin);
+		// handler.postDelayed(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// Expression exp = new Expression("2+5*2/2");
+		// Mensagens.msgOkSemFechar(CadEdtDespesa.this, String.valueOf(exp.resolve()), 5000);
+		// }
+		// }, 250);
+		//
+		// }
+		// });
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
 }

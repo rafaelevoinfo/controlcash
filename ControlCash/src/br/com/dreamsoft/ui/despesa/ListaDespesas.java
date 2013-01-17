@@ -4,12 +4,10 @@
  */
 package br.com.dreamsoft.ui.despesa;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -21,8 +19,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
 import br.com.dreamsoft.ApplicationControlCash;
 import br.com.dreamsoft.R;
 import br.com.dreamsoft.dao.DespesaDao;
@@ -30,19 +26,16 @@ import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.model.Despesa;
 import br.com.dreamsoft.planilha.ListaExportar;
 import br.com.dreamsoft.ui.adapters.DespesaAdapter;
+import br.com.dreamsoft.ui.movimentacao.ListaMovimentacao;
 import br.com.dreamsoft.utils.AdapterDaoPlanilha.Tipo;
-import br.com.dreamsoft.utils.Animacao;
 import br.com.dreamsoft.utils.Mensagens;
 
 /**
  * 
  * @author rafael
  */
-public class ListaDespesas extends Activity {
-
+public class ListaDespesas extends ListaMovimentacao<Despesa> {
 	private DespesaDao dao;
-	private ListView lv;
-	private TextView tv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,9 +44,7 @@ public class ListaDespesas extends Activity {
 
 		this.dao = Factory.createDespesaDao(this);
 		setTitle(getString(R.string.despesas_cadastradas));
-		setContentView(R.layout.lista);
 
-		lv = (ListView) findViewById(R.id.list);
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -70,67 +61,32 @@ public class ListaDespesas extends Activity {
 			}
 
 		});
-
-		// getListView().setBackgroundResource(R.drawable.background);
-		lv.setCacheColorHint(getResources().getColor(android.R.color.transparent));
-		registerForContextMenu(lv);
-		// faz a animacao da lista quando ela aparece
-		Animacao.addAnimacaoLista(lv);
-		// faz a animação na activity
-		overridePendingTransition(R.anim.zoom_enter, R.anim.zoom_exit);
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		refreshLista();
-
+	protected void refreshLista() {
+		super.refreshLista();
+		lv.setAdapter(new DespesaAdapter(this, listaMov));
 	}
 
-	private void refreshLista() {
+	@Override
+	protected List<Despesa> getMovimentacoes() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		// pega a data que esta sendo usada
+		// String date = sdf.format(Main.data.getTime());
+		String date = sdf.format(((ApplicationControlCash) getApplication()).getData().getTime());
 		try {
-			// pega a data que esta sendo usada
-			// String date = sdf.format(Main.data.getTime());
-			String date = sdf.format(((ApplicationControlCash) getApplication()).getData().getTime());
-			List<Despesa> lista = this.dao.buscarMes(date);
-			lv.setAdapter(new DespesaAdapter(this, lista));
-
-			tv = (TextView) findViewById(R.id.saldo);
-			tv.setTextColor(getResources().getColor(R.color.vermelho_escarlata));
-
-			double total = 0;
-			for (int i = 0; i < lv.getCount(); i++) {
-				total += ((Despesa) lv.getAdapter().getItem(i)).getValor();
-			}
-			// formata o valor
-			NumberFormat nf = NumberFormat.getCurrencyInstance();
-			nf.setMaximumFractionDigits(2);
-			nf.setMinimumFractionDigits(2);
-			try {
-				tv.setText(nf.format(total));
-				// tv.refreshDrawableState();
-			} catch (Exception e) {
-				e.printStackTrace();
-				Mensagens.msgErro(2, this);
-			}
-
+			return this.dao.buscarMes(date);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			Mensagens.msgErro(1, this);
-		} catch (Exception e) {
-			e.printStackTrace();
-			Mensagens.msgErroBD(2, this);
 		}
-
+		return null;
 	}
 
-	// protected void onActivityResult(int cod){
-	//
-	// }
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.nova_despesa, menu);
+		inflater.inflate(R.menu.menu_despesa, menu);
 		return true;
 	}
 
@@ -148,6 +104,9 @@ public class ListaDespesas extends Activity {
 				it = new Intent(this, ListaExportar.class);
 				it.putExtra(ListaExportar.TIPO, Tipo.DESPESA);
 				startActivity(it);
+				return true;
+			case R.id.ordernar:
+				showDialog(0);
 				return true;
 		}
 		return false;

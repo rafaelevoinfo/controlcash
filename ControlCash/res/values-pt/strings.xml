@@ -42,6 +42,12 @@
     <string name="export_receita_despesa">Exportar receitas e despesas</string>
     <string name="objeto_movimentacao_invalido">Movimentação inválida</string>
     <string name="cancelar">Cancelar</string>
-     <string name="arquivo_criado">Arquivo criado em</string>
+    <string name="arquivo_criado">Arquivo criado em</string>
+    <string name="ordernar">Ordernar Por</string>
+    <string-array name="ordens">
+        <item >Data</item>
+        <item >Nome</item>
+        <item >Valor</item>
+    </string-array>
 
 </resources>
