@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="erro">Error</string>
     <string name="erro_completar_operacao">Error performing the operation!</string>
     <string name="erro_buscar_dados">Error fetching data!</string>
@@ -12,5 +13,7 @@
     <string name="erro_ano_invalido">Invalid year!</string>
     <string name="erro_desconhecido">Sorry! Unknown error</string>
     <string name="erro_criar_arq_planilha">Error creating the spreadsheet file!</string>
-    
+    <string name="erro_arquivo_nao_encontrado">File not found.</string>
+    <string name="erro_ioerror">Error of Input/Output</string>
+
 </resources>

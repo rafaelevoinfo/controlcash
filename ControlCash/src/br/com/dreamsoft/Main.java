@@ -4,6 +4,8 @@
  */
 package br.com.dreamsoft;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +14,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +30,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import br.com.dreamsoft.dao.ControlCashBD;
 import br.com.dreamsoft.dao.DespesaDao;
 import br.com.dreamsoft.dao.Factory;
 import br.com.dreamsoft.dao.ReceitaDao;
@@ -42,6 +48,7 @@ import br.com.dreamsoft.ui.relatorios.ListaSaldos;
 import br.com.dreamsoft.utils.AdapterDaoPlanilha;
 import br.com.dreamsoft.utils.AdapterDaoPlanilha.Tipo;
 import br.com.dreamsoft.utils.Mensagens;
+import br.com.dreamsoft.utils.Mensagens.Erros;
 import br.com.dreamsoft.utils.Meses;
 
 /**
@@ -61,6 +68,8 @@ public class Main extends Activity {
 	private TextView saldoDesp;
 	private ImageButton addDesp;
 	private ImageButton addRec;
+	private ImageButton ibtnBackup;
+	private ImageButton ibtnRestore;
 	private TextView mesAtual;
 	// public static Calendar data;
 	private Calendar data;
@@ -84,8 +93,7 @@ public class Main extends Activity {
 		anin = AnimationUtils.loadAnimation(Main.this, R.anim.press_btn);
 		aninPushInOut = AnimationUtils.loadAnimation(Main.this, R.anim.push_in_out);
 
-		daoRec = Factory.createReceitaDao(this);
-		daoDesp = Factory.createDespesaDao(this);
+		criarDaos();
 
 		receitas = (ImageButton) findViewById(R.id.btnRec);
 		despesas = (ImageButton) findViewById(R.id.btnDesp);
@@ -101,6 +109,9 @@ public class Main extends Activity {
 
 		ibtnIncMes = (ImageButton) findViewById(R.main.inc_mes);
 		ibtnDecMes = (ImageButton) findViewById(R.main.dec_mes);
+
+		ibtnBackup = (ImageButton) findViewById(R.main.ibtnBackup);
+		ibtnRestore = (ImageButton) findViewById(R.main.ibtnRestore);
 
 		// data = Calendar.getInstance(new Locale("pt", "br"));
 		data = ((ApplicationControlCash) getApplication()).getData();
@@ -177,8 +188,79 @@ public class Main extends Activity {
 			}
 		});
 
+		ibtnBackup.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				v.startAnimation(anin);
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							String path = ControlCashBD.realizarBackup(Main.this);
+							criarDaos();
+							Mensagens.msgOkSemFechar(Main.this, Main.this.getString(R.string.backup_ok) + " " + path,
+									Toast.LENGTH_LONG);
+
+						} catch (FileNotFoundException e) {
+							Mensagens.msgErro(Erros.ARQUIVO_NAO_ENCONTRADO, Main.this);
+						} catch (IOException e) {
+							Mensagens.msgErro(Erros.IOERROR, Main.this);
+						}
+					}
+				}, 200);
+
+			}
+		});
+
+		ibtnRestore.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				v.startAnimation(anin);
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+						AlertDialog msg = builder
+								.setTitle(Main.this.getString(R.string.cuidado))
+								.setMessage(Main.this.getString(R.string.aviso_restore))
+								.setIcon(android.R.drawable.ic_dialog_alert)
+								.setNegativeButton(Main.this.getString(R.string.nao),
+										new DialogInterface.OnClickListener() {
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												// faco nada
+											}
+										})
+								.setPositiveButton(Main.this.getString(R.string.sim),
+										new DialogInterface.OnClickListener() {
+											@Override
+											public void onClick(DialogInterface dialog, int which) {
+												try {
+													ControlCashBD.realizarRestore(Main.this);
+													criarDaos();
+													atualizaSaldo();
+
+													Mensagens.msgOkSemFechar(Main.this);
+												} catch (FileNotFoundException e) {
+													Mensagens.msgErro(Erros.ARQUIVO_NAO_ENCONTRADO, Main.this);
+												} catch (IOException e) {
+													Mensagens.msgErro(Erros.IOERROR, Main.this);
+												}
+											}
+										}).show();
+					}
+				}, 200);
+
+			}
+		});
+
 		atualizaSaldo();
 
+	}
+
+	private void criarDaos() {
+		daoRec = Factory.createReceitaDao(this);
+		daoDesp = Factory.createDespesaDao(this);
 	}
 
 	protected void openActivity(View v, final Class classe) {

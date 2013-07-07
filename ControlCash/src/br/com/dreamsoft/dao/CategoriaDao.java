@@ -68,8 +68,7 @@ public class CategoriaDao {
 			initialValues.put(KEY_ID_EXPORT, cat.getIdExport());
 
 			// atualiza no banco
-			id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?",
-					new String[] { String.valueOf(cat.getId()) });
+			id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?", new String[] { String.valueOf(cat.getId()) });
 			if (id != 0) {
 				this.db.setTransactionSuccessful();
 				result = true;
@@ -133,8 +132,8 @@ public class CategoriaDao {
 	 * Busca a categoria pelo seu id
 	 */
 	public Categoria buscar(Integer id) {
-		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?",
-				new String[] { id.toString() }, null, null, null, null);
+		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[] { id.toString() },
+				null, null, null, null);
 		// pega os index pelos nomes
 		int indexId = cursor.getColumnIndex(KEY_ID);
 		int indexNom = cursor.getColumnIndex(KEY_NOME);

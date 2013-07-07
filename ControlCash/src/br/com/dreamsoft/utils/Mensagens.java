@@ -26,7 +26,7 @@ public abstract class Mensagens {
 	};
 
 	public enum Erros {
-		CRIAR_FILE_PLANILHA, MOVIMENTACAO_INVALIDA;
+		CRIAR_FILE_PLANILHA, MOVIMENTACAO_INVALIDA, ARQUIVO_NAO_ENCONTRADO, IOERROR;
 	}
 
 	// TODO Adicionar todas as mensagens desta classe para o string.xml
@@ -119,6 +119,14 @@ public abstract class Mensagens {
 				break;
 			case MOVIMENTACAO_INVALIDA:
 				dialog.setMessage(ctx.getString(R.string.objeto_movimentacao_invalido));
+				dialog.show();
+				break;
+			case IOERROR:
+				dialog.setMessage(ctx.getString(R.string.erro_ioerror));
+				dialog.show();
+				break;
+			case ARQUIVO_NAO_ENCONTRADO:
+				dialog.setMessage(ctx.getString(R.string.erro_arquivo_nao_encontrado));
 				dialog.show();
 				break;
 		}

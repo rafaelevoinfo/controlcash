@@ -44,6 +44,11 @@
     <string name="cancelar">Cancelar</string>
     <string name="arquivo_criado">Arquivo criado em</string>
     <string name="ordernar">Ordernar Por</string>
+    <string name="backup_ok">Backup salvo em</string>
+    <string name="cuidado">Cuidado</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="aviso_restore">Isso irá substituir o seu banco de dados atual pelo banco de backup. Deseja continuar?</string>
     <string-array name="ordens">
         <item >Data</item>
         <item >Nome</item>

@@ -84,8 +84,7 @@ public class ReceitaDao {
 			}
 
 			// atualiza no banco
-			id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?",
-					new String[] { String.valueOf(rc.getId()) });
+			id = db.update(DATABASE_TABLE, initialValues, KEY_ID + "= ?", new String[] { String.valueOf(rc.getId()) });
 			if (id != 0) {
 				this.db.setTransactionSuccessful();
 				result = true;
@@ -138,31 +137,25 @@ public class ReceitaDao {
 	}
 
 	/*
-	 * public List<Receita> buscarIntervaloMes(String dataInicio, String
-	 * dataFim) throws ParseException{ //cria a clausa where que faz a
-	 * compara��o entre os datas String where =
-	 * KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')";
-	 * Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, where, null,
-	 * null, null, null, null);
+	 * public List<Receita> buscarIntervaloMes(String dataInicio, String dataFim) throws ParseException{
+	 * //cria a clausa where que faz a compara��o entre os datas String where =
+	 * KEY_DATA+" BETWEEN date('"+dataInicio+"') AND date('"+dataFim+"')"; Cursor cursor = this.db.query(true,
+	 * DATABASE_TABLE, COLUNS, where, null, null, null, null, null);
 	 * 
-	 * List<Receita> receitas = new ArrayList<Receita>(); //pega os index pelos
-	 * nomes int indexId = cursor.getColumnIndex(KEY_ID); int indexCat =
-	 * cursor.getColumnIndex(KEY_CATEGORIA); int indexNom =
-	 * cursor.getColumnIndex(KEY_NOME); int indexVal =
-	 * cursor.getColumnIndex(KEY_VALOR); int indexDat =
-	 * cursor.getColumnIndex(KEY_DATA); //pega os dados cursor.moveToFirst();
-	 * while (!cursor.isAfterLast()) { Receita receita = new Receita();
+	 * List<Receita> receitas = new ArrayList<Receita>(); //pega os index pelos nomes int indexId =
+	 * cursor.getColumnIndex(KEY_ID); int indexCat = cursor.getColumnIndex(KEY_CATEGORIA); int indexNom =
+	 * cursor.getColumnIndex(KEY_NOME); int indexVal = cursor.getColumnIndex(KEY_VALOR); int indexDat =
+	 * cursor.getColumnIndex(KEY_DATA); //pega os dados cursor.moveToFirst(); while (!cursor.isAfterLast()) {
+	 * Receita receita = new Receita();
 	 * 
 	 * receita.setId(cursor.getInt(indexId)); Categoria cat = new Categoria();
 	 * cat.setId(cursor.getInt(indexCat)); receita.setCategoria(cat);
-	 * receita.setNome(cursor.getString(indexNom));
-	 * receita.setValor(cursor.getDouble(indexVal));
+	 * receita.setNome(cursor.getString(indexNom)); receita.setValor(cursor.getDouble(indexVal));
 	 * 
-	 * //cria os formatadores da datas SimpleDateFormat sdfBRA = new
-	 * SimpleDateFormat("dd/MM/yyyy"); SimpleDateFormat sdfUSA = new
-	 * SimpleDateFormat("yyyy-MM-dd"); //transforma a String em Date Date date =
-	 * sdfUSA.parse(cursor.getString(indexDat)); //transforma o date em String e
-	 * depois a String em Date date = sdfBRA.parse(sdfBRA.format(date));
+	 * //cria os formatadores da datas SimpleDateFormat sdfBRA = new SimpleDateFormat("dd/MM/yyyy");
+	 * SimpleDateFormat sdfUSA = new SimpleDateFormat("yyyy-MM-dd"); //transforma a String em Date Date date =
+	 * sdfUSA.parse(cursor.getString(indexDat)); //transforma o date em String e depois a String em Date date
+	 * = sdfBRA.parse(sdfBRA.format(date));
 	 * 
 	 * receita.setDate(date);
 	 * 
@@ -200,8 +193,8 @@ public class ReceitaDao {
 	}
 
 	public Receita buscar(Integer id) throws ParseException {
-		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?",
-				new String[] { id.toString() }, null, null, null, null);
+		Cursor cursor = this.db.query(true, DATABASE_TABLE, COLUNS, KEY_ID + "= ?", new String[] { id.toString() },
+				null, null, null, null);
 		Receita receita = new Receita();
 		// pega os index pelos nomes
 		int indexId = cursor.getColumnIndex(KEY_ID);
