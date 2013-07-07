@@ -5,6 +5,8 @@
 package br.com.dreamsoft.ui.despesa;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.app.Activity;
@@ -74,6 +76,12 @@ public class CadEdtDespesa extends Activity {
 
 		CategoriaDao daoCat = Factory.createCategoriaDao(this);
 		this.categorias = daoCat.buscarTodos();
+		Collections.sort(this.categorias, new Comparator<Categoria>() {
+			public int compare(Categoria cat, Categoria cat2) {
+				return cat.getNome().compareTo(cat2.getNome());
+			}
+
+		});
 
 		this.catsAdp = new ArrayAdapter<Categoria>(this, android.R.layout.simple_spinner_item, this.categorias);
 		// da uma enfeita na lista

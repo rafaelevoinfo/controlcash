@@ -44,6 +44,11 @@
     <string name="cancelar">Cancel</string>
     <string name="arquivo_criado">File created in</string>
     <string name="ordernar">Sort By</string>
+    <string name="backup_ok">Backup saved to</string>
+    <string name="cuidado">Caution</string>
+    <string name="sim">Yes</string>
+    <string name="nao">No</string>
+    <string name="aviso_restore">This will replace your current Database by the database backup. Wish to continue?</string>
     <string-array name="ordens">
         <item >Date</item>
         <item >Name</item>
